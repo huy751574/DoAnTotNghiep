@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.BlogDoiTac>
+
+@{
+    Layout = "~/Views/Shared/_LayoutGiaoDien.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    
+  
+    <title>Đối tác chúng tôi</title>
+    <style>
+        .col-md-4{border:1px solid;}
+    </style>
+</head>
+<body>
+    <div class="content bg-image overflow-hidden" style="background-image: url('/assets/img/photos/photo14@2x.jpg');">
+        <div class="push-50-t push-15">
+            <h1 class="h2 text-white animated zoomIn">Các đối tác của chúng tôi</h1>
+        
+        </div>
+    </div>
+    <div class="block" style="background-color:white">
+ 
+        @foreach (var item in Model)
+        {
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div>
+                    <div style="position: relative;overflow: hidden;height: 252px;cursor: pointer;text-align:center">
+                        <a href='@Url.Action("BlogDoiTac","GiaoDien",new {MaCN=item.MaCN })' title="@item.Title">
+                            <img alt="@item.Title" src="@item.Image" style="max-height: 100%; max-width: none; margin:auto">
+                        </a>
+                        <div class="overlay"></div>
+                    </div>
+                    <div>
+                        <h3>@item.Title</h3>
+                        <em style="border-bottom:1px solid gray;border-top:1px solid gray;position:relative; display: block; margin: 0 0 10px;color: #428400;font-size: 14px;font-style: inherit;padding-top: 8px;padding-bottom: 8px;">@item.ChiNhanh.DiaChi</em>
+                        <text style="overflow:hidden;text-overflow:ellipsis;line-height: 22px; position: relative; margin-bottom: 18px;height: 210px;">@Html.DisplayFor(modelItem => item.Note) </text><a href='@Url.Action("BlogDoiTac","GiaoDien",new {MaCN=item.MaCN })' target="_blank">Xem thêm...</a>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+    </body>
+</html>

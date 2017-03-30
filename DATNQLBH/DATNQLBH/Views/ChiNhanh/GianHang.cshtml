@@ -1,0 +1,425 @@
+﻿@model DATNQLBH.Models.CSDL.ChiNhanh
+
+@{
+    ViewBag.Title = "GianHang";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+
+            $.fn.dataTable.ext.search.push(
+                  function (settings, data, dataIndex) {
+                      var min = Date.parse($('#start').val());
+                      var max = Date.parse($('#end').val());
+                      var date = Date.parse(data[6]);
+
+                      if ((isNaN(min) && isNaN(max)) ||
+                           (isNaN(min) && date <= max) ||
+                           (min <= date && isNaN(max)) ||
+                           (min <= date && date <= max)) {
+                          return true;
+                      }
+                      return false;
+
+                  }
+              );
+            var table;
+            if (!$.fn.dataTable.isDataTable('#DataTables_Table_GH')) {
+                table = $('#DataTables_Table_GH').DataTable({
+
+                    "language": {
+                        "decimal": "",
+                        "emptyTable": "Không có dữ liệu",
+                        "info": "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                        "infoEmpty": "",
+                        "infoFiltered": "(Lọc từ tổng số _MAX_ dòng)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Hiển thị _MENU_ dòng",
+                        "loadingRecords": "Loading...",
+                        "processing": "Processing...",
+                        "search": "Tìm kiếm :",
+                        "zeroRecords": "Không tìm thấy",
+                        "paginate": {
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Previous"
+                        }
+
+                    },
+                    "retrieve": true,
+                    "scrollY": false,
+                    "bAutoWidth": true,
+                    
+                    "serverSide": false,
+                    "bProcessing": true,
+                    "scrollX": true,
+                    "sScrollXInner": "100%",
+                    "pagingType": "full_numbers",
+
+                    "ajax": {
+                        "url": "@Url.Action("DSGianHang", "ChiNhanh")",
+                        "dataSrc": "lst",
+
+                    },
+
+                    "aoColumns": [
+                        {
+                            "className": 'details-control text-center',
+
+                            "orderable": false,
+                            "data": null,
+                            "searchable": false,
+                            "defaultContent": '',
+                            "mRender": function () {
+                                return '<i class="fa fa-angle-right"></i>';
+                            }
+                        },
+                          {
+                              "mData": "MaCN",
+                              "sTitle": "Mã Gian Hàng",
+
+                          }, {
+                              "mData": "Name",
+                              "sTitle": "Tên Gian Hàng"
+                          }, {
+                              "mData": "FullName",
+                              "sTitle": "Chủ gian hàng"
+                          }, {
+                              "mData": "DiaChi",
+                              "sTitle": "Địa chỉ",
+                          }, {
+
+                              "mData": "SDT",
+                              "sTitle": 'Số điện thoại',
+                          },
+                          {
+                            "mData": "Date",
+                            "sTitle": 'Ngày lập',
+                            "mRender": function(date)
+                            {
+                                return chuyenngay(date);
+                            }
+                         }
+                    ],
+
+
+                    "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                           {
+                               extend: 'print',
+                               title: "Danh Sách Gian Hàng",
+                               className: 'my-button-print-class',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'copyHtml5',
+                               className: 'my-button-copy-class',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'excelHtml5',
+                               className: 'my-button-excel-class',
+                               title: "Danh Sách Gian Hàng",
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               title: "Danh Sách Gian Hàng",
+                               className: 'my-button-pdf-class',
+                               extend: 'pdfHtml5',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           }
+                    ]
+                });
+
+            }
+            else {
+                table = $('#DataTables_Table_GH').DataTable({
+                    "paging": false,
+
+
+                });
+            }
+
+
+
+
+
+
+
+            $('#DataTables_Table_GH tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('open');
+                }
+                else {
+                    // Open this
+
+                    var h =
+                        '<table border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                    '<td>Logo:</td>' +
+                    '<td><img src="/Content/Images/'+row.data().MaCN+'/' + row.data().Logo + '"</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Email:</td>' +
+                    '<td>' + row.data().Email + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Số tài khoản:</td>' +
+                    '<td>' + row.data().SoTaiKhoan + '</td>' +
+                '</tr>' +
+                  '<tr>' +
+                    '<td>Số Fax:</td>' +
+                    '<td>' + row.data().Fax + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Website:</td>' +
+                    '<td>' + row.data().WebSite + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Facebook:</td>' +
+                    '<td>' + row.data().FaceBook + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>Giới thiệu chi nhánh/gian hàng:</td>' +
+                    '<td><a href="/ChiNhanh/ThemBlogDoiTac?MaCN=' + row.data().MaCN + '"  >Edit....</a></td>' +
+                '</tr>' +
+                 '<tr>' +
+                    '<td>Thêm hợp đồng mới:</td>' +
+                    '<td><a href="/ChiNhanh/ThemHopDong?MaCN=' + row.data().MaCN + '">Add....</a></td>' +
+                '</tr>' +
+
+            '</table>' +
+            '<table class="display compact" cellspacing="0" id="DataTables_LoaiGianHang" style="max-height:200px" >' +
+              '<thead>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '</thead>' +
+               '<tfoot>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '<th>' + '</th>' +
+              '</tfoot>' +
+            '</table>' 
+                
+                ;
+
+                    row.child(h).show();
+                    $(row.child()).css({ 'background': '#44b4a6' });
+                    tr.addClass('open');
+
+                    var t = $($(row.child()).find('#DataTables_LoaiGianHang')).DataTable({
+
+
+                        "retrieve": true,
+                        "scrollY": true,
+                        "dom": '<<f<t>p>>',
+                        "deferRender": true,
+                        "bProcessing": true,
+                        "pagingType": "full_numbers",
+                        "ajax": {
+                            "url": '@Url.Action("DSGianHang", "ChiNhanh")?MaCN=' + row.data().MaCN,
+
+                            "dataSrc": "lst",
+
+                        },
+                        "aoColumns": [
+
+                         {
+                             "mData": "MaLoai",
+                             "sTitle": "Mã Loại",
+
+                         }, {
+                             "mData": "Name",
+                             "sTitle": "Tên loại"
+                         }, {
+                             "mData": "Price",
+                             "sTitle": "Giá tiền"
+
+
+
+                         }, {
+                             "mData": "BeginDate",
+                             "sTitle": "Ngày bắt đầu",
+                             "mRender": function (date, type, full) {
+                                 return chuyenngay(date);
+                             }
+
+                         }, {
+
+
+                             "mData": "EndDate",
+                             "sTitle": 'Ngày kết thúc',
+                             "mRender": function (date, type, full) {
+                                 return chuyenngay(date);
+
+                             }
+                         }, {
+
+
+                             "mData": "Id",
+                             "sTitle": 'Thay đổi thông tin gói',
+                             "mRender": function (data, type, full) {
+                                 return '<a href="/User/ChinhSuaHopDong?id=' + data + '">Chỉnh sửa</a>';
+                             }
+                             }],
+
+                        initComplete: function () {
+                            for (var i = 1; i < 3; i++) {
+
+                                this.api().column([i]).every(function () {
+                                    var column = this;
+                                    var select = $('<select><option value=""></option></select>')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                $(this).val()
+                                            );
+
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+                                    column.data().unique().sort().each(function (d, j) {
+                                        if (d != null) {
+
+                                            if (column.search() === '^' + d + '$') {
+                                                select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                            } else {
+                                                select.append('<option value="' + d + '">' + d + '</option>')
+                                            }
+
+                                        }
+                                    });
+                                });
+                            }
+                        },
+                    });
+                }
+            });
+
+
+
+
+
+
+            table.buttons().container().insertBefore('#DataTables_Table_GH_filter');
+
+            var imgexcel = document.createElement('img');
+            imgexcel.setAttribute('src', '../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+            imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+            imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgcopy = document.createElement('img');
+            imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            $('#start, #end').change(function () {
+                maintable.draw();
+            });
+
+        });
+</script>
+
+
+<div class="block">
+
+
+    <div class="block-header">
+        <h3 class="block-title">Danh sách gian hàng</h3>
+        <br />
+        <div class="col-md-8">
+            <button class="btn btn-primary" onclick="window.open('/ChiNhanh/ThemGianHang')">Thêm gian hàng mới</button>
+        </div>
+        <br />
+        <div class="col-md-8">
+            <div class="input-daterange input-group">
+                <input type="date" id="start" style="width:100%" />
+                <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                <input type="date" id="end" style="width:100%" />
+            </div>
+        </div>
+    </div>
+    <div class="block-content">
+        <div class="info"></div>
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js   js-dataTable-full dataTable-->
+        <div>
+            <div class="col-sm-12" style="padding-top:30px">
+
+                <table class="display compact" cellspacing="0" id="DataTables_Table_GH">
+                    <thead>
+                        <tr role="row" style="width: 100%">
+                            <th style="width: 10px"> </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr role="row" style="width: 100%">
+                            <th style="width: 10px"> </th>
+                            <th> </th>
+                            <th> </th>
+                            <th></th>
+                            <th> </th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,261 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.NhaCC>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<head>
+  
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+          
+            var maintable;
+            if (!$.fn.dataTable.isDataTable('#DataTables_Table_NCC')) {
+                maintable = $('#DataTables_Table_NCC').DataTable({
+
+                    "language": {
+                        "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                    },
+                    "retrieve": true,
+                    "scrollX": false,
+                    "bAutoWidth": true,
+                    "bJQueryUI": true,
+                    "serverSide": false,
+                    "bProcessing": true,
+
+                    "pagingType": "full_numbers",
+
+                    "ajax": {
+                        "url": "@Url.Action("DanhSachNCC", "NhaCungCap")",
+
+                        "dataSrc": "lstNCC",
+
+                    },
+
+
+
+
+
+                    "aoColumns": [
+                         {
+                             "className": 'text-center',
+                              "mData": "MaNCC",
+                              "sTitle": "Mã"
+                         }, {
+                             "className": 'text-center',
+                              "mData": "Name",
+                              "sTitle": "Tên nhà cung cấp",
+
+
+                         }, {
+                             "className": 'text-center',
+                              "mData": "SDT",
+                              "sTitle": "Điện thoại",
+
+
+                          },  {
+
+                              "className": 'text-center',
+                              "mData": "Email",
+                              "sTitle": 'Email',
+
+
+
+                          }, {
+                              "className": 'text-center',
+                              "mData": "ThanhToan",
+                              "sTitle": "Đã Thanh Toán",
+                              "mRender": function (data) {
+                                  if (data >= 1000000000)
+                                      return (data / 1000000000).toFixed(3) + ' tỉ đồng';
+                                  if (data >= 1000000)
+                                      return (data / 1000000).toFixed(3) + ' triệu đồng';
+                                
+                                  else return data + ' đồng';
+                                
+                              }
+                          }, {
+                              "className": 'text-center',
+
+                              "mData": "Address",
+                              "sTitle": 'Địa chỉ',
+
+
+
+                          },
+                          {
+                              "className": 'text-center',
+                              "mData": "MaNCC",
+                              "sTitle": "Chỉnh sửa thông tin",
+                              "mRender": function (data) {
+                                  return '<a href="#" title="Chỉnh sửa thông tin" onclick="window.open(\'/NhaCungCap/Update/' + data + '\')" >Edit....</a>';
+
+                              }
+                          },
+                          {
+                              "className": 'text-center',
+                              "mData": "Fax",
+                              "sTitle": "Số Fax"
+                              
+                          },
+                          {
+                              "className": 'text-center',
+                              "mData": "TaiKhoan",
+                              "sTitle": "Tài khoản"
+                             
+                          }
+                    ],
+
+
+                    
+                    "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                           {
+                               extend: 'print',
+                               title: "Danh Sách Nhà Cung Cấp",
+                               className: 'my-button-print-class',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 7, 8]
+
+                               }
+                           },
+                           {
+                               extend: 'copyHtml5',
+                               className: 'my-button-copy-class',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 7, 8]
+
+                               }
+                           },
+                           {
+                               extend: 'excelHtml5',
+                               className: 'my-button-excel-class',
+                               title: "Danh Sách Nhà Cung Cấp",
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 7, 8]
+                               }
+                           },
+                           {
+                               title: "Danh Sách Nhà Cung Cấp",
+                               className: 'my-button-pdf-class',
+                               extend: 'pdfHtml5',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 7, 8]
+                               }
+                           }
+
+                    ]
+                });
+
+            }
+            else {
+                maintable = $('#DataTables_Table_NCC').DataTable({
+                    "paging": false,
+
+
+                });
+            }
+            // $(table).load();
+
+
+
+          
+            maintable.buttons().container().insertBefore('#DataTables_Table_NCC_filter');
+
+            var imgexcel = document.createElement('img');
+            imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+            imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+            imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+            var imgcopy = document.createElement('img');
+            imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+
+             });
+</script>
+
+</head>
+
+
+<div class="content">
+    <div class="block">
+        <div class="block-header">
+            <h3 class="block-title">Nhà Cung Cấp</h3>
+
+        </div>
+        <div class="block-content">
+
+            <table class="display responsive nowrap" cellspacing="0" id="DataTables_Table_NCC">
+                <thead>
+                    <tr role="row">
+                        <th class="text-center" style="width:10px"> </th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center">  </th>
+                        <th class="text-center"></th>
+                        <th class="text-center"> </th>
+                        <th class="text-center"> </th>
+                        <th class="text-center"> </th>
+                    </tr>
+                </thead>
+              
+                <tfoot>
+                    <tr role="row">
+                        <th class="text-center" style="width:10px"> </th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center">  </th>
+                        <th class="text-center"></th>
+                        <th class="text-center"> </th>
+                        <th class="text-center"> </th>
+                        <th class="text-center"> </th>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Large Modal -->
+
+
+

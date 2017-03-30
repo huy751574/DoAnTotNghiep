@@ -1,0 +1,146 @@
+﻿@model DATNQLBH.Models.CSDL.MatHang
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+<form class="js-validation-material form-horizontal push-10-t" action="/Item/Edit" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ItemId)
+   @Html.HiddenFor(model=>model.Directory)
+   
+    <div class="block">
+        <div class="block-header">
+          
+            <h3 class="block-title">Sửa thông tin sản phẩm</h3>
+        </div>
+        <div class="block-content block-content-narrow">
+            <!-- jQuery Validation (.js-validation-material class is initialized in js/pages/base_forms_validation.js) -->
+            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+
+
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label for="val-username2">Tên sản phẩm</label>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placehoder = "Nhập tên sản phẩm......" })
+                        @*@Html.ValidationMessageFor(model=>model.Name)*@
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label for="val-email2">Nơi sản xuất</label>
+                        @Html.TextBoxFor(model => model.AuthorName, new { @class = "form-control", @placeholder = "Nhập nơi sản xuất...." })
+                        @Html.ValidationMessageFor(model=>model.AuthorName)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label>Serial </label>
+                        @Html.TextBoxFor(model => model.Serial, new { @class = "form-control", @placeholder = "Nhập số series..." })
+                        @Html.ValidationMessageFor(model => model.Serial)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label>Giá </label>
+                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @placeholder = "Nhập giá sản phẩm..." })
+                        @Html.ValidationMessageFor(model=>model.Price)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label>% Giảm giá</label>
+                        @Html.TextBoxFor(model => model.Reduction, new { @class = "form-control", @placeholder = "Nhập % giảm giá sản phẩm...", type = "number" })
+                        @Html.ValidationMessageFor(model => model.Reduction)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label>VAT</label>
+                        @Html.TextBoxFor(model => model.VAT, new { @class = "form-control", @placeholder = "Nhập VAT...", type = "number" })
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        <label for="QuyCachId">Chọn đơn vị đo sản phẩm</label>
+                        @Html.DropDownList("QuyCachId", null, "--Chọn Quy Cách--", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <div class="form-material">
+                        @Html.LabelFor(model => model.Description)
+                        <textarea id="Description" name="Description"></textarea>
+                    </div>
+                    
+                </div>
+            </div>
+     
+
+            <div class="form-group">
+                <label class="col-xs-12" for="example-file-input">Chọn Ảnh</label>
+                <div class="col-xs-12">
+                    <input type="file" name="files" id="files" class="form-control2" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <button class="btn btn-sm btn-primary" type="submit">Lưu</button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+   
+        CKEDITOR.replace('Description');
+        //CKFinder.setupCKEditor(editor, "../Scripts/ckfinder/");
+        //$('form').submit(function () {
+
+
+        //});
+
+        //$(function () {
+        //    $(".fileBrowse").on("click", function () {
+        //        var finder = new CKFinder();
+        //        var target = $(this).attr('data-target');
+        //        finder.selectActionFunction = function (fileUrl, data) {
+        //            document.getElementById(target).value = fileUrl;
+        //        }
+        //        finder.popup();
+        //    });
+        //});
+    
+    
+
+
+</script>
+

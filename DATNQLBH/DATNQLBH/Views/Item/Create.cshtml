@@ -1,0 +1,172 @@
+﻿@model DATNQLBH.Models.CSDL.MatHang
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+
+<div class="block">
+    <div class="block-header">
+        <h3 class="block-title">Thêm mới sản phẩm</h3>
+    </div>
+    
+
+    <form class="js-validation-material form-horizontal push-10-t" enctype="multipart/form-data" method="post" action="/Item/Create">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="block">
+         
+            <div class="block-content block-content-narrow">
+                <!-- jQuery Validation (.js-validation-material class is initialized in js/pages/base_forms_validation.js) -->
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label for="val-username2">Tên sản phẩm</label>
+                            @*@Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placehoder = "Nhập tên sản phẩm......" })*@
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Nhập tên sản phẩm" })
+
+                            @Html.ValidationMessageFor(model => model.Name)
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label for="val-email2">Nơi sản xuất</label>
+                            @Html.TextBoxFor(model => model.AuthorName, new { @class = "form-control", @placeholder = "Nhập nơi sản xuất...." })
+                            @Html.ValidationMessageFor(model => model.AuthorName)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label>VAT</label>
+                            @Html.TextBoxFor(model => model.VAT, new { @class = "form-control", @placeholder = "Nhập VAT...", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.VAT)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label>Giá </label>
+                            @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @placeholder = "Nhập giá sản phẩm...", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.Price)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label>% Giảm giá</label>
+                            @Html.TextBoxFor(model => model.Reduction, new { @class = "form-control", @placeholder = "Nhập % giảm giá sản phẩm...", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.Reduction)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label>Số series sản phẩm</label>
+                            @Html.TextBoxFor(model => model.Serial, new { @class = "form-control", @placeholder = "Nhập số series...", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.Serial)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="form-material">
+                            <label for="val-skill2">Lựa chọn mặt hàng</label>
+                            @Html.DropDownList("LoaiCap1", null, "--Chọn mặt hàng--", new { @class = "form-control", onchange = "changeLoai2()" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div id="loc" class="form-material">
+                        </div>
+                    </div>
+                </div>
+                
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <div class="form-material">
+                                <label for="val-skill2">Chọn đơn vị đo sản phẩm</label>
+                                @Html.DropDownList("QuyCachId", null, "--Chọn Quy Cách--", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12" for="example-file-input">Chọn Ảnh</label>
+                        <div class="col-xs-12">
+                            <input type="file" name="files" id="files" class="form-control2" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br />
+                            <button class="btn btn-sm btn-primary" type="submit">Thêm</button>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+        </div>
+    </form>
+</div>
+<script>
+  function changeLoai2() {
+         var bien = document.getElementById("LoaiCap1").value;
+         $("#LoaiCap2").remove();
+         $("#LoaiCap3").remove();
+         if (bien == null || bien == "") {
+             bien=0
+
+
+         }
+         else {
+             $.ajax({
+                 type: 'GET',
+                 url: '/Item/updateLoaiCap2',
+                 data: { id: bien },
+                 success: function (data) {
+                     $("#loc").append(data.text);
+                 }
+             });
+         }
+
+     
+     };
+     function changeLoai3() {
+         var bien = $('select#LoaiCap2').val();
+         $("#LoaiCap3").remove();
+         if (bien == null || bien == "") {
+             bien = 0
+         }
+         else {
+             $.ajax({
+                 type: 'GET',
+                 url: '/Item/updateLoaiCap3',
+                 data: { id: bien },
+                 success: function (data) {
+                     $("#loc").append(data.text);
+                 }
+             });
+         }
+
+
+       
+     };</script>

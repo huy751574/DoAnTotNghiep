@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "TonKho";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<div class="block">
+    <div class="block-header"><h2>Tồn Kho</h2></div>
+
+    <div class="block-content">
+        <div>
+            Chọn Loại Hàng
+            @Html.DropDownList("LoaiHang", null, "--Chọn loại hàng--", new { @class = "form-control" })
+        </div>
+        <div>
+            Chọn Mặt Hàng
+            @Html.DropDownList("MatHang", null, "--Chọn mặt hàng--", new { @class = "form-control" })
+        </div>
+        <div>
+            Chọn Kho Hàng
+            @Html.DropDownList("Kho", null, "--Chọn kho hàng--", new { @class = "form-control" })
+        </div>
+        <button onclick="Show()" class="btn btn-primary">Hiển thị report</button>
+        <iframe id="ReportFrame" style="width:100%;height:1000px" src="/Report/ReportTonKho"></iframe>
+      
+    </div>
+</div>
+
+<script>
+    function Show()
+    {
+        var LoaiCap3Id = $('select#LoaiHang').val();
+        var MaHang = $('select#MatHang').val();
+        var KhoId = $('select#Kho').val();
+        var url = '/Report/ReportTonKho'
+        if (LoaiCap3Id != "")
+        {
+            url += '?LoaiCap3Id=' + LoaiCap3Id;
+        }
+        if (MaHang != "")
+        {
+            if (LoaiCap3Id == "") { url += "?MaHang=" + MaHang; }
+            else { url += "&MaHang=" + MaHang; }
+        }
+        if (KhoId != "") {
+            if (LoaiCap3Id == "" && MaHang == "") { url += "?KhoId=" + KhoId; }
+            else { url += "&KhoId=" + KhoId; }
+        }
+        document.getElementById('ReportFrame').src = url;
+    }
+</script>

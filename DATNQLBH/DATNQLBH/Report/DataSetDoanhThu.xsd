@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetDoanhThu" targetNamespace="http://tempuri.org/DataSetDoanhThu.xsd" xmlns:mstns="http://tempuri.org/DataSetDoanhThu.xsd" xmlns="http://tempuri.org/DataSetDoanhThu.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetDoanhThu" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetDoanhThu" msprop:Generator_UserDSName="DataSetDoanhThu">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTableDoanhThu" msprop:Generator_TableClassName="DataTableDoanhThuDataTable" msprop:Generator_TableVarName="tableDataTableDoanhThu" msprop:Generator_TablePropName="DataTableDoanhThu" msprop:Generator_RowDeletingName="DataTableDoanhThuRowDeleting" msprop:Generator_RowChangingName="DataTableDoanhThuRowChanging" msprop:Generator_RowEvHandlerName="DataTableDoanhThuRowChangeEventHandler" msprop:Generator_RowDeletedName="DataTableDoanhThuRowDeleted" msprop:Generator_UserTableName="DataTableDoanhThu" msprop:Generator_RowChangedName="DataTableDoanhThuRowChanged" msprop:Generator_RowEvArgName="DataTableDoanhThuRowChangeEvent" msprop:Generator_RowClassName="DataTableDoanhThuRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ThoiGian" msprop:Generator_ColumnVarNameInTable="columnThoiGian" msprop:Generator_ColumnPropNameInRow="ThoiGian" msprop:Generator_ColumnPropNameInTable="ThoiGianColumn" msprop:Generator_UserColumnName="ThoiGian" type="xs:string" minOccurs="0" />
+              <xs:element name="Số_x0020_Lượng_x0020_Mặt_x0020_Hàng" msprop:Generator_ColumnVarNameInTable="columnSố_Lượng_Mặt_Hàng" msprop:Generator_ColumnPropNameInRow="Số_Lượng_Mặt_Hàng" msprop:Generator_ColumnPropNameInTable="Số_Lượng_Mặt_HàngColumn" msprop:Generator_UserColumnName="Số Lượng Mặt Hàng" type="xs:int" minOccurs="0" />
+              <xs:element name="Số_x0020_Tiền" msprop:Generator_ColumnVarNameInTable="columnSố_Tiền" msprop:Generator_ColumnPropNameInRow="Số_Tiền" msprop:Generator_ColumnPropNameInTable="Số_TiềnColumn" msprop:Generator_UserColumnName="Số Tiền" type="xs:long" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

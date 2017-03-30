@@ -1,0 +1,453 @@
+﻿@model DATNQLBH.Models.CSDL.TraHang
+@{
+    ViewBag.Title = "TraHang";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+<script>
+    var maintable;
+    $(document).ready(function () {
+        function format(d) {
+            // `d` is the original data object for the row
+            return '<table  border="0" style="padding-left:20px;">' +
+                '<tr>' +
+                    '<td>Tên sản phẩm:</td>' +
+                    '<td>' + d.SanPham + '</td>' +
+                '</tr>' +
+
+                '<tr>' +
+                    '<td>Số lượng nhập:</td>' +
+                    '<td>' + d.Quantity + '</td>' +
+                '</tr>' +
+
+                 '<tr>' +
+                    '<td>Đơn giá:</td>' +
+                    '<td>' + formatCurrency(d.Price+'') + ' đ</td>' +
+                '</tr>' +
+
+                 '<tr>' +
+                    '<td>VAT %:</td>' +
+                    '<td>' + d.VAT + '</td>' +
+                '</tr>' +
+            '</table>';
+
+        };
+
+        $.fn.dataTable.ext.search.push(
+             function (settings, data, dataIndex) {
+                 var min = Date.parse($('#start').val());
+                 var max = Date.parse($('#end').val());
+                 var date = Date.parse(data[6]);
+
+                 if ((isNaN(min) && isNaN(max)) ||
+                      (isNaN(min) && date <= max) ||
+                      (min <= date && isNaN(max)) ||
+                      (min <= date && date <= max)) {
+                     return true;
+                 }
+                 return false;
+
+             }
+         );
+
+
+        if (!$.fn.dataTable.isDataTable('#DataTables_Table_TH')) {
+            maintable = $('#DataTables_Table_TH').DataTable({
+
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "Không có dữ liệu",
+                    "info": "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty": "",
+                    "infoFiltered": "(filtered from _MAX_ total entries)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing": "Processing...",
+                    "search": "Tìm kiếm :",
+                    "zeroRecords": "Không tìm thấy",
+                    "paginate": {
+                        "first": "First",
+                        "last": "Last",
+                        "next": "Next",
+                        "previous": "Previous"
+                    }
+
+                },
+                "retrieve": true,
+                "scrollY": false,
+                "bAutoWidth": true,
+                "bJQueryUI": true,
+                "serverSide": false,
+                "bProcessing": true,
+                "scrollX": true,
+                "sScrollXInner": "100%",
+
+                "ajax": {
+                    "url": "@Url.Action("DanhSachCoTheTra", "NhaCungCap")",
+
+                    "dataSrc": "Danhsach",
+
+                },
+
+
+
+                "dom": '<<lf<t>ip>>',
+
+                "aoColumns": [
+                    {
+                        "className": 'details-control text-center',
+
+                        "orderable": false,
+                        "data": null,
+                        "searchable": false,
+                        "defaultContent": '',
+                        "mRender": function () {
+                            return '<i class="fa fa-angle-right"></i>';
+                        }
+                    },
+                       {
+                           "className": 'text-center',
+                           "mData": "MaNH",
+                           "sTitle": "Mã nhập hàng"
+                       }, {
+                           "className": 'text-center',
+                           "mData": "Name",
+                           "sTitle": "Tên phiếu nhập",
+
+                       }, {
+                           "className": 'text-center',
+                           "mData": "ItemId",
+                           "sTitle": "Mã sản phẩm",
+
+                       }, {
+
+                           "className": 'text-center',
+                           "mData": "TenNhaCC",
+                           "sTitle": 'Tên nhà cung cấp',
+
+
+
+                       }, {
+
+                           "className": 'text-center',
+                           "mData": "TenNguoiLap",
+                           "sTitle": 'Tên người lập',
+
+
+
+                       }, {
+                           "className": 'text-center',
+                           "mData": "NgayLap",
+                           "sTitle": "Ngày lập",
+                           "mRender": function (data) {
+                               return chuyenngay(data);
+
+                           }
+                       },
+                        {
+                            "className": 'text-center',
+                            "mData": "Quantity",
+                            "sTitle": "Nhập số lượng trả",
+                            "mRender": function (data, type, full) {
+                                return '<input type="number" min="0" max="' + data + '" onkeyup="if($(this).val()>' + data + ') {$(this).val(' + data + ')};"/>';
+                            }
+                        },
+                {
+                    "mData": "Price",
+                },
+                {
+                    "mData": "SanPham",
+                },
+                {
+                    "mData": "VAT",
+                }
+
+                ],
+                "columnDefs": [
+                 {
+                     "targets": [8, 9, 10],
+                     "visible": false,
+
+                 }
+                ],
+                initComplete: function () {
+                    for (var i = 1; i < 6; i++) {
+                        if (i == 2) i++;
+                        this.api().column([i]).every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d, j) {
+                                if (d != null) {
+
+                                    if (column.search() === '^' + d + '$') {
+                                        select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                    } else {
+                                        select.append('<option value="' + d + '">' + d + '</option>')
+                                    }
+
+                                }
+                            });
+                        });
+
+                    }
+
+
+                },
+
+
+
+
+            });
+
+        }
+        else {
+            maintable = $('#DataTables_Table_TH').DataTable({
+                "paging": false,
+
+
+            });
+        }
+        $('#DataTables_Table_TH tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = maintable.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('open');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('open');
+            }
+        });
+
+        $('#start, #end').change(function () {
+            maintable.draw();
+        });
+
+
+
+    });
+    function getdata() {
+        var html = "";
+        var tongtien = 0;
+        var rows = maintable.rows();
+
+        rows.each(function (index) {
+            var row = maintable.row(index);
+            var columnmanh = row.column([1]).data()[0]
+            var columnsl = $($($('#DataTables_Table_TH').find('input'))[index]).val();
+            var columndongia = row.column([8]).data()[0];
+
+            //Danh sách chi tiết sản phẩm
+            debugger;
+            if (columnsl > 0) {
+                var dongia = formatCurrency(columndongia+'');
+                html += "<tr><td>" + row.column([3]).data()[0] + "</td><td>" + row.column([9]).data()[0] + "</td><td>" + columnsl + "</td><td>" + formatCurrency(columndongia+'') + " đồng" + "</td><td><input type=\"hidden\" value=\"" + columnmanh + "\" /></td></tr>";
+                tongtien += columnsl * columndongia ;
+            }
+        });
+
+        tongtien = formatCurrency(tongtien+'');
+
+        html += "<tr><td colspan=\"3\">Tổng Tiền</td><td><font color=\"red\">" + tongtien + " đồng</font></td></tr>";
+        $("#danhsachitem").html(html);
+
+    }
+
+    function Luu() {
+        var tenphieu = document.getElementById("tenphieu").value;
+
+        if (tenphieu == "") {
+            alert("Bạn cần nhập tên phiếu!");
+            return false;
+        }
+
+        var rows = $('#danhsachitem').find('tr');
+        var arraymanh = [];
+        var arrayitemid = [];
+        var arraysl = [];
+        rows.each(function (index) {
+            if (rows.length - 1 == index) {
+
+            }
+            else {
+                var columns = $(this).find('td');
+                var id = parseInt(columns[0].outerText);
+                var sl = parseInt(columns[2].outerText);
+                var manh = $($(columns).find('input')).val();
+                arrayitemid.push(id);
+                arraysl.push(sl);
+                arraymanh.push(manh);
+            }
+        });
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/NhaCungCap/ThemPhieuTraHang',
+            data: { ten: tenphieu, arrayitemid: arrayitemid, arraysl: arraysl, arraymanh: arraymanh },
+            traditional: true,
+            success: function (data) {
+                if (data.msg != "") {
+                    alert(data.msg);
+                    maintable.ajax.reload();
+                }
+                else {
+                    alert("Vui lòng kiểm tra mạng");
+
+                }
+            }
+        });
+    }
+
+</script>
+
+
+    <div class="block">
+        <h2>Trả hàng nhà cung cấp</h2>
+   
+        <div class="block-header">
+            <div class="col-md-8">
+                <div class="input-daterange input-group">
+                    <input type="date" id="start" style="width:100%" />
+                    <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                    <input type="date" id="end" style="width:100%" />
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal-large" onclick="getdata()">Thêm số lượng xong</button>
+
+            
+        </div>    
+
+            
+       
+        <div class="block-content">
+          <table id="DataTables_Table_TH" class="display compact">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width:10px"></th>
+                            <th class="text-center"> </th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                 <tfoot>
+                     <tr>
+                         <th class="text-center" style="width:10px"></th>
+                         <th class="text-center"> </th>
+                         <th class="text-center"></th>
+                         <th class="text-center"></th>
+                         <th class="text-center"></th>
+                         <th class="text-center"></th>
+                         <th class="text-center"></th>
+                         <th class="text-center"></th>
+                     </tr>
+                 </tfoot>
+                </table>
+            
+        </div>
+    </div>
+
+
+@*form thêm sản phẩm*@
+<div class="modal" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-light">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">Trả hàng nhà cung cấp</h3>
+
+                </div>
+                <div class="block-content">
+                    <div>
+
+
+                      
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-daterange input-group">
+                                     
+
+                                        
+                                        <div>
+                                            <input type="text" id="tenphieu" name="Name" class="form-control phieu col-md-6" placeholder="Nhập tên phiếu..." />
+                                        </div>
+                               
+                                       
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="block-content dshd">
+                                <h3 class="block-title"> Danh sách mặt hàng</h3>
+                                <table class="table table-bordered table-striped js-dataTable-simple">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Mã</th>
+                                            <th>Tên Sản Phẩm</th>
+
+                                            <th>Số Lượng</th>
+                                            <th>Giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="danhsachitem"></tbody>
+
+                                </table>
+
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-default" type="button" data-dismiss="modal"><i class="si si-action-undo"></i>Return</button>
+                                <button class="btn btn-sm btn-primary" type="button" onclick="Luu()"><i class="fa fa-check"></i>Save</button>
+                            </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script>
+      
+       
+   
+
+    </script>
+   
+
+
+

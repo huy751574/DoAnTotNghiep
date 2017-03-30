@@ -1,0 +1,165 @@
+﻿@model DATNQLBH.Models.CSDL.DonHang
+
+@{
+    DATNQLBH.Models.CSDL.ChiNhanh cn = (DATNQLBH.Models.CSDL.ChiNhanh)ViewBag.Company;
+    DATNQLBH.Models.ApplicationUser tk = (DATNQLBH.Models.ApplicationUser)ViewBag.TaiKhoan;
+    var tong="";
+
+}
+
+
+
+
+    <link href="~/assets/css/oneui.css" rel="stylesheet" />
+        <!-- Main Container -->
+        <main id="main-container">
+            <!-- Page Header -->
+            <!-- You can use the .hidden-print class to hide an element in printing -->
+            <div class="content bg-gray-lighter hidden-print">
+                <div class="row items-push">
+                    <div class="col-sm-7">
+                        <h1 class="page-heading">
+                            Invoice <small>Clean and professional design.</small>
+                        </h1>
+                    </div>
+                    @*<div class="col-sm-5 text-right hidden-xs">
+                        <ol class="breadcrumb push-10-t">
+                            <li>Generic</li>
+                            <li><a class="link-effect" href="">Invoice</a></li>
+                        </ol>
+                    </div>*@
+                </div>
+            </div>
+            <!-- END Page Header -->
+            <!-- Page Content -->
+            <div class="content content-boxed">
+                <!-- Invoice -->
+                <div class="block">
+                    <div class="block-header">
+                        <ul class="block-options">
+                            <li>
+                                <!-- Print Page functionality is initialized in App() -> uiHelperPrint() -->
+                                <button type="button" onclick="window.print()" ><i class="si si-printer"></i> In đơn hàng</button>
+                            </li>                           
+                            <li>
+                                <button data-toggle="modal" data-target="#modal-top" type="button"><i class="si si-user"></i> Thêm khách hàng</button>
+                            </li>
+                            <li> 
+                                <button onclick="Luu()" type="button"><i class="fa fa-save"></i> Lưu</button>                                
+                            </li>
+                            <li>
+                                <button onclick="GetFile()"><i class="fa fa-refresh"></i> Đồng bộ</button>
+                            </li>
+                        </ul>
+                       @*<h3 class="block-title">#INV0625</h3>*@
+                    </div>
+                    <div class="block-content block-content-narrow">
+                        <!-- Invoice Info -->
+                        <div class="h1 text-center push-30-t push-30">ĐƠN HÀNG</div>
+                        <hr class="hidden-print">
+                        <div class="row items-push-2x">
+                            <!-- Company Info -->
+                            <div class="col-xs-6 col-sm-4 col-lg-3">
+                                <p class="h2 font-w400 push-5">@cn.Name</p>
+                                <address>
+                                  
+                                    @cn.DiaChi <br>
+                                    @cn.Email <br>
+                                                   
+                                  <i class="si si-call-end"></i> (81) @cn.SDT
+                                    
+                                </address>
+                            </div>
+                            <!-- END Company Info -->
+                            <!-- Client Info -->
+                            <div class="col-xs-6 col-sm-4 col-sm-offset-4 col-lg-3 col-lg-offset-6 text-right" id="KhachHang">
+                               @if (Model.OrderId != 0 )
+                               {
+                                <p class="h2 font-w400 push-5">Khách hàng</p><address> <span id="FullName">@Model.FullName</span> <br><span id="Address">@Model.Address</span><br><i class="si si-call-end"></i><span id="SDT">@Model.SDT </span></address><input type="hidden" value="@Model.CustomerId" />
+                               }
+                            
+
+                                @*<p class="h2 font-w400 push-5">Khách hàng</p>
+                                <address>
+                                    Address<br>
+                                    Town/City<br>
+                                    Region, Zip/Postal Code<br>
+                                    <i class="si si-call-end"></i> (000) 000-0000
+                                </address>*@
+                            </div>
+                            <!-- END Client Info -->
+                        </div>
+                        <!-- END Invoice Info -->
+                        <!-- Table -->
+                        <div class="table-responsive push-50">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;"></th>
+                                        <th>Mặt hàng</th>
+                                        <th class="text-center" style="width: 100px;">Số lượng</th>
+                                        <th class="text-right" style="width: 120px;">Đơn giá</th>
+                                        <th class="text-right" style="width: 120px;">Tổng</th>
+                                        <th class="hidden-print"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.ChiTietDonHangs!=null)
+                                    {
+                                        var stt=0;
+                                        foreach (var item in Model.ChiTietDonHangs)
+                                        {
+                                            stt++;
+                                        <tr>
+                                            <td name="ItemId" class="hidden"> @item.ItemId </td>
+                                            <td class="text-center"> @stt </td>
+                                            <td><p class="font-w600 push-10">@item.NameItem</p></td>
+                                            <td class="text-center">
+                                                <input onchange="var soluong=$(this).val();var that=$($(this).closest('tr')).find('td');var tong=parseInt(soluong)*parseInt(layso($(that).get(4).innerText)); $($(that).get(5)).html(formatCurrency(tong+'')+' đ');SuaHoaDonSauRemove()" type="number" id="@stt" value="@item.Quantities" />
+                                               
+                                            </td>
+                                            <td class="text-right">@item.Price.ToString("#,##0").Replace(",", ".") đ</td> @{ tong = (item.Price * item.Quantities).ToString("#,##0").Replace(",", ".");}
+                                            <td class="text-right" id="TongGia">@tong đ</td>
+                                            <td class="hidden-print"><a  href="javascript:void(0)" onclick="$(this).closest('tr').remove(); SuaHoaDonSauRemove()"><i class="fa fa-remove"></i></a>
+                                               
+                                            </td>
+                                          
+                                        </tr>
+                                       
+                                        }
+                                    }
+                                    @*<tr>
+                                        <td class="hidden"></td>
+                                        <td class="text-center">1</td>
+                                        <td>
+                                            <p class="font-w600 push-10">App Design &amp; Development</p>
+                                            <div class="text-muted">Design/Development of iOS and Android application</div>
+                                        </td>
+                                        <td class="text-center"><span class="badge badge-primary">1</span></td>
+                                        <td class="text-right">$ 25.000,00</td>
+                                        <td class="text-right">$ 25.000,00</td>
+                                        <td><a href="javascript:void(0)" onclick="Removekhoihoadon()"><i class="fa fa-remove"></i></a></td>
+                                    </tr>*@
+                                  
+                                  
+                                    <tr class="active">
+                                        <td colspan="4" class="font-w700 text-uppercase text-right">Total Due</td>
+                                        <td class="font-w700 text-right"  colspan="1" id="TongDonHang"> 0 đ</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- END Table -->
+                        <!-- Footer -->
+                        <hr class="hidden-print">
+                        <p class="text-muted text-center"><small>Cảm ơn vì đã mua đơn hàng của chúng tôi. Rất mong được hợp tác với bạn vào những lần sau!</small></p>
+                        <!-- END Footer -->
+                    </div>
+                </div>
+                <!-- END Invoice -->
+            </div>
+            <!-- END Page Content -->
+        </main>
+        <!-- END Main Container -->
+

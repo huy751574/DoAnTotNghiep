@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-focus">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>@ViewBag.Title</title>
+
+    <meta name="description" content="OneUI - Admin Dashboard Template & UI Framework created by pixelcave and published on Themeforest">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/img/favicons/favicon.png">
+
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Stylesheets -->
+    <!-- Web fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+    <script src="/assets/js/core/jquery.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/core/jquery.slimscroll.min.js"></script>
+    <script src="/assets/js/core/jquery.scrollLock.min.js"></script>
+    <script src="/assets/js/core/jquery.appear.min.js"></script>
+    <script src="/assets/js/core/jquery.countTo.min.js"></script>
+    <script src="/assets/js/core/jquery.placeholder.min.js"></script>
+    <script src="/assets/js/core/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.css">
+
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
+    <!-- END Stylesheets -->
+</head>
+<body>
+    <!-- Page Container -->
+    <!--
+        Available Classes:
+
+        'sidebar-l'                  Left Sidebar and right Side Overlay
+        'sidebar-r'                  Right Sidebar and left Side Overlay
+        'sidebar-mini'               Mini hoverable Sidebar (> 991px)
+        'sidebar-o'                  Visible Sidebar by default (> 991px)
+        'sidebar-o-xs'               Visible Sidebar by default (< 992px)
+
+        'side-overlay-hover'         Hoverable Side Overlay (> 991px)
+        'side-overlay-o'             Visible Side Overlay by default (> 991px)
+
+        'side-scroll'                Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (> 991px)
+
+        'header-navbar-fixed'        Enables fixed header
+        'header-navbar-transparent'  Enables a transparent header (if also fixed, it will get a solid dark background color on scrolling)
+    -->
+
+    
+            <style>
+                .block-content .table td img {
+                    padding-bottom: 7px;
+                }
+            </style>
+
+            <div>
+                @RenderBody()
+            </div>
+           
+        <footer id="page-footer" class="bg-white">
+            <div class="content content-boxed">
+                <!-- Footer Navigation -->
+                <div class="row push-30-t items-push-2x">
+                    <div class="col-sm-4">
+                        <h3 class="h5 font-w600 text-uppercase push-20">Công Ty</h3>
+                        <ul class="list list-simple-mini font-s13">
+                            <li>
+                                <a class="font-w600" href="/GiaoDien/Index">Home</a>
+                            </li>
+                      
+                            <li>
+                                <a class="font-w600" href="/GiaoDien/DanhChoKhachHang">Về chúng tôi</a>
+                            </li>
+                            <li>
+                                <a class="font-w600" href="#">Liên Hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3 class="h5 font-w600 text-uppercase push-20">Hỗ trợ</h3>
+                        <ul class="list list-simple-mini font-s13">
+                            <li>
+                                <a class="font-w600" href="/Account/Login">Đăng Nhập</a>
+                            </li>
+                            <li>
+                                <a class="font-w600" href="/Account/Register">Đăng Ký</a>
+                            </li>
+                            <li>
+                                <a class="font-w600" href="javascript:void(0)">Trung Tâm hỗ trợ</a>
+                            </li>
+                            <li>
+                                <a class="font-w600" href="javascript:void(0)">Chính sách riêng tư</a>
+                            </li>
+                            <li>
+                                <a class="font-w600" href="javascript:void(0)">Điều khoản &amp; điều kiện</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3 class="h5 font-w600 text-uppercase push-20">Liên lạc</h3>
+                        <div class="font-s13 push">
+                            <strong>Hutech</strong><br>
+                            980 Folsom Ave, Suite 1230<br>
+                            San Francisco, CA 94107<br>
+                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                        </div>
+                        <div class="font-s13">
+                            <i class="si si-envelope-open"></i> company@example.com
+                        </div>
+                    </div>
+                </div>
+                <!-- END Footer Navigation -->
+                <!-- Copyright Info -->
+                <div class="font-s12 push-20 clearfix">
+                    <hr class="remove-margin-t">
+                    <div class="pull-left">
+                        <a class="font-w600" href="javascript:void(0)" target="_blank">Hutech</a> &copy; <span class="js-year-copy"></span>
+                    </div>
+                </div>
+                <!-- END Copyright Info -->
+            </div>
+        </footer>
+        <!-- END Footer -->
+
+
+    <!-- END Page Container -->
+    <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+    <script>
+
+                setTimeout(function () {
+                    App.initHelpers(['appear', 'appear-countTo']);
+                }, 1000);
+                var a = $('.bg-warning');
+                var b = $('.btn-warning');
+                a.each(function (index) {
+                    if (index == 1) {
+                        $(this).removeClass('bg-warning');
+                        $(this).addClass('bg-primary');
+                    }
+                    if (index == 2) {
+                        $(this).removeClass('bg-warning');
+                        $(this).addClass('bg-danger');
+                    }
+                    if (index == 3) {
+                        $(this).removeClass('bg-warning');
+                        $(this).addClass('bg-success');
+                    }
+                });
+                b.each(function (index) {
+                    if (index == 1) {
+                        $(this).removeClass('btn-warning');
+                        $(this).addClass('btn-primary');
+                    }
+                    if (index == 2) {
+                        $(this).removeClass('btn-warning');
+                        $(this).addClass('btn-danger');
+                    }
+                    if (index == 3) {
+                        $(this).removeClass('btn-warning');
+                        $(this).addClass('btn-success');
+                    }
+                })
+        //angular.bootstrap(document.getElementById("HomeApp"), ['HomeApp']);
+    </script>
+    <script src="/assets/js/app.js"></script>
+
+    <!-- Page JS Code -->
+
+</body>
+</html>
+

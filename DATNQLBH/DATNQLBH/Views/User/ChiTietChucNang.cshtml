@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.ChiTietQuyen>
+
+@{
+    ViewBag.Title = "ChiTietChucNang";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<style>
+   input{
+       width:auto
+   }
+   section{
+       display:inline-block;
+       width:100%;
+       padding-bottom:50px;
+   }
+</style>
+<div class="block">
+
+   <div class="block-header"><h2>Chi tiết chức năng</h2></div>
+    
+    <div class="block-content">
+        <section>
+            @foreach (var item in Model)
+            {
+
+
+
+                @Html.HiddenFor(modelItem => item.RoleId)
+                <div class="col-sm-3" style="margin:auto">
+                    @Html.HiddenFor(modelItem => item.ChucNangId)
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.EditorFor(modelItem => item.IsEnable)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ChucNangNhanVien.Name)
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+
+                </div>
+
+            }
+        </section>
+        <section class="text-center">
+
+            <div style="display:inline-block">
+                <button class="btn btn-primary" onclick="Save()">Lưu</button>
+            </div>
+        </section>
+    </div>
+    
+ 
+</div>
+<script>
+    function Save()
+    {
+     
+    }
+</script>

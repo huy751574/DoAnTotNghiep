@@ -1,0 +1,103 @@
+﻿@model DATNQLBH.Models.CSDL.MatHang
+@{
+    ViewBag.Title = "Thông tin chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+   
+}
+@{
+    string[] chuoi1 = ViewBag.Info;
+    int dem = chuoi1.Length;
+}
+<div class="block">
+    <div class="block-header">
+        <h2>Nhập cấu hình chi tiết sản phẩm </h2>
+    </div>
+
+    <div class="block-content">
+        @using (Html.BeginForm("CreateLan2", "Item", FormMethod.Post, new { id = "formid" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ItemId)
+            @Html.HiddenFor(model => model.AuthorName)
+
+
+            @Html.HiddenFor(model => model.Image)
+
+            @Html.HiddenFor(model => model.Price)
+            @Html.HiddenFor(model => model.MaCN)
+            @Html.HiddenFor(model => model.Name)
+            @Html.HiddenFor(model => model.LoaiCap3Id)
+            @Html.HiddenFor(model => model.QuyCachId)
+            @Html.HiddenFor(model => model.Reduction)
+
+
+            
+
+                for (int j = 0; j < dem; j++)
+                {
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">@ViewBag.Info[j] : <span class="text-danger">*</span></label>
+                        <div class="col-md-7">
+                            @if (j != 0)
+                            {
+                                if (ViewBag.ArrayValue != null)
+                                {
+                                    <input class="form-control" type="text" id="item-@j" value="@ViewBag.ArrayValue[j]">
+                                }
+                                else
+                                {
+                                    <input class="form-control" type="text" id="item-@j" placeholder="....">
+                                }
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.Propertynames, new { @placeholder = "....", @class = "form-control" })
+                            }
+                        </div>
+                        <br />
+                    </div>
+                }
+
+
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                    <button class="btn btn-sm btn-primary" type="submit">Lưu</button>
+                </div>
+            </div>
+
+
+
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#formid").submit(function () {
+            dem = @chuoi1.Length;
+            var chuoi = "";
+            var i = 1;
+            if (document.getElementById("Propertynames").value == "") {
+                alert("Vui lòng nhập đầy đủ thông tin");
+                document.getElementById("Propertynames").focus();
+                return false;
+
+            }
+            while (i < dem) {
+                if (document.getElementById("item-" + i).value == "") {
+                    alert("Vui lòng nhập đầy đủ thông tin");
+                    document.getElementById("item-" + i).focus();
+                    return false;
+
+                }
+                i++;
+            }
+            i = 1;
+            while (i < dem) {
+                chuoi += document.getElementById("item-" + i).value + '|';
+                i++;
+            }
+            document.getElementById("Propertynames").value += '|' + chuoi;
+        });
+    });
+</script>

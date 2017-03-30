@@ -1,0 +1,389 @@
+﻿
+@{
+    ViewBag.Title = "KiemKho";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+
+
+
+<head>
+   
+
+
+
+
+    <title>Danh sách sản phẩm</title>
+
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            //function format(d) {
+            //    // `d` is the original data object for the row
+            //    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            //        '<tr>' +
+            //            '<td>Địa chỉ</td>' +
+            //            '<td>' + d.Address + '</td>' +
+            //        '</tr>' +
+            //        '<tr>' +
+            //            '<td>Số điện thoại:</td>' +
+            //            '<td>' + d.SDT + '</td>' +
+            //        '</tr>' +
+            //        '<tr>' +
+            //            '<td>Chỉnh sửa thông tin:</td>' +
+            //            '<td><a href="#" data-original-title="Info Client" data-toggle="modal" data-target="#KhachHang" onclick="GetKhachHang(' + d.UserId + ')" >Edit....</a></td>' +
+            //        '</tr>' +
+            //    '</table>';
+
+            //}
+           
+            var table;
+            if (!$.fn.dataTable.isDataTable('#DataTables_Table_1')) {
+                table = $('#DataTables_Table_1').DataTable({
+
+                    "language": {
+                        "decimal": "",
+                        "emptyTable": "Không có dữ liệu",
+                        "info": "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                        "infoEmpty": "",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Hiển thị _MENU_ dòng",
+                        "loadingRecords": "Loading...",
+                        "processing": "Processing...",
+                        "search": "Tìm kiếm :",
+                        "zeroRecords": "Không tìm thấy",
+                        "paginate": {
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Previous"
+                        }
+
+                    },
+                    "retrieve": true,
+                    "scrollX": false,
+                    "bAutoWidth": true,
+                    "bJQueryUI": true,
+                    "serverSide": false,
+                    "bProcessing": true,
+
+                    "pagingType": "full_numbers",
+                    "ajax": {
+                        "url": "@Url.Action("ThongKe", "Item")",
+
+                        "dataSrc": "ListKho",
+
+                    },
+
+                    "aoColumns": [
+                          {
+                              "mData": "ItemId",
+                              "sTitle": "Mã Sản phẩm",
+
+                          }, {
+                              "mData": "Name",
+                              "sTitle": "Tên Sản phẩm"
+                          }, {
+                              "mData": "Image",
+                              "sTitle": "Ảnh",
+                              "mRender": function (data, type, full) {
+                                  
+                                  return '<image style="width:30px;height:30px" src="/Content/Image/'+full.Link+'/'+data+'" />';
+                              }
+
+                          }, {
+                              "mData": "QuyCach",
+                              "sTitle": "Đơn vị",
+
+
+                          }, {
+
+
+                              "mData": "Total",
+                              "sTitle": 'Tồn kho',
+
+
+
+                          }, {
+                              "mData": "TotalBuy",
+                              "sTitle": "Đã mua",
+
+
+                          }, {
+                              "mData": "TotalSell",
+                              "sTitle": "Đã bán",
+
+                          }],
+                    //buttons: [
+                    //{ extend: "create", editor: editor },
+                    //{ extend: "edit",   editor: editor },],
+                    //            "columnDefs": [
+                    //{
+                    //    "targets": [6],
+                    //    "visible": false,
+
+
+                    //}],
+
+
+                    initComplete: function () {
+                        for (var i = 3; i < 4; i++) {
+
+                            this.api().column([i]).every(function () {
+                                var column = this;
+                                var select = $('<select><option value=""></option></select>')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+
+                                        column
+                                            .search(val ? '^' + val + '$' : '', true, false)
+                                            .draw();
+                                    });
+                                column.data().unique().sort().each(function (d, j) {
+                                    if (d != null) {
+
+
+                                            if (column.search() === '^' + d + '$') {
+                                                select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                            } else {
+                                                select.append('<option value="' + d + '">' + d + '</option>')
+                                            }
+
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                           {
+                               extend: 'print',
+                               title: "Danh Sách Sản Phẩm",
+                               className: 'my-button-print-class',
+                               exportOptions: {
+                                   columns: ':visible'
+
+                               }
+                           },
+                           {
+                               extend: 'copyHtml5',
+                               className: 'my-button-copy-class',
+                               exportOptions: {
+                                   columns: ':visible'
+
+                               }
+                           },
+                           {
+                               extend: 'excelHtml5',
+                               className: 'my-button-excel-class',
+                               title: "Danh Sách Sản Phẩm",
+                               exportOptions: {
+                                   columns: ':visible'
+
+                               }
+                           },
+                           {
+                               title: "Danh Sách Sản Phẩm",
+                               className: 'my-button-pdf-class',
+                               extend: 'pdfHtml5',
+                               exportOptions: {
+                                   columns: ':visible'
+
+                               }
+                           }
+                    ]
+                });
+
+            }
+            else {
+                table = $('#DataTables_Table_1').DataTable({
+                    "paging": false,
+
+
+                });
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+            $('input.toggle-vis').on('change', function (e) {
+                e.preventDefault();
+
+
+                // Get the column API object
+                var column = table.column($(this).attr('data-column'));
+                if (this.checked == true) column.visible(true);
+                else column.visible(false);
+                // Toggle the visibility
+                //column.visible(!column.visible());
+            });
+
+            table.buttons().container().insertBefore('#DataTables_Table_1_filter');
+
+            var imgexcel = document.createElement('img');
+            imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+            imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+            imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+            var imgcopy = document.createElement('img');
+            imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+        });
+    </script>
+    <style>
+
+
+    
+    </style>
+
+</head>
+<body>
+   
+
+    <div class="block" style="height:70px">
+        <div class="block-header" style="float:left">
+            <h3 class="block-title">Danh sách sản phẩm</h3>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Show/Hide</button>
+            <nav class="dropdown-content">
+                
+                    <input type="checkbox" class="toggle-vis" data-column="2" checked>Ảnh
+               
+               
+                    <input type="checkbox" class="toggle-vis" data-column="4" checked>Tồn kho
+               
+                    <input type="checkbox" class="toggle-vis" data-column="5" checked>Đã mua
+                
+                    <input type="checkbox" class="toggle-vis" data-column="6" checked>Đã bán
+               
+                  
+                
+</nav>
+        </div>
+        <div class="block-content">
+            <div class="info"></div>
+            
+            <div>
+                <div class="col-sm-12" style="padding-top:30px">
+
+                    <table class="display responsive nowrap" cellspacing="0" id="DataTables_Table_1">
+                        <thead>
+                            <tr  role="row" style="width: 100%">
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center" ></th>
+                                <th class="text-center" ></th>
+                                <th class="text-center"></th>
+                                <th class="text-center" ></th>
+                                <th class="text-center" ></th>
+                               
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr role="row" style="width: 100%">
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                                <th class="text-center"></th>
+                              
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </body>
+
+    @*<h2>KiemKho</h2>
+        <div class="block">
+            <div class="block-header">
+                <h3 class="block-title">Danh sách sản phẩm</h3>
+
+            </div>
+            <div class="block-content">
+              
+                <table >
+                    <thead>
+                        <tr>
+            <th class="text-center" style="width: 100px;">Mã Sản phẩm</th>
+                            <th class="text-center" style="width: 100px;">Tên Sản phẩm</th>
+                            <th class="text-center" style="width: 100px;">Ảnh</th>
+                            <th class="text-center" style="width: 100px;">Đơn vị</th>
+                            <th class="text-center" style="width: 100px;">Tổng Hàng</th>
+                            <th class="text-center" style="width: 100px;">Đã bán</th>
+                            <th class="text-center" style="width: 100px;">Trả lại</th>
+                            <th class="text-center" style="width: 100px;">Tồn Kho</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+
+
+                            <tr>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.ItemId)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td class="text-center"><image src="@item.Images"></image></td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.QuyCach)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.Total)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.totalBuy)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.TotalChange)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.Totalend)</td>
+
+
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>*@
+
+ 
+

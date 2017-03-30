@@ -1,0 +1,223 @@
+﻿@model DATNQLBH.Manager.HienThiHome
+
+@{
+
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<div>
+    <div class="content bg-image overflow-hidden" style="background-image: url('/assets/img/photos/photo3@2x.jpg');">
+        <div class="push-50-t push-15">
+            <h1 class="h2 text-white animated zoomIn">Trang Quản Lý</h1>
+            <h2 class="h5 text-white-op animated zoomIn">Welcome @User.Identity.Name</h2>
+        </div>
+    </div>
+    <!-- END Page Header -->
+    <!-- Stats -->
+    <div class="content bg-white border-b">
+        <div class="row items-push text-uppercase">
+            <div class="col-xs-6 col-sm-3">
+                <div class="font-w700 text-gray-darker animated fadeIn">Mặt hàng đã bán</div>
+                <div class="text-muted animated fadeIn">
+                    <small><i class="si si-calendar"></i> Hôm Nay</small>
+                </div>
+                <a class="h2 font-w300 text-primary animated flipInX" href="#">@Model.Today</a>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="font-w700 text-gray-darker animated fadeIn">Mặt hàng đã bán</div>
+                <div class="text-muted animated fadeIn">
+                    <small><i class="si si-calendar"></i> Tháng Này</small>
+                </div>
+                <a class="h2 font-w300 text-primary animated flipInX" href="#">@Model.ThisMonth</a>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="font-w700 text-gray-darker animated fadeIn">Tổng Thu Nhập</div>
+                <div class="text-muted animated fadeIn">
+                    <small><i class="si si-calendar"></i> Tháng Này</small>
+                </div>
+                <a class="h2 font-w300 text-primary animated flipInX" href="#">@Model.TotalMoneyMonth.ToString("#,##0").Replace(",", ".") đ</a>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="font-w700 text-gray-darker animated fadeIn">Trung Bình</div>
+                <div class="text-muted animated fadeIn">
+                    <small><i class="si si-calendar"></i> Tháng Này</small>
+                </div>
+                <a class="h2 font-w300 text-primary animated flipInX" href="#">@Model.AverageMoneyMonth.ToString("#,##0").Replace(",", ".") đ</a>
+            </div>
+        </div>
+    </div>
+    <!-- END Stats -->
+    <!-- Page Content -->
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-9">
+                <!-- Main Dashboard Chart -->
+                <div class="block">
+                    <div class="block-header">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" onclick="LoadDataWeekly()" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Tổng quan hàng tuần</h3>
+                    </div>
+                    <div class="block-content block-content-full bg-gray-lighter text-center">
+                        <!-- Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ -->
+                        <div style="height: 374px;">
+                            <canvas class="js-dash-chartjs-lines"></canvas>
+                        </div>
+                    </div>
+                    <div class="block-content text-center">
+                        <div class="row items-push text-center">
+                            <div class="col-xs-12 col-lg-6">
+                                <div class="push-10" style="margin: 0 auto; background: rgba(12, 24, 242, 0.5); width: 20px; height: 40px; "></div>
+                                <div class="h5 font-w300 text-muted">Mặt hàng đã bán</div>
+                            </div>
+
+                            <div class="col-xs-12 col-lg-6 visible-lg">
+                                <div class="push-10" style="margin: 0 auto; background: rgba(0, 148, 255, 0.5); width: 20px; height: 40px; "></div>
+                                <div class="h5 font-w300 text-muted">Mặt hàng đã bán tuần trước</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END Main Dashboard Chart -->
+            </div>
+            <div class="col-lg-3">
+                <!-- Latest Sales Widget -->
+                <div class="block">
+
+                    <div class="block-content text-center">
+                        <a href="/KhachHang/CreateInvoice">
+                            <span class="fa fa-5x fa-shopping-cart" style="font:900"></span>
+                        </a>
+
+                    </div>
+
+                </div>
+                <!-- END Latest Sales Widget -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <!-- News -->
+                <div class="block">
+                    <div class="block-header">
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" onclick="LoadLog(1)" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title"> Lịch Sử</h3>
+                    </div>
+                    <div class="block-content">
+                        <ul class="list list-timeline pull-t" id="ShowListLog">
+                            <!-- System Notification -->
+                            @*<li>
+                                    <div class="list-timeline-time">item.TimeLine</div>
+                                    <i class="fa fa-check list-timeline-icon bg-success"></i>
+                                    <div class="list-timeline-content">
+                                        <p class="font-w600">item.UserName - item.Function</p>
+                                        <p class="font-s13">item.Smg}</p>
+                                    </div>
+                                </li>*@
+                            <!-- END System Notification -->
+                        </ul>
+                    </div>
+                    <div class="block-header">
+                        <ul class="block-options">
+
+                            <li>
+                                <button onclick="LoadLog()" style="background: none;border: none; color:blue;" type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo">
+                                    <i class="si si-refresh"></i> Tải Thêm
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END News -->
+            </div>
+        </div>
+    </div>
+    <!-- END Page Content -->
+</div>
+<script>
+
+    var curPage;
+    function LoadLog(num) {
+        var log = "";
+        if (num == 1) {
+            curPage = 1;
+        }
+        else {
+            curPage = curPage + 1;
+        }
+        $.ajax({
+            url: "/Home/GetLog",
+            data: { curPage: curPage },
+            success: function (response) {
+
+                for (var i = 0; i < response.length; i++) {
+                    log += '<li> <div class="list-timeline-time">' + response[i].TimeLine + '</div><i class="fa fa-check list-timeline-icon bg-success"></i><div class="list-timeline-content"><p class="font-w600">' + response[i].UserName + ' - ' + response[i].Function + '</p> <p class="font-s13">' + response[i].Smg + '</p> </div></li>';
+                }
+                $('#ShowListLog').append(log);
+            }
+        });
+    }
+    function LoadDataWeekly() {
+        $.ajax({
+            url: "/Home/GetWeeklySale",
+            success: function (response) {
+                // Get Chart Container
+                var dashChartLinesCon = $('canvas.js-dash-chartjs-lines').get(0).getContext('2d');
+                var dashChartLines = new Chart(dashChartLinesCon).Line(
+                    {
+                        labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'thứ 6', 'Thứ 7', 'Chủ Nhật'],
+                        datasets: [
+                            {
+                                label: 'Mua tuần này',
+                                fillColor: 'rgba(12, 24, 242, .25)',
+                                strokeColor: 'rgba(12, 24, 242, .5)',
+                                pointColor: 'rgba(12, 24, 242, .5)',
+                                pointStrokeColor: '#fff',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(12, 24, 242, 1)',
+                                data: response.ArraySell
+                            },
+
+                            {
+                                label: 'Mua tuần trước',
+                                fillColor: 'rgba(0, 148, 255, .25)',
+                                strokeColor: 'rgba(0, 148, 255, .5)',
+                                pointColor: 'rgba(0, 148, 255, .5)',
+                                pointStrokeColor: '#fff',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(0, 148, 255, 1)',
+                                data: response.ArrayWeeklySell
+                            }
+
+                        ]
+                    }, {
+                        scaleFontFamily: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        scaleFontColor: '#999',
+                        scaleFontStyle: '600',
+                        tooltipTitleFontFamily: "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        tooltipCornerRadius: 3,
+                        maintainAspectRatio: false,
+                        responsive: true
+                    });
+            }
+        });
+        // Init Lines Chart
+
+
+    }
+
+    LoadDataWeekly();
+    LoadLog(1);
+
+
+</script>
+
+

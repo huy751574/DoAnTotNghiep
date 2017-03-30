@@ -1,0 +1,344 @@
+﻿<!-- Side Overlay-->
+<script src="~/Scripts/ScriptCam-master/scriptcam.js"></script>
+<script src="~/Scripts/swfobjec.js"></script>
+
+<aside id="side-overlay">
+    <!-- Side Overlay Scroll Container -->
+    <div id="side-overlay-scroll">
+        <!-- Side Header -->
+        <div class="side-header side-content">
+            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+            <button id="LayoutApiClose" class="btn btn-default pull-right" type="button" data-toggle="layout" data-action="side_overlay_close">
+                <i class="fa fa-times"></i>
+            </button>
+            <span>
+                <img class="img-avatar img-avatar32" src="~/assets/img/avatars/avatar10.jpg" alt="">
+                <span class="font-w600 push-10-l">@User.Identity.Name</span>
+            </span>
+        </div>
+        <!-- END Side Header -->
+        <!-- Side Content -->
+        <div class="side-content remove-padding-t">
+            <!-- Notifications -->
+            <div class="block pull-r-l block-opt-hidden">
+                <div class="block-header bg-gray-lighter">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">Thêm mặt hàng</h3>
+                </div>
+                <div class="block-content">
+                    <!-- Activity List -->
+                   
+
+                    <i class="si si-wallet text-success"></i><div class="font-w600">Quét mã sản phẩm</div>
+
+                    <div id="detachOrAttach">
+                        @*<canvas></canvas>*@
+                        <div style="margin-left:-10px" id="webcam">
+                        </div>
+                        <div style="margin:5px;" id="changeCamera">
+                            <img src="/Content/webcamlogo.png" style="vertical-align:text-top" />
+                            <select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;"></select>
+                        </div>
+                        @*<div id="camera" class="viewport text-center">
+                    <video style="width:100%" autoplay preload="auto"></video>
+                </div>
+                <div class="text-center">
+                    <img src="/Content/webcamlogo.png" /><select size="1" style="width:200px;font-size:10px;height:25px;"></select>
+                </div>*@    
+                    </div>
+                    
+                    <br />
+                    <div class="text-center">
+                        <p id="btn_tb"><button class="btn btn-primary" id="btn1" onclick="Ketnoi()">Kết Nối Camera</button></p>
+                    </div>
+
+
+                    <!-- END Activity List -->
+                </div>
+            </div>
+            <!-- END Notifications -->
+            <!-- Online Friends -->
+            <div class="block pull-r-l block-opt-hidden">
+                <div class="block-header bg-gray-lighter">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                        </li>
+                        <li>
+                            <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">Chọn hàng từ hệ thống</h3>
+                </div>
+                <div class="block-content block-content-full">
+                    <!-- Users Navigation -->
+                    Loại: @Html.DropDownList("SelectLoai", null, string.Empty, new { @class = "form-control-new", onchange = "myFunction()" })
+                    <table class="table table-bordered table-striped js-dataTable-full">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="background-color: #38b8e6;">Sản Phẩm</th>
+                                <th class="hide"></th>
+                                <th class="hide"></th>
+                                <th class="hide"></th>
+                                <th class="hide"></th>
+                                <th class="hide"></th>
+                                <th class="hide"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="InfoItem">
+                            @foreach (DATNQLBH.Models.CSDL.MatHang item in ViewBag.ListItem)
+                            {
+                                var gia = (long)item.Price * (100 - (long)item.Reduction) / 100;
+                                <tr>
+                                    <td class="font-w600">
+                                        <a href="javascript:void(0)" onclick="themhang('@item.ItemId','@item.Name','@gia.ToString("#,##0").Replace(",", ".")')">
+                                            <img class="img-item" src="/Content/Image/@item.Directory/@item.Image" alt="">
+                                            <i></i><h5> @item.Name</h5>
+                                            <div class="font-w400 text-primary">ID: <small style="color:red;">@item.ItemId</small></div>
+                                            <div class="font-w400 text-primary">Giá: <small style="color:red;">@gia.ToString("#,##0").Replace(",", ".") đ</small></div>
+                                        </a>
+                                    </td>
+                                    <td class="hidden">
+                                        @item.AuthorName
+                                    </td>
+                                    <td class="hidden">
+                                        @item.LoaiCap3.Name
+                                    </td>
+                                    <td class="hidden">
+                                        @item.Serial
+                                    </td>
+                                    <td class="hidden">
+                                        @item.ItemId
+                                    </td>
+                                    <td class="hidden">
+                                        @item.Name
+                                    </td>
+                                    <td class="hidden">
+                                        @item.Price.ToString("#,##0").Replace(",", ".")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>                   
+                    <!-- END Users Navigation -->
+                </div>
+            </div>
+            <!-- END Online Friends -->         
+        </div>
+        <!-- END Side Content -->
+    </div>
+    <!-- END Side Overlay Scroll Container -->
+</aside>
+<!-- END Side Overlay -->
+<div id="btnnotice">
+    <button id="notice" class="js-notify btn-sm hidden" data-notify-type="success" data-notify-align="center" data-notify-icon="fa fa-check" data-notify-message="Thêm thành công fgsdgsagwergewgwe x 1 "></button>
+</div>
+    <script type="text/javascript">
+        function onError(errorId, errorMsg) {
+            alert(errorMsg);
+        }
+        function changeCamera() {
+            $.scriptcam.changeCamera($('#cameraNames').val());
+        }
+        function onWebcamReady(cameraNames, camera, microphoneNames, microphone, volume) {
+            $.each(cameraNames, function (index, text) {
+                $('#cameraNames').append($('<option></option>').val(index).html(text))
+            });
+            $('#cameraNames').val(camera);
+        }
+        
+      
+        var attachchange;
+        var tid;
+        function BatDau() {
+            $('#detachOrAttach').append('<div style="margin-left:-10px" id="webcam"></div>');
+            $('#detachOrAttach').append(attachchange);
+          
+            $("p#btn_tb").html('<button class="btn btn-primary" onclick="Ketnoi()" >Kết nối camera</button> ');
+         
+            
+        };
+        function Ketnoi() {
+            $("#detachOrAttach>div#webcam").scriptcam({
+                onError: onError,
+                cornerRadius: 0,
+                onWebcamReady: onWebcamReady,
+                //readBarCodes: 'EAN_8,EAN_13,UPC_A,UPC_E,CODE_128,QR_CODE,UPC_EAN_EXTENSION,CODABAR,CODE_93,CODE_39,ITF'
+
+            });
+            $("p#btn_tb").html('<button class="btn btn-primary" onclick="KetThuc()" >Stop</button> ');
+            tid = setInterval(docMa, 100);
+        }
+       
+      
+        function KetThuc() {
+            $("#webcam").detach();
+            attachchange= $("#changeCamera").detach();
+            clearInterval(tid);
+            $("p#btn_tb").html('<button class="btn btn-primary" onclick="BatDau()" >Bắt đầu</button> ');
+        }       
+        function docMa()    
+        {
+            var seri = $.scriptcam.getBarCode('webcam');
+            LaySeries(seri);
+            console.log(seri);        
+        }
+
+
+       
+        function LaySeries(seri)
+        {
+           
+            if (seri != "") {
+                clearInterval(tid);
+                $.ajax({
+                    url: '/KhachHang/GetMatHangTheoSerial',
+                    type: 'POST',
+                    data: { serial: seri },
+                    success: function (data) {
+                        themhang(data.ItemId, data.Name, data.Gia);
+                        if(data==null)
+                        {
+                            $("#btnnotice").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"warning\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\"Sản phẩm không tồn tại \"></button>");
+                            App.initHelpers('notify');
+                            $("#notice").click();
+                            tid = setInterval(docMa, 100);
+                        }
+                    },
+                    error: function () {
+                        tid = setInterval(docMa, 100);
+                    }
+
+                })
+            }
+        }
+     
+    
+
+     
+       
+
+        function themhang(ItemId, Name, Gia,Quantity) {
+            if (Quantity == null || Quantity == '')
+            {
+                Quantity = 1;
+            }
+            var list = $('div .tab-content').find('.tab-pane:visible').find('tbody');
+            var bang = $(list).find('#TongDonHang');
+            var cotSTT = $(list).find('tr').length;
+            if (cotSTT == 1) {
+                var data = '<tr><td name="ItemId" class="hidden">' + ItemId + '</td><td class="text-center">' + cotSTT + '</td><td><p class="font-w600 push-10">' + Name + '</p></td><td class="text-center"><input onchange="var soluong=$(this).val();var that=$($(this).closest(\'tr\')).find(\'td\');var tong=parseInt(soluong)*parseInt(layso($(that).get(4).innerText)); $($(that).get(5)).html(formatCurrency(tong+\'\')+\' đ\');SuaHoaDonSauRemove()" type="number" id="' + cotSTT + '" value="'+Quantity+'" /></td><td class="text-right">' + Gia + ' đ</td><td class="text-right" id="TongGia">' + Gia + ' đ</td><td class="hidden-print"><a  href="javascript:void(0)" onclick="$(this).closest(\'tr\').remove(); SuaHoaDonSauRemove()"><i class="fa fa-remove"></i></a></td></tr>'
+                $(data).insertBefore($(bang).closest('tr'));
+            }
+            else {
+                var cot = [];
+                var dong = $(list).find('tr');
+                for (var i = 0; i < dong.length; i++) {
+                    var cansosanhSTT = $($($(dong).get(i)).find('td')).get(1);
+                    var soTT = parseInt(cansosanhSTT.innerText);
+                    var cansosanhID = $($($(dong).get(i)).find('td')).get(0);
+                    if (parseInt(cansosanhID.innerText) == ItemId) {
+                        var soluong = $($($(dong).get(i)).find('td')).find('#' + soTT);
+                        var tonggia = $($($(dong).get(i)).find('td')).get(5);
+                        soluong.val(parseInt(soluong.val()) + 1);
+                        var giatientong = (parseInt(soluong.val())) * parseInt(layso(Gia));
+                        $(tonggia).html(formatCurrency(giatientong + "") + " đ");
+
+                        break;
+                    }
+                    if (soTT != i + 1) {
+                        cotSTT = i + 1;
+                        var data = '<tr><td name="ItemId" class="hidden">' + ItemId + '</td><td class="text-center">' + cotSTT + '</td><td><p class="font-w600 push-10">' + Name + '</p></td><td class="text-center"><input onchange="var soluong=$(this).val();var that=$($(this).closest(\'tr\')).find(\'td\');var tong=parseInt(soluong)*parseInt(layso($(that).get(4).innerText)); $($(that).get(5)).html(formatCurrency(tong+\'\')+\' đ\');SuaHoaDonSauRemove()" type="number" id="' + cotSTT + '" value="' + Quantity + '" /></td><td class="text-right">' + Gia + ' đ</td><td class="text-right" id="TongGia">' + Gia + ' đ</td><td class="hidden-print"><a  href="javascript:void(0)" onclick="$(this).closest(\'tr\').remove(); SuaHoaDonSauRemove()"><i class="fa fa-remove"></i></a></td></tr>'
+                        $(data).insertBefore($(dong).get(i));
+                        break;
+                    }
+                    if (i == dong.length - 2) {
+                        var data = '<tr><td name="ItemId" class="hidden">' + ItemId + '</td><td class="text-center">' + cotSTT + '</td><td><p class="font-w600 push-10">' + Name + '</p></td><td class="text-center"><input onchange="var soluong=$(this).val();var that=$($(this).closest(\'tr\')).find(\'td\');var tong=parseInt(soluong)*parseInt(layso($(that).get(4).innerText)); $($(that).get(5)).html(formatCurrency(tong+\'\')+\' đ\');SuaHoaDonSauRemove()" type="number" id="' + cotSTT + '" value="' + Quantity + '" /></td><td class="text-right">' + Gia + ' đ</td><td class="text-right" id="TongGia">' + Gia + ' đ</td><td class="hidden-print"><a  href="javascript:void(0)" onclick="$(this).closest(\'tr\').remove(); SuaHoaDonSauRemove()"><i class="fa fa-remove"></i></a></td></tr>'
+                        $(data).insertBefore($(bang).closest('tr'));
+                        break;
+                    }
+
+                }
+
+            }
+
+            $("#btnnotice").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"success\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\"Thêm thành công (" + Name + ") x " + Quantity + " \"></button>");
+            App.initHelpers('notify');
+            $("#notice").click();
+
+
+            SuaHoaDonSauRemove();
+
+        };
+
+        function HuyHoaDonHang(ItemId) {
+            if (confirm("Bạn có chắc muốn xóa mặt hàng với mã hàng là: " + ItemId)) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/KhachHang/HuyDonMuaHang',
+                    data: { id: ItemId },
+                    success: function (data) {
+                        if (data.thongbao != "Null") {
+                            $("#noidunghoadon").html(data.thongbao);
+                        }
+                    }
+                });
+            }
+        };
+        var bangchonloc = $('.js-dataTable-full').DataTable({ "bLengthChange": false, "dom": '<<f<t>ip>>', });
+        function myFunction() {
+            var value = $("#SelectLoai").val();
+         
+            bangchonloc.search(value).draw();
+        };
+     
+        function DongBoHoaDon(chuoi)
+        {
+         
+            var list = $('div .tab-content').find('.tab-pane:visible').find('tbody');
+            var ChuoiSplit=chuoi.split(/[;]/g);
+            var khachhangSplit = '';
+            var hoadon = [];
+            $(ChuoiSplit).each(function (index, value) {
+                if (index == 0) {
+                    khachhangSplit = ChuoiSplit[0].split(/["]/g);
+                    var fullname = khachhangSplit[0].split(/[,]/g)[1];
+                    var address = khachhangSplit[1];
+                    var userid = khachhangSplit[0].split(/[,]/g)[0];
+                    var sdt = khachhangSplit[2].split(/[,]/g)[0];
+                   
+                    if (userid == 'null')
+                    {
+                        userid = null;
+                    }
+                    $("input:visible#SDT").val(sdt);
+                    var khachhang = '<p class="h2 font-w400 push-5">Khách hàng</p><address><span id="FullName">' + fullname + '</span><br><span id="Address">' + address + '</span><br><i class="si si-call-end"></i><span id="SDT">' + sdt + '</span></address><input id="KhachHangId" type="hidden" value="' + userid + '" />'
+                    var kh = $('div.tab-content').find('div.tab-pane:visible').find('#KhachHang').html(khachhang);
+                }
+                else {
+                    hoadon.push(value);
+                }
+            });
+            var rows= bangchonloc.rows().data();
+          
+            $(hoadon).each(function (i, v) {
+                var mang = v.split(/[,]/g);
+                var id = mang[0];
+                var quantity = mang[1];
+                $(rows).each(function () {
+                    if (this[4] == id) {
+                        themhang(id, this[5], this[6],quantity);
+                    }
+                });
+               
+            })
+          
+        }
+    </script>

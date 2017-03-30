@@ -1,0 +1,126 @@
+﻿/*==Reset CSS==*/
+* {
+    /*margin: 0;*/
+    padding: 0;
+}
+
+body {
+    font-family: helvetica, arial, sans-serif;
+    font-size: 15px;
+    color: #333;
+}
+/*==Style cho menu===*/
+#menu {
+    background: #38b8e6;
+    width: 100% !important;
+}
+
+    #menu ul {
+        background: #38b8e6;
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #menu li {
+        color: #f1f1f1;
+        display: inline-block;
+        width: 120px;
+        height: 45px;
+        line-height: 45px;
+        margin-left: -5px;
+        padding-left: 2px;
+        position: relative;
+    }
+
+    #menu a {
+        text-decoration: none;
+        text-align: center;
+        color: #fff;
+        display: block;
+        border-left:  solid #1a9dcc 2px;
+        border-right:  solid #1a9dcc 2px;
+
+    }
+
+        #menu a:hover {
+            background: #1a9dcc;
+            color: #FFFFFF;
+            border: none;
+        }
+
+/*==Dropdown Menu==*/
+.sub-menu li {
+    display: none;
+    margin-left: 0 !important;
+    white-space: nowrap; /*Không cho chữ xuống dòng*/
+}
+
+.sub-menu {
+    display: none;
+    position: absolute;
+}
+
+#menu ul.sub-menu a {
+    text-align: left;
+    padding-left: 5px;
+     border: none;
+}
+/* dê chuột vô hiện menu con*/
+#menu li:hover .sub-menu {
+    display: block;
+}
+
+#menu ul.sub-menu {
+    background: #1a9dcc;
+    position: absolute;
+    top: 100%;
+    left: 2px;
+    min-width: 200px;
+    width: auto !important;
+    display: none;
+    z-index: 999999;
+}
+
+    #menu ul.sub-menu li a:hover {
+        background: #38b8e6;
+        min-width: 198px;
+    }
+/*==tài khoản*/
+#menu ul li.account {
+    float: right;
+    background: none;
+    padding: 0;
+    margin-right: 1px;
+}
+
+/*trèn icon*/
+#menu ul li > a > img {
+        height:16px;
+        width:16px;
+       margin-top:-3px;
+    }
+.sub-menu ul li > a > img {
+        height:16px;
+        width:16px;
+       margin-top:-3px;
+    }
+
+
+/*textbox*/
+.form-control2 {
+    width: 200px;
+    height: 34px;
+    padding: 5px 12px 5px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}

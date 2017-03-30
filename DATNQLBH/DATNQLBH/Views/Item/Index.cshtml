@@ -1,0 +1,481 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.MatHang>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+
+
+}
+
+<script>
+    var maintable;
+    $(document).ready(function () {
+
+       
+
+        
+        if (!$.fn.dataTable.isDataTable('#DataTables_Table_Item')) {
+            maintable = $('#DataTables_Table_Item').DataTable({
+
+                "language": {
+                    "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                },
+
+                "retrieve": true,
+                "scrollX": false,
+                "bAutoWidth": true,
+                "bJQueryUI": true,
+                "serverSide": false,
+                "bProcessing": true,
+                "responsive":true,
+                "pagingType": "full_numbers",
+               
+              
+                "ajax": {
+                    "url": "@Url.Action("DanhSachMatHang", "Item")",
+
+                "dataSrc": "list",
+
+            },
+
+                "aoColumns": [
+                      {
+                          "className": 'text-center',
+                          "mData": "ItemId",
+                          "sTitle": "Mã sản phẩm"
+                      }, {
+
+                          "className": 'text-center',
+                          "mData": "Name",
+                          "sTitle": "Tên sản phẩm",
+
+
+                      }, {
+
+                          "className": 'text-center',
+                          "mData": "AuthorName",
+                          "sTitle": "Xuất xứ",
+
+
+                      }, {
+                          "className": 'text-center',
+                          "mData": "Price",
+                          "sTitle": "Giá",
+                        
+
+                      }, {
+                          "className": 'text-center',
+                          "mData": "Description",
+                          "sTitle": "Miêu tả",
+
+
+                      }, {
+                          "className": 'text-center',
+                          "mData": "VAT",
+                          "sTitle": "VAT",
+
+
+                      }, {
+                          "className": 'text-center',
+                          "mData": "Reduction",
+                          "sTitle": "Giảm giá %",
+
+
+                      },
+                      {
+
+                          "className": 'text-center imagenhaphang',
+                          "mData": "Image",
+                          "sTitle": 'Hình ảnh',
+
+                          "mRender": function (data, type, full) {
+                              return '<img style="width:40px;height:30px" src="/Content/Image/' + full.Directory + '/' + data + '" />'
+                          }
+
+
+                      }, {
+
+                          "className": "text-center",
+                          "mData": "ItemId",
+                          "mRender": function (ItemId, type, full) {
+                              return '<div class="btn-group"><nav><button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Sửa thông tin cơ bản" onclick="window.open(\'/Item/Edit/' + ItemId + '\')"><i class="fa fa-pencil"></i></button>                        <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Thông tin chi tiết của sản phẩm" onclick="window.open(\'/Item/CreateLan2/' + ItemId + '\')"><i class="si si-speech"></i></button>                                    <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Thay đổi tình trạng sản phẩm" onclick="Sudung(' + ItemId + ')"><i class="si si-tag"></i></button>                                   <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Xoá Sản phẩm" onclick="Del(' + ItemId + ')"><i class="fa fa-close"></i></button></nav> </div>';
+                          }
+
+
+                      },
+                       {
+
+
+                           "mData": "LoaiCap1Id",
+
+
+
+
+                       },
+                        {
+
+
+                            "mData": "LoaiCap2Id",
+
+
+
+
+                        },
+                      {
+
+
+                          "mData": "LoaiCap3Id",
+
+
+
+
+                      }
+                      
+                ],
+       
+
+                "columnDefs": [
+                 {
+                     "targets": [9,10,11],
+                     "visible": false,
+                     
+                 }
+                ],
+
+        
+
+            initComplete: function () {
+                for (var i = 2; i < 3; i++) {
+                   
+                    this.api().column([i]).every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                              
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                        column.data().unique().sort().each(function (d, j) {
+                            if (d != null) {
+                               
+                                    if (column.search() === '^' + d + '$') {
+                                        select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                    } else {
+                                        select.append('<option value="' + d + '">' + d + '</option>')
+                                    }
+                                
+                            }
+                        });
+                    });
+                }
+            },
+            "dom": '<lBf<t>ip>',
+
+            buttons: [
+                   {
+                       extend: 'print',
+                       title: "Danh Sách Sản Phẩm",
+                       className: 'my-button-print-class',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4]
+
+                       }
+                   },
+                   {
+                       extend: 'copyHtml5',
+                       className: 'my-button-copy-class',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4]
+
+                       }
+                   },
+                   {
+                       extend: 'excelHtml5',
+                       className: 'my-button-excel-class',
+                       title: "Danh Sách Sản Phẩm",
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4]
+                       }
+                   },
+                   {
+                       title: "Danh Sách Sản Phẩm",
+                       className: 'my-button-pdf-class',
+                       extend: 'pdfHtml5',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4]
+                       }
+                   }
+
+            ]
+        });
+
+    }
+    else {
+                maintable = $('#DataTables_Table_Item').DataTable({
+                    "paging": false,
+
+
+                    });
+    }
+    // $(table).load();
+
+        
+
+
+
+
+
+    
+
+   
+
+    maintable.buttons().container().insertBefore('#DataTables_Table_Item_filter');
+
+    var imgexcel = document.createElement('img');
+    imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+    imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    $('.my-button-excel-class').html(imgexcel);
+    $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+    var imgpdf = document.createElement('img');
+    imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+    imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    $('.my-button-pdf-class').html(imgpdf);
+    $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+    var imgprint = document.createElement('img');
+    imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+    $('.my-button-print-class').html(imgprint);
+    $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+    var imgcopy = document.createElement('img');
+    imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+    $('.my-button-copy-class').html(imgcopy);
+    $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+  
+    });
+    function timloai() {
+        var bien = $("select#LoaiCap3").val();
+        var that = maintable.columns(11);
+
+        that.search(bien).draw();
+
+
+    };
+    function timloaicap1(bien) {
+
+
+        var that = maintable.columns(9);
+
+        if (bien == 0) {
+            bien = "";
+        }
+
+        that.search(bien).draw();
+
+
+
+    };
+    function timloaicap2(bien) {
+        var bien;
+
+        var that = maintable.columns(10);
+
+        if (bien == 0) {
+            bien = "";
+        }
+
+        that.search(bien).draw();
+
+
+
+    };
+    function changeLoai2() {
+        var bien = document.getElementById("LoaiCap1").value;
+        $("#LoaiCap2").remove();
+        $("#LoaiCap3").remove();
+        if (bien == null || bien == "") {
+            bien = "";
+
+
+        }
+        else {
+            $.ajax({
+                type: 'GET',
+                url: '/Item/updateLoaiCap2',
+                data: { id: bien },
+                success: function (data) {
+                    $("#loc").append(data.text);
+                }
+            });
+        }
+
+        timloaicap1(bien);
+
+    };
+    function changeLoai3() {
+        var bien = $('select#LoaiCap2').val();
+        $("#LoaiCap3").remove();
+        if (bien == null || bien == "" || bien == 0) {
+            bien = "";
+        }
+        else {
+            $.ajax({
+                type: 'GET',
+                url: '/Item/updateLoaiCap3',
+                data: { id: bien },
+                success: function (data) {
+                    $("#loc").append(data.text);
+                }
+            });
+        }
+
+
+        timloaicap2(bien);
+    };
+</script>
+<div class="block">
+    <h2>Hàng Hóa</h2>
+
+
+
+    <div class="block">
+    <div class="block-header">
+        <h3 class="block-title">Danh sách sản phẩm</h3>
+    
+        <button id="edit" class="btn btn-primary" onclick="showhidediv()">
+            Lọc
+        </button>
+      
+      
+            <div  class="divshowhide" id="loc" style="display:none;">
+                
+                 
+                
+            </div>
+
+        
+
+    </div>
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+            <table class="display nowrap" id="DataTables_Table_Item" style="width:90%">
+                <thead>
+                    <tr role="row">
+                        <th style="width:20px" ></th>
+                        <th></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th ></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+              
+                <tfoot>
+                    <tr role="row">
+                        <th style="width:20px"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+</table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+<script>
+
+
+        
+        
+        function Sudung(id) {
+       
+            $.ajax({
+                type: 'POST',
+                url: '/Item/TinhTrang',
+                data: {id:id},
+                success: function (data) {
+                    
+                    alert(data.smg);
+                }
+            });
+
+        };
+        function showhidediv() {
+
+            $("#loc").slideToggle();
+            $.ajax({
+                type: 'GET',
+                url: '/Item/lstLoaiCap1',
+              
+                success: function (data) {
+
+                    $("#loc").html(data.text)
+                }
+            })
+        };
+        function Del(id) {
+            if (confirm("Bạn có muốn xóa sản phẩm này không?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Item/DelItem',
+                    data: { id: id },
+                    success: function (data) {
+
+                        alert(data.smg);
+                        window.location.reload(true);
+                    }
+                });
+            }
+
+        };
+              
+        
+</script>

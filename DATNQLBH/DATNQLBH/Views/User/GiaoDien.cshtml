@@ -1,0 +1,43 @@
+﻿
+@model IEnumerable<DATNQLBH.Models.CSDL.GiaoDien>
+
+@{
+    int i = 0;
+    Layout = null;
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @Html.EditorFor(modelItem => item.Description)
+            </td>
+            <td>
+                <img height="50" width="500" src="~/Content/Itemimages/@item.Image" />
+            </td>
+            <td>
+                <a href="javascript:void(0)" onclick="var stt=@i;LuuGiaoDien(@item.id,stt)"><i class="fa fa-save"></i> Lưu</a>
+            </td>
+
+        </tr>
+        { i = i + 1; }
+    }
+
+
+
+</table>

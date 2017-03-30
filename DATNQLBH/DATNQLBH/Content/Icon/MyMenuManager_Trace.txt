@@ -1,0 +1,251 @@
+---
+Ngày 01/12/2009
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Danh mục trình đơn  () đang được hiệu chỉnh.
+Danh mục trình đơn của  () đã được cập nhật.
+Đang lưu...
+Thông tin nhóm của admin (admin) đã được cập nhật.
+Đang lưu...
+Thông tin nhóm của admin (admin) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Danh mục trình đơn của  () đã được cập nhật.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của admin (admin) đã được cập nhật.
+---
+Ngày 15/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 15/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 15/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 15/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+---
+Ngày 16/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 20/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Danh mục trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+---
+Ngày 20/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+---
+Ngày 20/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 20/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+---
+Ngày 20/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+---
+Ngày 22/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 23/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Danh mục trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 23/12/2010
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Tiền lương (PayRoll) đang được hiệu chỉnh.
+Danh mục trình đơn của Tiền lương (PayRoll) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 05/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 05/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 05/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Hệ trình đơn phân quyền đang được hiệu chỉnh.
+Opening connection...
+Đang lưu...
+Danh mục trình đơn của test (test) đã được cập nhật.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+---
+Ngày 06/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 07/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 07/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 07/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 07/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 08/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Danh mụch trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 10/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+---
+Ngày 12/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 12/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 12/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 12/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 13/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 14/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 14/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+---
+Ngày 14/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 14/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.
+Trình đơn Nhân sự (Human) đang được hiệu chỉnh.
+Danh mục trình đơn của Nhân sự (Human) đã được cập nhật.
+---
+Ngày 14/01/2011
+Đang nạp dữ liệu từ server...
+Chương trình đã được nạp hoàn tất.

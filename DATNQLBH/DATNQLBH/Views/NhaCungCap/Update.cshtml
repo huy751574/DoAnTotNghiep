@@ -1,0 +1,82 @@
+﻿@model DATNQLBH.Models.CSDL.NhaCC
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+<div class="block">
+    <div class="block-header">
+        <h2>Thay đổi thông tin nhà cung cấp</h2>
+    </div>
+
+
+    <div class="block-content">
+        <h4>Nhà cung cấp: <font color="red"> @Html.DisplayFor(model => model.Name)</font></h4>
+        <hr />
+     
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+               
+                      
+                            @Html.HiddenFor(model => model.MaNCC)
+                         
+                        
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control updatencc",placeholder = "Nhập tên nhà cung cấp...." })
+                            @Html.ValidationMessageFor(model => model.Name)
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.SDT)
+                            @Html.TextBoxFor(model => model.SDT, new { @class = "form-control updatencc", placeholder = "Nhâp số điện thoại....." })
+                            @Html.ValidationMessageFor(model => model.SDT)
+                        </div>
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control updatencc", placeholder = " Nhập email..." })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                 
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.Address)
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control updatencc1", placeholder = "Nhập địa chỉ..." })
+                            @Html.ValidationMessageFor(model => model.Address)
+                        </div>
+               
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.Fax)
+                            @Html.TextBoxFor(model => model.Fax, new { @class = "form-control updatencc1", placeholder = "Nhập số fax..." })
+                            @Html.ValidationMessageFor(model => model.Fax)
+                        </div>
+                        <div class="form-group">
+                            @Html.DisplayNameFor(model => model.TaiKhoan)
+                            <br />
+                            @Html.TextBoxFor(model => model.TaiKhoan, new { @class = "form-control", placeholder = "Nhập số tài khoản......" })
+                            @Html.ValidationMessageFor(model => model.TaiKhoan)
+                        </div>
+                 
+                        <div class="text-center">
+                          
+
+                            <button type="submit" class="btn btn-danger">Lưu</button>
+                            <button type="button" class="btn btn-danger closeFancybox" onclick="location.href='/NhaCungCap/Index'" >Cancel</button>
+
+                        </div>
+               
+            }
+
+      
+
+    </div>
+</div>
+
+
+
+
+

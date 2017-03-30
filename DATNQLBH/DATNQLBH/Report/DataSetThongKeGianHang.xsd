@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetThongKeGianHang" targetNamespace="http://tempuri.org/DataSetThongKeGianHang.xsd" xmlns:mstns="http://tempuri.org/DataSetThongKeGianHang.xsd" xmlns="http://tempuri.org/DataSetThongKeGianHang.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetThongKeGianHang" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetThongKeGianHang" msprop:Generator_UserDSName="DataSetThongKeGianHang">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTableThongKeGianHang" msprop:Generator_TableClassName="DataTableThongKeGianHangDataTable" msprop:Generator_TableVarName="tableDataTableThongKeGianHang" msprop:Generator_RowChangedName="DataTableThongKeGianHangRowChanged" msprop:Generator_TablePropName="DataTableThongKeGianHang" msprop:Generator_RowDeletingName="DataTableThongKeGianHangRowDeleting" msprop:Generator_RowChangingName="DataTableThongKeGianHangRowChanging" msprop:Generator_RowEvHandlerName="DataTableThongKeGianHangRowChangeEventHandler" msprop:Generator_RowDeletedName="DataTableThongKeGianHangRowDeleted" msprop:Generator_RowClassName="DataTableThongKeGianHangRow" msprop:Generator_UserTableName="DataTableThongKeGianHang" msprop:Generator_RowEvArgName="DataTableThongKeGianHangRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Gói_x0020_sử_x0020_dụng" msprop:Generator_ColumnVarNameInTable="columnGói_sử_dụng" msprop:Generator_ColumnPropNameInRow="Gói_sử_dụng" msprop:Generator_ColumnPropNameInTable="Gói_sử_dụngColumn" msprop:Generator_UserColumnName="Gói sử dụng" type="xs:string" minOccurs="0" />
+              <xs:element name="Thời_x0020_gian_x0020_bắt_x0020_đầu" msprop:Generator_ColumnVarNameInTable="columnThời_gian_bắt_đầu" msprop:Generator_ColumnPropNameInRow="Thời_gian_bắt_đầu" msprop:Generator_ColumnPropNameInTable="Thời_gian_bắt_đầuColumn" msprop:Generator_UserColumnName="Thời gian bắt đầu" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Thời_x0020_gian_x0020_kết_x0020_thúc" msprop:Generator_ColumnVarNameInTable="columnThời_gian_kết_thúc" msprop:Generator_ColumnPropNameInRow="Thời_gian_kết_thúc" msprop:Generator_ColumnPropNameInTable="Thời_gian_kết_thúcColumn" msprop:Generator_UserColumnName="Thời gian kết thúc" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Tên_x0020_gian_x0020_hàng" msprop:Generator_ColumnVarNameInTable="columnTên_gian_hàng" msprop:Generator_ColumnPropNameInRow="Tên_gian_hàng" msprop:Generator_ColumnPropNameInTable="Tên_gian_hàngColumn" msprop:Generator_UserColumnName="Tên gian hàng" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DataTableGianHang" msprop:Generator_TableClassName="DataTableGianHangDataTable" msprop:Generator_TableVarName="tableDataTableGianHang" msprop:Generator_TablePropName="DataTableGianHang" msprop:Generator_RowDeletingName="DataTableGianHangRowDeleting" msprop:Generator_RowChangingName="DataTableGianHangRowChanging" msprop:Generator_RowEvHandlerName="DataTableGianHangRowChangeEventHandler" msprop:Generator_RowDeletedName="DataTableGianHangRowDeleted" msprop:Generator_UserTableName="DataTableGianHang" msprop:Generator_RowChangedName="DataTableGianHangRowChanged" msprop:Generator_RowEvArgName="DataTableGianHangRowChangeEvent" msprop:Generator_RowClassName="DataTableGianHangRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Tên_x0020_gian_x0020_hàng" msprop:Generator_ColumnVarNameInTable="columnTên_gian_hàng" msprop:Generator_ColumnPropNameInRow="Tên_gian_hàng" msprop:Generator_ColumnPropNameInTable="Tên_gian_hàngColumn" msprop:Generator_UserColumnName="Tên gian hàng" type="xs:string" minOccurs="0" />
+              <xs:element name="Chủ_x0020_gian_x0020_hàng" msprop:Generator_ColumnVarNameInTable="columnChủ_gian_hàng" msprop:Generator_ColumnPropNameInRow="Chủ_gian_hàng" msprop:Generator_ColumnPropNameInTable="Chủ_gian_hàngColumn" msprop:Generator_UserColumnName="Chủ gian hàng" type="xs:string" minOccurs="0" />
+              <xs:element name="Tài_x0020_khoản" msprop:Generator_ColumnVarNameInTable="columnTài_khoản" msprop:Generator_ColumnPropNameInRow="Tài_khoản" msprop:Generator_ColumnPropNameInTable="Tài_khoảnColumn" msprop:Generator_UserColumnName="Tài khoản" type="xs:string" minOccurs="0" />
+              <xs:element name="Địa_x0020_chỉ" msprop:Generator_ColumnVarNameInTable="columnĐịa_chỉ" msprop:Generator_ColumnPropNameInRow="Địa_chỉ" msprop:Generator_ColumnPropNameInTable="Địa_chỉColumn" msprop:Generator_UserColumnName="Địa chỉ" type="xs:string" minOccurs="0" />
+              <xs:element name="Số_x0020_điện_x0020_thoại" msprop:Generator_ColumnVarNameInTable="columnSố_điện_thoại" msprop:Generator_ColumnPropNameInRow="Số_điện_thoại" msprop:Generator_ColumnPropNameInTable="Số_điện_thoạiColumn" msprop:Generator_UserColumnName="Số điện thoại" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DataTableGianHangKey1">
+      <xs:selector xpath=".//mstns:DataTableGianHang" />
+      <xs:field xpath="mstns:Tên_x0020_gian_x0020_hàng" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="DataTableGianHang_DataTableThongKeGianHang" msdata:parent="DataTableGianHang" msdata:child="DataTableThongKeGianHang" msdata:parentkey="Tên_x0020_gian_x0020_hàng" msdata:childkey="Tên_x0020_gian_x0020_hàng" msprop:Generator_UserChildTable="DataTableThongKeGianHang" msprop:Generator_ChildPropName="GetDataTableThongKeGianHangRows" msprop:Generator_UserRelationName="DataTableGianHang_DataTableThongKeGianHang" msprop:Generator_RelationVarName="relationDataTableGianHang_DataTableThongKeGianHang" msprop:Generator_UserParentTable="DataTableGianHang" msprop:Generator_ParentPropName="DataTableGianHangRow" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>

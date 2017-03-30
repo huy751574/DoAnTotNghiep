@@ -1,0 +1,38 @@
+﻿@model DATNQLBH.Models.CSDL.BlogDoiTac
+
+@{
+    Layout = "~/Views/Shared/_LayoutGiaoDien.cshtml";
+    ViewBag.Title = "Đối tác";
+}
+
+
+
+
+
+
+    <div class="block"> 
+        @Html.Raw(Model.Description)
+        <hr />
+        <br />
+        <strong>THÔNG TIN CHI TIẾT</strong>
+        <br />
+        Tên công ty: @Html.DisplayFor(model => model.ChiNhanh.Name)
+        <div>
+            @Html.LabelFor(model => model.ChiNhanh.FaceBook):
+            @Html.DisplayFor(model => model.ChiNhanh.FaceBook)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ChiNhanh.WebSite):
+            @Html.DisplayFor(model => model.ChiNhanh.WebSite)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ChiNhanh.SDT):
+            @Html.DisplayFor(model => model.ChiNhanh.SDT)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ChiNhanh.Email):
+            @Html.DisplayFor(model => model.ChiNhanh.Email)
+        </div>
+    </div>
+
+

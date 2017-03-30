@@ -1,0 +1,695 @@
+﻿    
+
+@model DATNQLBH.Models.ApplicationUser
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+  
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+                function format(d) {
+                    // `d` is the original data object for the row
+                    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                        '<tr>' +
+                            '<td>Địa chỉ</td>' +
+                            '<td>' + d.Address + '</td>' +
+                        '</tr>' +
+                         '<tr>' +
+                            '<td>Ngày sinh</td>' +
+                            '<td>' + chuyenngay(d.Birthday) + '</td>' +
+                        '</tr>' +
+                         '<tr>' +
+                            '<td>Email</td>' +
+                            '<td>' + d.Email + '</td>' +
+                        '</tr>' +
+                          '<tr>' +
+                            '<td>Số chứng minh thư</td>' +
+                            '<td>' + d.CMND + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td>Số điện thoại:</td>' +
+                            '<td>' + d.PhoneNumber + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td>Số đơn hàng đã lập:</td>' +
+                            '<td>' + d.Experience + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td>Chỉnh sửa thông tin lương:</td>' +
+                            '<td><a href="/User/EditNhanVien/?UserId='+d.Id+'" >Edit....</a></td>' +
+                        '</tr>' +
+                    '</table>';
+
+                }
+
+                var maintable;
+                if (!$.fn.dataTable.isDataTable('#DataTables_Table_NV')) {
+                    maintable = $('#DataTables_Table_NV').DataTable({
+
+                        "language": {
+                            "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(lọc từ _MAX_ dòng)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                                "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                        },
+
+                        "retrieve": true,
+                        "scrollY": false,
+                        "bAutoWidth": true,
+                        "bJQueryUI": true,
+                        "serverSide": false,
+                        "bProcessing": true,
+                        "scrollX": true,
+                        "sScrollXInner": "100%",
+                        "pagingType": "full_numbers",
+                    "ajax": {
+                            "url": "@Url.Action("DanhSachNhanVien", "User")",
+
+                        "dataSrc": "lst",
+
+                    },
+
+                    "aoColumns": [
+                          {
+                              "className": 'details-control text-center',
+
+                              "orderable": false,
+                              "data": null,
+                              "searchable": false,
+                              "defaultContent": '',
+                              "mRender": function () {
+                                  return '<i class="fa fa-angle-right"></i>';
+                              }
+                          }, {
+                              "mData": "UserName",
+                              "sTitle": "Tên đăng nhập"
+                          }, {
+                              "mData": "FullName",
+                              "sTitle": "Họ Tên",
+
+
+                          }, {
+                              "mData": "NgayDangKy",
+                              "sTitle": "Ngày đăng ký",
+                              "mRender": function (date, type, full) {
+                                  return chuyenngay(date);
+                              }
+                          }, {
+
+                              "className": 'text-center',
+                              "mData": "Luong",
+                              "sTitle": 'Lương',
+
+
+                              "mRender": function (Luong, type, full) {
+                                  return formatCurrency(Luong+'')+' đ';
+
+                              }
+                          }, {
+                              "className": "text-center",
+                              "mData": "Name",
+                              "sTitle": "Chi nhanh",
+
+                          }
+                          , {
+                              "className": "text-center",
+                              "mData": "Role",
+                              "sTitle": "Chức vụ",
+                              "mRender": function (Role, type, full) {
+                                  if(full.Active==false)
+                                  {
+                                      return "<span class=\"label label-warning\">Hiện Không Làm Việc</span>"
+                                  }
+                                  if (Role == "Admin") {
+                                      return "<span class=\"label label-success\">" + Role + "</span>"
+                                  }
+                                 else {
+                                      return "<span class=\"label label-primary\">" + Role + "</span>"
+                                  }
+                              }
+
+                          }
+                    ],
+                  
+
+                    initComplete: function () {
+                        for (var i = 5; i < 7; i++) {
+
+                            this.api().column([i]).every(function () {
+                                var column = this;
+                                var select = $('<select><option value=""></option></select>')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                                                    $(this).val()
+                                        );
+
+                                        column
+                                            .search(val ? '^' + val + '$' : '', true, false)
+                                            .draw();
+                                    });
+                                column.data().unique().sort().each(function (d, j) {
+                                    if (d != null) {
+
+                                        if (column.search() === '^' + d + '$') {
+                                            select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                        } else {
+                                            select.append('<option value="' + d + '">' + d + '</option>')
+                                        }
+
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                           {
+                               extend: 'print',
+                               title: "Danh Sách Nhân viên",
+                               className: 'my-button-print-class',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'copyHtml5',
+                               className: 'my-button-copy-class',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'excelHtml5',
+                               className: 'my-button-excel-class',
+                               title: "Danh Sách Nhân viên",
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+                               }
+                           },
+                           {
+                               title: "Danh Sách Nhân viên",
+                               className: 'my-button-pdf-class',
+                               extend: 'pdfHtml5',
+                               exportOptions: {
+                                   columns: [1, 2, 3, 4, 5, 6]
+                               }
+                           }
+
+                    ]
+                });
+
+            }
+            else {
+                maintable = $('#DataTables_Table_NV').DataTable({
+        "paging": false,
+
+
+                });
+            }
+            // $(table).load();
+
+
+
+
+
+
+
+            $('#DataTables_Table_NV tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = maintable.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('open');
+        }
+        else {
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('open');
+        }
+    });
+
+
+            $('#DataTables_Table_NV tbody').on('click', 'tr', function () {
+
+        var td = $(this).find('td');
+             
+                $('#ten_taikhoan').val(td[1].innerHTML);
+    });
+
+            maintable.buttons().container().insertBefore('#DataTables_Table_NV_filter');
+
+    var imgexcel = document.createElement('img');
+    imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+    imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+    imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+            var imgcopy = document.createElement('img');
+    imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+
+             });
+    </script>
+
+
+    <div id="myNode"></div>
+
+
+
+
+
+
+
+    <div class="block">
+        <div class="block-header">
+            <h3 class="block-title">Danh sách nhân viên</h3>
+            <button class="btn btn-success push-10-t" type="button" onclick="window.open('/User/ThemNhanVien')"><i class="fa fa-plus"></i> Thêm mới nhân viên</button>
+
+        </div>
+        <div class="block-content">
+            <div class="info"></div>
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js   js-dataTable-full dataTable-->
+            <div>
+                <div class="col-sm-12" style="padding-top:30px">
+
+                    <table class="display compact" cellspacing="0" id="DataTables_Table_NV">
+                        <thead>
+                            <tr role="row">
+                                <th style="width:10px"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr role="row">
+                                <th style="width:10px"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade in" id="DanhSachAdmin" tabindex="-1" role="dialog" aria-hidden="true" style="width:auto">
+        <div class="modal-dialog modal-dialog-top" style="width:70%" >
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Danh sách admin</h3>
+                        Chọn cột chi nhánh để set lại chi nhánh cho admin
+                    </div>
+                    <div class="block-content" id="DSAdmin">
+                        <table class="display responsive nowrap" style="position:relative" cellspacing="0" id="Datatable_Admin" >
+                            <thead>
+                                <tr role="row">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                        
+                        </table>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-close"></i>Close</button>
+                        <button class="btn btn-sm btn-default" onclick="SaveAdminChiNhanh()"><i class="fa fa-save"></i>Save</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+  
+   
+
+
+
+    <aside id="side-overlay" data-animation-class="fadeInRight">
+        <!-- Side Overlay Scroll Container -->
+        <div id="side-overlay-scroll">
+            <!-- Side Header -->
+            <div class="side-header side-content">
+                <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                <button class="btn btn-default pull-right" type="button" data-toggle="layout" data-action="side_overlay_close">
+                    <i class="fa fa-times"></i>
+                </button>
+                <span>
+                    <img class="img-avatar img-avatar32" src="/assets/img/avatars/avatar10.jpg" alt="">
+                    <span class="font-w600 push-10-l">@HttpContext.Current.User.Identity.Name</span>
+                </span>
+            </div>
+            <!-- END Side Header -->
+            <!-- Side Content -->
+            <!-- END Side Content -->
+            @if (HttpContext.Current.User.IsInRole("SuperAdmin") || HttpContext.Current.User.IsInRole("Admin"))
+            {
+        <!-- Side Content -->
+                <!--Cấp quyền-->
+                <div class="side-content remove-padding-t">
+                    <!-- Notifications -->
+                    <div class="block pull-r-l block-opt-hidden">
+                        <div class="block-header bg-gray-lighter">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Cấp quyền</h3>
+                        </div>
+                        <div class="block-content">
+                            <!-- Activity List -->
+                            <form class="js-validation-bootstrap form-horizontal" action="/User/CapQuyen" method="post">
+
+                                <ul class="list list-activity">
+                                    <li>
+
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+
+                                            <div class="col-xs-12">
+                                                <input class="form-control text-center" type="hidden" id="ma_taikhoan" name="ma_taikhoan" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-xs-12 text-center">Tên tài khoản</label>
+                                            <div class="col-xs-12">
+                                                <input class="form-control text-center" type="text" id="ten_taikhoan" name="ten_taikhoan" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-12 text-center">Quyền Cấp</label>
+                                            <div class="col-xs-12">
+                                                <select class="form-control text-center" id="quyen_taikhoan" name="quyen_taikhoan" value="0">
+                                                    <option value="0">Vô hiệu</option>
+                                                    <option value="3">Nhân viên</option>
+                                                    @if (HttpContext.Current.User.IsInRole("SuperAdmin"))
+                                                    {
+                                                        <option value="2">Admin</option>}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <input type="submit" class="btn btn-minw btn-rounded btn-primary" id="CapQuyenBtn" value="Cấp quyền" />
+                                            <input type="button" class="btn btn-minw btn-rounded btn-warning" onclick="ThayDoiChucNang()" value="Thay đổi chức năng" />
+                                        </div>
+
+                                    </li>
+                                </ul>
+                            </form>
+                            <!-- END Activity List -->
+                        </div>
+                    </div>
+                    <!-- END Notifications -->
+
+                </div>
+             
+
+
+            }
+            @if (HttpContext.Current.User.IsInRole("SuperAdmin"))
+            {
+                  <!-- Set chi nhánh cho admin, nhân viên-->
+                <div class="side-content remove-padding-t">
+                    <!-- Notifications -->
+                    <div class="block pull-r-l block-opt-hidden">
+                        <div class="block-header bg-gray-lighter">
+                            <ul class="block-options">
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
+                                </li>
+                                <li>
+                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Set chi nhánh</h3>
+                        </div>
+                        <div class="block-content">
+                            <!-- Activity List -->
+
+                            <div class="text-center">
+                                <input type="button" class="btn btn-minw btn-rounded btn-primary" data-toggle="modal" data-target="#DanhSachAdmin" onclick="QuanLyAdmin()" id="setAdminBtn" value="Set chi nhánh cho admin" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Notifications -->
+
+                </div>
+        <!-- END Side Content -->
+        <!-- END Side Content -->
+            }
+        </div>
+        <!-- END Side Overlay Scroll Container -->
+    </aside>
+    <!-- END Side Overlay -->
+
+
+
+
+@if (HttpContext.Current.User.IsInRole("SuperAdmin"))
+{
+
+<script type="text/javascript">
+
+    //HIện danh sách admin quản lý
+        function QuanLyAdmin() {
+
+          
+
+                    $('table#Datatable_Admin').DataTable({
+                        "language": {
+                            "decimal":        "",
+                            "emptyTable":     "Không có dữ liệu",
+                            "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                            "infoEmpty":      "",
+                            "infoFiltered":   "(filtered from _MAX_ total entries)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Hiển thị _MENU_ dòng",
+                            "loadingRecords": "Loading...",
+                            "processing":     "Processing...",
+                            "search":         "Tìm kiếm :",
+                            "zeroRecords":    "Không tìm thấy",
+                            "paginate": {
+                                "first":      "First",
+                                "last":       "Last",
+                                "next":       "Next",
+                                "previous":   "Previous"
+                            }
+                            },
+                        "retrieve": true,
+                        "scrollX": false,
+                        "bAutoWidth": true,
+                        "bJQueryUI": true,
+                        "serverSide": false,
+                        "bProcessing": true,
+
+                
+                       
+                        "ajax": {
+                            "url": "@Url.Action("ListAdmin", "User")",
+
+                        "dataSrc": "lst",
+
+                    },
+                        "dom": '<<lf<t>i>>',
+                   "aoColumns": [
+                         {
+                             "mData": "UserName",
+                             "sTitle": "Tên tài khoản",
+
+
+                         }, {
+                             "mData": "FullName",
+                             "sTitle": "Họ tên"
+                         }, {
+                             "mData": "Email",
+                             "sTitle": "Email",
+
+
+                         }, {
+                             "mData": "PhoneNumber",
+                             "sTitle": "SDT",
+
+
+                         }, {
+                             "mData": "Name",
+                             "sTitle": "Chi nhanh",
+                             "mRender": function (Name, type, full) {
+                                 return "<span data-val=\"" + full.MaCN + "\" style=\"cursor:pointer\" id=\"" + full.Id + "_" + full.MaCN + "\" onclick=\"HienSelect('" + full.Id + "','" + full.MaCN + "')\">" + Name + "</span>";
+                             }
+
+                         }],
+
+
+                    });
+
+   }
+    </script>
+
+<script>
+    function HienSelect(UserId, Name) {
+    var select = document.createElement('select');
+    var element = document.getElementById('' + UserId + '_' + Name + '');
+        $.ajax({
+            url: '@Url.Action("DSChiNhanh", "ChiNhanh")',
+            success: function (data) {
+            var ChiNhanh = data.lst;
+                $(select).append('<option value=""></option>');
+            for (var a = 0; a < ChiNhanh.length; a++) {
+                    $(select).append('<option value="' + ChiNhanh[a].MaCN + '">' + ChiNhanh[a].Name + '</option>')
+                }
+            if (Name != "" || Name != null) {
+                select.value = Name;
+            }
+            $(select).append('<option value="Create">Create</option>');
+        }
+    });
+        $(element.parentNode).html(select);
+}
+
+function SaveAdminChiNhanh() {
+    var rows = $('table#Datatable_Admin').find('tbody').find('tr');
+    rows.each(function () {
+        var column = $(this).find('td').find('select');
+        var username = this.children[0];
+        if (column.length != 0) {
+            if (column[0].value != 'Create') {
+                $.ajax({
+                    url: '@Url.Action("DoiChiNhanh", "User")',
+                    type: 'POST',
+                    data: { MaCN: column[0].value, UserName: username.innerText },
+                    success: function (data) {
+                        alert(data.result);
+                        $('#DataTables_Table_NV').DataTable().ajax.reload();
+                    }
+                });
+            }
+            else {
+                if (column[0].value == 'Create') {
+                    $.ajax({
+                        url: '@Url.Action("AddChiNhanh", "User")',
+                        type: 'POST',
+                        data: { UserName: username.innerText },
+                        success: function (data) {
+                            alert(data.result);
+                            $('#DataTables_Table_NV').DataTable().ajax.reload();
+                        }
+                    });
+                }
+            }
+        }
+        })
+        
+    }
+</script>
+}
+
+<script>
+    function ThayDoiChucNang()
+    {
+        var taikhoan = document.getElementById('ten_taikhoan').value;
+        window.open('@Url.Action("PhanQuyen","User")'+'?username='+taikhoan);
+    }
+</script>

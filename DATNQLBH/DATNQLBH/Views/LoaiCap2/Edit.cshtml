@@ -1,0 +1,60 @@
+﻿@model DATNQLBH.Models.CSDL.LoaiCap2
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form class="js-validation-material form-horizontal push-10-t" action="/LoaiCap2/Edit" method="post">
+    
+    @Html.AntiForgeryToken()
+
+    
+        <h4>Chỉnh sửa loại cấp 2</h4>
+        
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.LoaiCap2Id)
+    @Html.HiddenFor(model => model.MaCN)
+
+        <div class="form-group">
+            <div class="col-sm-9">
+                <div class="form-material">
+                    <label for="val-email2">Tên Loại Cấp 2</label>
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên Loại Cấp 2...." })
+                    @*@Html.ValidationMessageFor(model=>model.AuthorName)*@
+                </div>
+            </div>
+        </div>
+
+   
+  
+    <div class="form-group">
+        <div class="col-sm-9">
+            <div class="form-material">
+                <label for="val-skill2">Loại Cấp 1</label>
+                @Html.DropDownList("LoaiCap1Id", null, "--Chọn Quy Cách--", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.MaCN, "MaCN", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaCN", String.Empty)
+                    @Html.ValidationMessageFor(model => model.MaCN)
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    
+</form>
+
+    

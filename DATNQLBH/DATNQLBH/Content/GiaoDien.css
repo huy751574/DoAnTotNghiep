@@ -1,0 +1,119 @@
+﻿body {
+    background:#fff;
+}
+.phidichvu{
+    background-image: url(../Content/Images/hihi.png);
+    color:red;
+    margin-top:2%;
+    background-repeat:no-repeat;
+    height:500px;
+    margin-bottom:2%;
+    margin: 0 auto;
+ 
+}
+.box-register-footer {
+    background-color: #f5f5f5;
+    padding: 0 0 50px 0;
+    margin-top: 80px;
+}
+.container {
+    width: 1200px;
+}
+.box-register-footer .box-register {
+    padding: 50px 0;
+    text-align: center;
+  
+}
+
+.register {
+    white-space: nowrap;
+    position: relative;
+    background-color: #4c9d2f;
+    font-size: 24px;
+    font-family: font-helveticaNeueBold;
+    line-height: 65px;
+    padding: 0px 25px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+     margin-top:30px;
+}
+.box-register-footer .hot-line {
+    padding: 0 100px;
+}
+.box-register-footer .hot-line .row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+.box-register-footer .hot-line .row .col-md-4 {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.box-register-footer .hot-line .row .col-md-4 .list-column {
+    border: 1px solid #dfdfdf;
+    background-color: #fff;
+    padding: 30px;
+    position: relative;
+    min-height: 185px;
+    
+}
+.goicoban{
+    width:450px;
+    float:left;
+    margin-left:7%; 
+    margin-right:1%;
+    margin-top:10%;
+}
+.goinangcao {
+    width:450px;
+    float:left;
+    margin-right:1%;
+    margin-top:10%;
+}
+.goicoban ul li{
+    list-style:none;
+    display: inline-block;
+    font-size: 13px;
+    color: #454545;
+    padding-left: 35px;
+    margin: 0 0 15px 1px;
+    width: 192px;
+}
+.goicoban ul li.true{
+    background-image: url(/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Apply.png);
+    background-repeat:no-repeat;  
+    padding-left:5%;
+    width:190px;
+}
+.goicoban ul li.Close{
+    background-image: url(/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Cancel.png); 
+    background-repeat:no-repeat;
+    padding-left:5%;
+     width:190px;
+}
+.themgia{
+    margin-left:550px;
+    font-size:24px;
+
+}
+.goinangcao ul li{
+    list-style:none;
+    display: inline-block;
+    font-size: 13px;
+    color: #454545;
+    padding-left: 35px;
+    margin: 0 0 15px 1px;
+    width: 192px;
+}
+.goinangcao ul li.true{
+    background-image: url(/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Apply.png);
+    background-repeat:no-repeat;  
+    padding-left:5%;
+    width:190px;
+}
+.goinangcao ul li.Close{
+    background-image: url(/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Cancel.png); 
+    background-repeat:no-repeat;
+    padding-left:5%;
+     width:190px;
+}

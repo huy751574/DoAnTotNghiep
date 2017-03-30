@@ -1,0 +1,113 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.LoaiGianHang>
+@using System.Security.Claims
+
+
+@{
+    ViewBag.Title = "CaiDat";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<div class="block">
+    <div class="block-header">
+        <h2>Cài đặt</h2>
+    </div>
+    <div class="block-content">
+
+
+        <ul class="nav nav-tabs hidden-print" data-toggle="tabs" id="TabHeader">
+           
+                <li>
+                    <a href="#btabs-static-GiaoDien">Giao diện</a>
+                </li>
+            @foreach (var item in Model)
+            {
+            <li>
+                <a href="#btabs-static-GoiHang-@item.MaLoai">Gói @item.Price</a>
+            </li>          
+            }
+        </ul>
+        <div class="block-content tab-content">
+           
+            <div class="tab-pane" id="btabs-static-GiaoDien">
+                @{ Html.RenderAction("GiaoDien", "User");}
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="tab-pane" id="btabs-static-GoiHang-@item.MaLoai">
+                    @{ Html.RenderAction("Goi", "User", new { MaLoai = item.MaLoai });}
+                </div>
+            }
+            <div class="tab-pane" id="btabs-static-GoiHang">
+            </div>
+                        
+        </div>     
+
+
+
+
+
+
+    </div>
+</div>
+
+<script>
+    function LuuGiaoDien(id,stt)
+    {
+        
+        var h = $('#btabs-static-GiaoDien');
+            var chon=h.find('input');
+            var des=chon.get(stt);
+            var descript = $(des).val();
+        $.ajax({
+            url: '/User/GiaoDien',
+            type:'POST',
+            data: { id: id, descript: descript },
+            success:function(response){
+                if (response.data == 1)
+                {alert("Đã thay đổi thông tin");}
+                else{
+                 alert("Có lỗi xảy ra");
+                }
+            }
+        })
+    }
+</script>
+<script>
+    function SuaThongTinGoi(maloai)
+    {
+        var arrayIsActive = [];
+        var arrayQuantity = [];
+        var tab = $('#btabs-static-GoiHang-' + maloai);
+        var name = tab.find('input#Name').val();
+        var price = tab.find('input#Price').val();
+        var timeusing = tab.find('input#TimeUsing').val();
+        var active = tab.find('input#item_IsActive');
+        $(active).each(function (index) {
+            if ($(this).is(":checked"))
+            { arrayIsActive.push(true); }
+            else { arrayIsActive.push(false); }
+           
+        })
+        var quantity = tab.find('input#item_Quantity');
+        $(quantity).each(function (index) {
+            
+            arrayQuantity.push($(this).val());
+        })
+        $.ajax({
+            url: '/User/SuaGoi',
+            traditional:true,
+            type:'POST',
+            data: { MaLoai: maloai, Name: name, Price: price,TimeUsing:timeusing, arrayIsActive: arrayIsActive, arrayQuantity: arrayQuantity },
+            success: function(response)
+            {
+                if(response.data==1)
+                {
+                    alert('Đã thay đổi thông tin thành công');
+                }
+                else {
+                    alert("Lỗi");
+                }
+            }
+        })
+    }
+</script>

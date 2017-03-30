@@ -1,0 +1,48 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.PhanHoi>
+
+@{
+    
+    Layout = null;
+}
+<div class="block">
+    <div class="block-header"><h2>Danh sách phản hồi từ người dùng</h2></div>
+    <div class="block-content">
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.TaiKhoan.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Datecomments)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaiKhoan.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Datecomments)
+                    </td>
+                    <td>
+
+                        @Html.ActionLink("Details", "FeedBackComment", new { id = item.Id })
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

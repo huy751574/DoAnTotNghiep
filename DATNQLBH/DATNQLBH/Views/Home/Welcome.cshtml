@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+  
+
+    <title>Sorry</title>
+<div >
+    <!-- Error Content -->
+    <div class="content bg-white text-center pulldown overflow-hidden">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <!-- Error Titles -->
+                <h1 class="font-s128 font-w300 text-smooth animated rollIn">Sorry</h1>
+                <h2 class="h3 font-w300 push-50 animated fadeInUp"><strong>Chúng tôi xin lỗi, bạn cần nâng cấp tài khoản để có thể sử dụng chức năng này</strong></h2>
+                <!-- END Error Titles -->
+                <!-- Search Form -->
+                <form class="form-horizontal push-50" method="post">
+                    <div class="form-group">
+                        <div class="col-sm-6 col-sm-offset-3">
+
+                            <input type="submit" value="Upgrade" class="btn btn-primary" />
+                        </div>
+
+                    </div>
+                </form>
+                <!-- END Search Form -->
+            </div>
+        </div>
+    </div>
+    <!-- END Error Content -->
+    <!-- Error Footer -->
+    <div class="content pulldown text-muted text-center">
+        <a class="link-effect" href='@Url.Action("Index","Home")'>Go Back to Dashboard</a>
+    </div>
+    <!-- END Error Footer -->
+    <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+
+</div>
+
+

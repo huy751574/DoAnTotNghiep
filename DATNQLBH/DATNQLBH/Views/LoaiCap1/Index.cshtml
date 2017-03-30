@@ -1,0 +1,133 @@
+﻿@model List<DATNQLBH.Models.CSDL.LoaiCap1>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+<div class="block-content block-content-full">
+    <button class="btn btn-success" data-toggle="modal" data-target="#modal-top" type="button">Thêm sản phẩm</button>
+</div>
+
+
+<div class="block">
+    <div class="block-header">
+        <h3 class="block-title">Danh sách Loại Cấp 1 <small>Full</small></h3>
+    </div>
+    <div class="block-content">
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+        <table class="table table-bordered table-striped js-dataTable-full">
+            <thead>
+                <tr class="bg-primary-lighter">
+                    <th class="hidden-xs">ID</th>
+                    
+                    <th class="hidden-xs">Tên loại cấp 1</th>
+             
+                    <th class="text-center" style="width: 10%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem=>item.LoaiCap1Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.ChiNhanh.Name)
+                        </td>*@
+                        <td>
+                            <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Sửa thông tin" onclick="window.open('/LoaiCap1/Edit/@item.LoaiCap1Id')"><i class="fa fa-pencil"></i></button>
+                            @*<button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Xoá loại cấp 1" onclick="Sudung('@item.LoaiCap1Id')"><i class="fa fa-close"></i></button>*@
+                            @*<button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Thông tin chi tiết của sản phẩm" onclick="window.open('/Item/Del/@item.ItemId')"><i class="si si-speech"></i></button>*@
+                     
+                        </td>
+                    </tr>
+                }
+                
+              
+           
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-top" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-light">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title" >Thêm Loại cấp 1</h3>
+                </div> 
+                <div class="block-content">
+                    <form class="js-validation-bootstrap form-horizontal">
+                        @*<div class="form-group">
+                            <label class="col-md-4 control-label" for="val-number">ID Loại Cấp 1 <span class="text-danger">*</span></label>
+                            <div class="col-md-7">
+                                <input class="form-control" type="number" id="IdCap1" name="IdCap1" placeholder="Nhập ID Loại cấp 1( bỏ trống cũng được...)">
+                            </div>
+                        </div>*@
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="val-username">Tên Loại cấp 1 <span class="text-danger">*</span></label>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" id="NameCap1" name="NameCap1" placeholder="Nhập tên..">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button class="btn btn-sm btn-primary" id="sumbitCreate" name="sumbitCreate" onclick="them()">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                @*<button class="btn btn-sm btn-primary" type="button" data-dismiss="modal" id="CreateSumbit"><i class="fa fa-check"></i> Ok</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   
+    function them() {
+        debugger;
+        var name = document.getElementById("NameCap1").value;
+       
+        if (name == null || name == '') {
+            alert("Bạn chưa nhập tên loại cấp 1");
+            return;
+        }
+        $("modal-top").hide();
+        //var id = document.getElementById("IdCap1").value;
+      
+        
+        
+        $.ajax({
+            type: 'POST',
+            url: '/LoaiCap1/Index',
+            data: { name: name },
+            success: function (data) {
+                alert("Thêm thành công");
+                window.location.reload(true);
+            }
+
+        });
+    };
+    
+   
+</script>

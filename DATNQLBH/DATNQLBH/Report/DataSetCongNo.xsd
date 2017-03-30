@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetCongNo" targetNamespace="http://tempuri.org/DataSetCongNo.xsd" xmlns:mstns="http://tempuri.org/DataSetCongNo.xsd" xmlns="http://tempuri.org/DataSetCongNo.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetCongNo" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetCongNo" msprop:Generator_UserDSName="DataSetCongNo">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTableCongNo" msprop:Generator_TableClassName="DataTableCongNoDataTable" msprop:Generator_TableVarName="tableDataTableCongNo" msprop:Generator_TablePropName="DataTableCongNo" msprop:Generator_RowDeletingName="DataTableCongNoRowDeleting" msprop:Generator_RowChangingName="DataTableCongNoRowChanging" msprop:Generator_RowEvHandlerName="DataTableCongNoRowChangeEventHandler" msprop:Generator_RowDeletedName="DataTableCongNoRowDeleted" msprop:Generator_UserTableName="DataTableCongNo" msprop:Generator_RowChangedName="DataTableCongNoRowChanged" msprop:Generator_RowEvArgName="DataTableCongNoRowChangeEvent" msprop:Generator_RowClassName="DataTableCongNoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="STT" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnSTT" msprop:Generator_ColumnPropNameInRow="STT" msprop:Generator_ColumnPropNameInTable="STTColumn" msprop:Generator_UserColumnName="STT" type="xs:int" />
+              <xs:element name="Địa_x0020_chỉ" msprop:Generator_ColumnVarNameInTable="columnĐịa_chỉ" msprop:Generator_ColumnPropNameInRow="Địa_chỉ" msprop:Generator_ColumnPropNameInTable="Địa_chỉColumn" msprop:Generator_UserColumnName="Địa chỉ" type="xs:string" minOccurs="0" />
+              <xs:element name="Số_x0020_tiền" msprop:Generator_ColumnVarNameInTable="columnSố_tiền" msprop:Generator_ColumnPropNameInRow="Số_tiền" msprop:Generator_ColumnPropNameInTable="Số_tiềnColumn" msprop:Generator_UserColumnName="Số tiền" type="xs:long" minOccurs="0" />
+              <xs:element name="Thời_x0020_gian_x0020_lập_x0020_hóa_x0020_đơn" msprop:Generator_ColumnVarNameInTable="columnThời_gian_lập_hóa_đơn" msprop:Generator_ColumnPropNameInRow="Thời_gian_lập_hóa_đơn" msprop:Generator_ColumnPropNameInTable="Thời_gian_lập_hóa_đơnColumn" msprop:Generator_UserColumnName="Thời gian lập hóa đơn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Tên_x0020_khách_x0020_hàng" msprop:Generator_ColumnVarNameInTable="columnTên_khách_hàng" msprop:Generator_ColumnPropNameInRow="Tên_khách_hàng" msprop:Generator_ColumnPropNameInTable="Tên_khách_hàngColumn" msprop:Generator_UserColumnName="Tên khách hàng" type="xs:string" minOccurs="0" />
+              <xs:element name="Số_x0020_điện_x0020_thoại" msprop:Generator_ColumnVarNameInTable="columnSố_điện_thoại" msprop:Generator_ColumnPropNameInRow="Số_điện_thoại" msprop:Generator_ColumnPropNameInTable="Số_điện_thoạiColumn" msprop:Generator_UserColumnName="Số điện thoại" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DataTableCongNo" />
+      <xs:field xpath="mstns:STT" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

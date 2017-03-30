@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Doanh thu";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+
+<div class="block">
+    <div class="block-header"><h2>Doanh thu</h2></div>
+
+    <div class="block-content">
+        <div>
+            <select id="ChonKieu" class="form-control">
+                <option>----Chọn định dạng thời gian muốn xem báo cáo----</option>
+                <option value="1">Ngày</option>
+                <option value="2">Tuần</option>
+                <option value="3">Tháng</option>
+                <option value="4">Quý</option>
+                <option value="5">Năm</option>
+            </select>
+        </div>
+        <div>
+            Chọn ngày để xem
+            <div class="input-daterange input-group">
+                <input type="date" id="start" style="width:100%" />
+                <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                <input type="date" id="end" style="width:100%" />
+            </div>
+        </div>
+        <button onclick="Show()" class="btn btn-primary">Hiển thị report</button>
+        <iframe id="ReportFrame" style="width:100%;height:1000px">
+
+        </iframe>
+        @*<div id="Report"></div>*@
+    </div>
+</div>
+
+<script>
+    function Show()
+    {
+        var Chon = $('select#ChonKieu').val();
+        if (Chon == "" || Chon == null) { alert("Xin mời chọn định dạng thời gian bạn muốn xem"); return false;}
+        var NgayBatDau = $('input#start').val();
+        var NgayKetThuc = $('input#end').val();
+        var url = '/Report/ReportDoanhThu?Chon=' + Chon;
+        if(NgayBatDau!="")
+        {
+            url+="&NgayBatDau="+NgayBatDau;
+        }
+        if (NgayKetThuc != "") {
+            url += "&NgayKetThuc=" + NgayKetThuc;
+        }
+        document.getElementById('ReportFrame').src = url;
+    }
+</script>

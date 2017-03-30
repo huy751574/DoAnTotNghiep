@@ -1,0 +1,474 @@
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
+<html class="no-focus">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/img/favicons/favicon.png">
+   
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Stylesheets -->
+    <!-- Web fonts -->
+    @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">*@
+    <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+
+    <script src="~/assets/js/core/bootstrap.min.js"></script>   
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+    
+    <!-- Datatables script & css-->
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.jqueryui.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.print.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <link href="~/Content/DataTables/css/responsive.dataTables.min.css" rel="stylesheet" />
+    <!-- CkEditor -->
+    <script src="~/assets/js/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/assets/js/plugins/ckeditor/adapters/jquery.js"></script>
+    <script src="~/Scripts/ckfinder/ckfinder.js"></script>
+    <!-- Special javascript -->
+    <script src="~/Scripts/Huy.js"></script>
+    <!-- Custom css -->
+    <link href="~/Content/Custom.css" rel="stylesheet" />
+    <link href="~/Content/Sidebar.css" rel="stylesheet" />
+
+    <!-- OneUI -->
+    <script src="~/assets/js/core/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/js/core/jquery.scrollLock.min.js"></script>
+    <script src="~/assets/js/core/jquery.appear.min.js"></script>
+    <script src="~/assets/js/core/jquery.countTo.min.js"></script>
+    <script src="~/assets/js/core/jquery.placeholder.min.js"></script>
+    <script src="~/assets/js/core/js.cookie.min.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <!-- Page Plugins -->
+    <script src="~/assets/js/plugins/slick/slick.min.js"></script>
+    <script src="~/assets/js/plugins/chartjs/Chart.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/assets/js/pages/base_ui_activity.js"></script>
+    <!-- Page JS Plugins CSS -->
+    <link rel="stylesheet" href="/assets/js/plugins/slick/slick.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/slick/slick-theme.min.css">
+    <!-- Page JS Code -->
+   
+
+    <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="~/assets/js/pages/base_forms_createinvoice.js"></script>
+    <script src="~/assets/js/jquery-ui-git.js"></script>
+    <link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+
+    <script src="~/Scripts/MyCustomValidation.js"></script>
+    <!-- OneUI CSS framework -->
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.css">
+    @if (TempData["CustomTheme"] != null && !TempData["CustomTheme"].ToString().Equals("default"))
+    {
+        <link href="@TempData["CustomTheme"].ToString()" rel="stylesheet" id="ThemeDaChon"/>
+    }
+
+</head>
+<body style="width: auto;">
+    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+        <!-- Side Overlay-->
+        <!-- END Side Overlay -->
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <!-- Sidebar Scroll Container -->
+            <div id="sidebar-scroll">
+                <!-- Sidebar Content -->
+                <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
+                <div class="sidebar-content">
+                    <!-- Side Header -->
+                    <div class="side-header side-content bg-white-op">
+                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                        <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <!-- Themes functionality initialized in App() -> uiHandleTheme() -->
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-link text-gray dropdown-toggle" data-toggle="dropdown" type="button">
+                                <i class="si si-drop"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right font-s13 sidebar-mini-hide">
+                                <li>
+                                    <a data-toggle="theme" data-theme="default" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-default pull-right"></i> <span class="font-w600">Default</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="theme" data-theme="/assets/css/themes/amethyst.min.css" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="theme" data-theme="/assets/css/themes/city.min.css" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="theme" data-theme="/assets/css/themes/flat.min.css" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="theme" data-theme="/assets/css/themes/modern.min.css" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="theme" data-theme="/assets/css/themes/smooth.min.css" tabindex="-1" onclick="chuyentheme($(this).attr('data-theme'))" href="javascript:void(0)">
+                                        <i class="fa fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a class="h5 text-white" href="~/Home/Index">
+                            <i class="fa fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">GM</span>
+                        </a>
+                        <script>
+                            function chuyentheme(theme)
+                            {
+                                $('#ThemeDaChon').remove();
+                                $.ajax({
+                                    url: '/User/chuyentheme',
+                                    data: { theme: theme },
+                                    type: 'POST',
+                                    success: function () {  }
+                                });
+                            }
+                        </script>
+                    </div>
+                    <!-- END Side Header -->
+                    <!-- Side Content -->
+                    <div class="side-content">
+                        <ul class="nav-main">
+                            <li>
+                                <a class="active" href="~/Home/Index"><i class="si si-home"></i><span class="sidebar-mini-hide">Trang chủ</span></a>
+                            </li>
+                            <li class="nav-main-heading"><span class="sidebar-mini-hide">Hàng Hóa</span></li>
+                            <li>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-layers"></i><span class="sidebar-mini-hide">Quản Lý Sản Phẩm</span></a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Index","Item")"><i class="si si-plus"></i>Danh Sách Sản phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Create","Item")"><i class="si si-magic-wand"></i>Thêm Sản phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","LoaiCap1")"><i class="si si-magic-wand"></i>Loại Cấp 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","LoaiCap2")"><i class="si si-magic-wand"></i>Loại Cấp 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","LoaiCap3")"><i class="si si-magic-wand"></i>Loại Cấp 3</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("QuyCach","Item")"><i class="si si-basket"></i>Quy Cách</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-social-dropbox"></i><span class="sidebar-mini-hide">Kho</span></a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Index","Warehouse")"><i class="glyphicon glyphicon-home"></i>Kho</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("KiemKho","Item")"><i class="si si-magic-wand"></i>Kiểm Kho</a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="nav-main-heading"><span class="sidebar-mini-hide">Giao Dịch</span></li>
+                            <li>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Hóa Đơn Khách Hàng</span></a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("ListOrder","KhachHang")"><i class="si si-notebook"></i>Danh sách hóa đơn</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CreateInvoice","KhachHang")"><i class="si si-plus"></i>Lập Hóa Đơn</a>
+                                    </li>
+                                  
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-note"></i><span class="sidebar-mini-hide">Hóa Đơn N Cung Cấp</span></a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("NhapHang","NhaCungCap")">Lập Hóa Đơn Nhập Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("DanhSachNhapHang","NhaCungCap")">Danh sách hóa đơn nhập hàng</a>
+                                    </li>
+                                  
+                                    <li>
+                                        <a href="@Url.Action("TraHang","NhaCungCap")">Lập Hóa Đơn Trả Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("DanhSachTraHang","NhaCungCap")">Danh sách trả hàng</a>
+                                    </li>
+                                </ul>
+                            </li>           
+                            <li class="nav-main-heading"><span class="sidebar-mini-hide">Đối Tác</span></li>
+                            <li>
+                                <a href="@Url.Action("KhachHang","KhachHang")"><i class="si si-users"></i><span class="sidebar-mini-hide">Khách Hàng</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("NhanVien","User")"><i class="si si-user"></i><span class="sidebar-mini-hide">Nhân viên</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" class="nav-submenu" data-toggle="nav-submenu"><i class="fa fa-align-justify"></i><span class="sidebar-mini-hide"> Nhà Cung Cấp </span></a>
+                                <ul>
+                                    <li> <a href="/NhaCungCap"><i class="si si-list"></i>Danh Sách</a></li>
+                                    <li>
+                                        <a href="@Url.Action("Create","NhaCungCap")"><i class="si si-plus"></i> Thêm mới</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                
+                                <li><a href="@Url.Action("GianHang","ChiNhanh")"><i class="fa fa-money "></i><span class="sidebar-mini-hide">Gian Hàng</span></a></li>
+
+                            }
+                          
+                            <li><a href="@Url.Action("ChiNhanh","ChiNhanh")"><i class="glyphicon glyphicon-briefcase "></i><span class="sidebar-mini-hide">Chi Nhánh</span></a></li>
+
+                            <li class="nav-main-heading"><span class="sidebar-mini-hide">Báo Cáo</span></li>
+                            <li>
+                                <a href="@Url.Action("DoanhThu","Report")"><i class="si si-note"></i><span class="sidebar-mini-hide">Doanh Thu</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("TonKho","Report")"><i class="si si-rocket"></i><span class="sidebar-mini-hide">Tồn kho</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("CongNo","Report")"><i class="si si-notebook"></i><span class="sidebar-mini-hide">Công nợ</span></a>
+                            </li>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+
+                                <li><a href="@Url.Action("ThongKeGianHang", "Report")"><i class="fa fa-money "></i><span class="sidebar-mini-hide">Gian Hàng</span></a></li>
+
+                            }
+                        </ul>
+                    </div>
+                    <!-- END Side Content -->
+                </div>
+                <!-- Sidebar Content -->
+            </div>
+            <!-- END Sidebar Scroll Container -->
+        </nav>
+        <!-- END Sidebar -->
+        <!-- Header -->
+        <header id="header-navbar" class="content-mini content-mini-full">
+            <!-- Header Navigation Right -->
+            <ul class="nav-header pull-right">
+                @if (User.IsInRole("Admin"))
+                {
+                <li>
+                    <a class="push-10-r bg-success-light" href="/Account/">
+                        Nâng cấp ngay bây giờ
+                        <img class="bounce" src="~/Content/IconItem/Update.png" />
+                    </a>
+                </li>    
+                }
+                <li>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                            <img src="/Content/Image/Vip/12.jpg" alt="Avatar">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">@User.Identity.Name</li>
+                            <li>
+                                <a tabindex="-1" href="/Home/TimeSheet">
+                                    <i class="si si-calendar pull-right"></i>
+                                    <span class="badge badge-primary pull-right"></span>Lịch làm
+                                </a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("HoSo","User")">
+                                    <i class="si si-user pull-right"></i>
+                                    <span class="badge badge-success pull-right"></span>Hồ Sơ
+                                </a>
+                            </li>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("CaiDat", "User")">
+                                    <i class="si si-settings pull-right"></i>Cài đặt
+                                </a>
+                            </li>
+                            }
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("FeedBack", "User")">
+                                    <i class="si si-envelope-open pull-right"></i>Phản hồi
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Actions</li>
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li>
+                                    <a tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="si si-logout pull-right"></i>Đăng Xuất
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    
+                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                    <button id="LayoutApi" class="btn btn-default" data-toggle="layout" data-action="side_overlay_toggle" type="button">
+                        <i class="fa fa-tasks"></i>
+                    </button>
+                </li>
+            </ul>
+            <!-- END Header Navigation Right -->
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+                }
+            }
+            <!-- Header Navigation Left -->
+            <ul class="nav-header pull-left">
+                <li class="hidden-md hidden-lg">
+                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                    <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
+                        <i class="fa fa-navicon"></i>
+                    </button>
+                </li>
+                <li class="hidden-xs hidden-sm">
+                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                    <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </button>
+                </li>
+                @*<li>
+                    <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
+                    <button class="btn btn-default pull-right" data-toggle="modal" data-target="#apps-modal" type="button">
+                        <i class="si si-grid"></i>
+                    </button>
+                </li>
+                <li class="visible-xs">
+                    <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
+                    <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </li>
+                <li class="js-header-search header-search">
+                    <!--search-->
+                    @Html.Partial("_Search")
+                    <!--search-->
+                </li>*@
+               
+            </ul>
+            <!-- END Header Navigation Left -->
+        </header>
+        <main id="main-container">
+            @{DATNQLBH.Models.ThongBaoMvc thongbao = (DATNQLBH.Models.ThongBaoMvc)TempData["ResultAction"];}
+            @if (thongbao != null)
+            {
+                <div id="thongbaomvc">
+                    
+                </div>
+                <script>
+                    $("#thongbaomvc").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"@thongbao.CssClassName\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\"@thongbao.Message\"></button>");
+                    App.initHelpers('notify');
+                    $("#notice").click();
+                </script>
+            }
+            @RenderBody()
+        </main>
+        <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
+            <div class="pull-left">
+                <a class="font-w600" href="javascript:void(0)" target="_blank">Hutech</a> &copy; <span class="js-year-copy"></span>
+            </div>
+        </footer>
+        <!-- END Footer -->
+    </div>
+    <!-- END Page Container -->
+    <!-- Apps Modal -->
+    <!-- Opens from the button in the header -->
+    <div class="modal fade" id="apps-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-sm modal-dialog modal-dialog-top">
+            <div class="modal-content">
+                <!-- Apps Block -->
+                <div class="block block-themed block-transparent">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Apps</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row text-center">
+                            <div class="col-xs-6">
+                                <a class="block block-rounded" href="index.html">
+                                    <div class="block-content text-white bg-default">
+                                        <i class="si si-speedometer fa-2x"></i>
+                                        <div class="font-w600 push-15-t push-15">Backend</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a class="block block-rounded" href="frontend_home.html">
+                                    <div class="block-content text-white bg-modern">
+                                        <i class="si si-rocket fa-2x"></i>
+                                        <div class="font-w600 push-15-t push-15">Frontend</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Apps Block -->
+            </div>
+        </div>
+    </div>
+  
+   
+    @RenderSection("myScripts", required: false)
+</body>
+</html>

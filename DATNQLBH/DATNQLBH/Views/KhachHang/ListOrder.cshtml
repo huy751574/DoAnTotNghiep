@@ -1,0 +1,398 @@
+﻿@model DATNQLBH.Models.CSDL.DonHang
+
+@{
+    ViewBag.Title = "Danh Sách Đơn Hàng";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+    <link href="/Content/Sidebar.css" rel="stylesheet" />
+}
+<script>
+ $(document).ready(function () {
+
+
+            var maintable;
+            if (!$.fn.dataTable.isDataTable('#DataTables_Table_DH')) {
+                maintable = $('#DataTables_Table_DH').DataTable({
+
+                    "language": {
+                        "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                    },
+                    "retrieve": true,
+                    "scrollX": true,
+                    "scrollXInner": "100%",
+                    "bAutoWidth": true,
+                    "bJQueryUI": true,
+                    "serverSide": false,
+                    "bProcessing": true,
+                    "responsive": false,
+                    "pagingType": "full_numbers",
+
+                    "ajax": {
+                        "url": "@Url.Action("DanhSachDonHangDaDat", "KhachHang")",
+
+                        "dataSrc": "lst",
+
+                        },
+
+
+
+
+                   "aoColumns": [
+                        {
+                        "className": 'text-center',
+                        "mData": "OrderId",
+                        "sTitle": "Mã Hóa Đơn"
+                        }, {
+                        "className": 'text-center',
+                        "mData": "FullName",
+                        "sTitle": "Tên Khách Hàng",
+
+
+                        }, {
+
+                        "mData": "SDT",
+                        "sTitle": "Số Điện thoại",
+
+
+                        },  {
+
+
+                        "mData": "Address",
+                        "sTitle": 'Địa Chỉ',
+
+
+
+                        }, {
+                        "className": 'text-center',
+                        "mData": "BuyTime",
+                        "sTitle": "Thời Gian Mua",
+                        "mRender": function (data) {
+                            return chuyenngay(data);
+
+                        }
+                        }, {
+                        "className": 'text-center',
+
+                        "mData": "State",
+                        "sTitle": 'Trạng Thái',
+                        "mRender": function (data, type, full)
+                        {
+                            if (data == 2) return '<span data-toggle="popover" title="Đơn hàng đã hoàn thành lúc ' + chuyenngay(full.Completiontime) + '" data-original-title="Hoàn thành" class="label label-success">Hoàn thành</span>';
+                            if (data == 3) return '<span data-toggle="popover" title="Đơn hàng đã bị hủy" data-original-title="Đã hủy" class="label label-danger">Đã hủy</span>';
+                            if (data == 1) return '<span data-toggle="popover" title="Đơn hàng đang trong quá trình vận chuyển đến cho khách hàng" data-original-title="Đang giao" class="label label-warning">Đang giao</span>';
+                            else return '<span data-toggle="popover" title="Đơn hàng khách vừa đặt, đang chờ duyệt và giao hàng" data-original-title="Chờ duyệt" class=" label label-info">Chờ duyệt</span>';
+
+                        }
+
+
+                        },
+                        {
+                        "className": 'text-center',
+                        "mData": "OrderId",
+                        "sTitle": "Thay đổi trạng thái",
+                        "mRender": function (data,type,full) {
+                            return  '<span data-toggle="popover" title="" data-placement="top" data-content="Chi tiết các mặt hàng , giá mua, số lượng đã mua. Click vào để xem chi tiết hoặc cập nhật trạng thái đơn hàng" data-original-title="Chi tiết"> <button class="btn btn-xs btn-info" onclick="ShowInfo('+data+','+full.State+')" type="button" title="" data-toggle="modal" data-target="#modal-large"> <i class="si si-info"></i>  </button>  </span>';
+                        }
+                        }
+                        ],
+
+                        initComplete: function () {
+                            for (var i = 1; i < 6; i++) {
+                                if (i == 2) i++;
+                                if (i == 3) i++;
+                                if (i == 4) i++;
+                                this.api().column([i]).every(function () {
+                                    var column = this;
+                                    var select = $('<select><option value=""></option></select>')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                $(this).val()
+                                            );
+
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+                                    column.data().unique().sort().each(function (d, j) {
+                                        if (i == 5)
+                                        {
+                                            if(d==0)
+                                            {
+                                                select.append('<option value="Chờ duyệt" selected="selected">Chờ duyệt</option>')
+                                            }
+                                            else if (d == 1) {
+                                                select.append('<option value="Đang giao" selected="selected">Đang giao</option>')
+                                            }
+                                            else if (d == 2) {
+                                                select.append('<option value="Hoàn thành" selected="selected">Hoàn thành</option>')
+                                            }
+                                            else if (d == 3) {
+                                                select.append('<option value="Đã hủy" selected="selected">Đã hủy</option>')
+                                            }
+                                        }
+                                        else if (d != null) {
+
+                                            if (column.search() === '^' + d + '$') {
+                                                select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                            } else {
+                                                select.append('<option value="' + d + '">' + d + '</option>')
+                                            }
+
+                                        }
+                                    });
+                                });
+
+                            }
+
+
+                        },
+
+                        "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                           {
+                               extend: 'print',
+                               title: "Danh Sách Hóa Đơn",
+                               className: 'my-button-print-class',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'copyHtml5',
+                               className: 'my-button-copy-class',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 6]
+
+                               }
+                           },
+                           {
+                               extend: 'excelHtml5',
+                               className: 'my-button-excel-class',
+                               title: "Danh Sách Hóa Đơn",
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 6]
+                               }
+                           },
+                           {
+                               title: "Danh Sách Hóa Đơn",
+                               className: 'my-button-pdf-class',
+                               extend: 'pdfHtml5',
+                               exportOptions: {
+                                   columns: [0, 1, 2, 3, 4, 5, 6]
+                               }
+                           }
+
+                    ]
+                });
+
+            }
+            else {
+                maintable = $('#DataTables_Table_DH').DataTable({
+                    "paging": false,
+
+
+                });
+            }
+            // $(table).load();
+
+
+
+           
+            maintable.buttons().container().insertBefore('#DataTables_Table_DH_filter');
+
+            var imgexcel = document.createElement('img');
+            imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+            imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+            imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+            var imgcopy = document.createElement('img');
+            imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+
+             });
+</script>
+<!-- Page Content -->
+<div class="content">
+
+    <!-- Dynamic Table Full -->
+    <div class="block">
+        <div class="block-header">
+            <h3 class="block-title">Danh Sách Các Đơn Hàng</h3>
+        </div>
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+            <table class="display compact" id="DataTables_Table_DH">
+                <thead>
+                    <tr role="row">
+                        <th class="text-center" style="width:10px"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr role="row">
+                        <th class="text-center" style="width:10px"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                    </tr>
+                </tfoot>
+               
+            </table>
+        </div>
+    </div>
+    <!-- END Dynamic Table Full -->
+</div>
+<!-- Large Modal -->
+<div class="modal" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-dark">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title" id="chitetdonhang-name">Chi Tiết Đơn Hàng</h3>
+                </div>
+                <div class="block-content">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr class="row-color">
+                                <th class="hidden-xs text-center" style="width:30px;">STT</th>
+                                <th class="text-center" style="width:150px;">Mã Hàng</th>
+                                <th class="hidden-xs text-center">Tên Hàng</th>
+                                <th class="hidden-xs text-center" style="width:120px;">Giá Mua / 1</th>
+                                <th class="text-center" style="width:120px;">Số Lượng</th>
+                                <th class="hidden-xs text-center" style="width:150px;">Quy Cách</th>
+                            </tr>
+                        </thead>
+                        <tbody id="chitetdonhang"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" id="btntrangthai">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="btnnotice">
+    </div>
+
+<!-- END Large Modal -->
+<script type="text/javascript">
+    function ShowInfo(id,state) {
+        $("#chitetdonhang-name").html("Chi Tiết Đơn Hàng " + id);
+        var showbtn = "";
+        if (state == 0)
+        {
+            showbtn += "<button class=\"btn btn-sm btn-info\" type=\"button\" onclick=\"window.open('/KhachHang/CreateInvoice/')\" data-dismiss=\"modal\"><i class=\"si si-note\"></i> Thay đổi thông tin đơn hàng</button>";
+            showbtn += "<button class=\"btn btn-sm btn-warning\" type=\"button\" onclick=\"UpdateState(" + id + "," + 1 + ")\" data-dismiss=\"modal\"><i class=\"fa fa-cab\"></i> Đang Giao</button>";
+            showbtn += "<button class=\"btn btn-sm btn-danger\" type=\"button\" onclick=\"UpdateState(" + id + "," + 3 + ")\" data-dismiss=\"modal\"><i class=\"fa fa-remove\"></i> Hủy</button>";
+            showbtn += "<button class=\"btn btn-sm btn-success\" type=\"button\" onclick=\"UpdateState(" + id + "," + 2 + ")\" data-dismiss=\"modal\"><i class=\"fa fa-check\"></i> Hoàn Thành</button>";
+        }
+        else if (state == 1)
+        {
+            showbtn += "<button class=\"btn btn-sm btn-danger\" type=\"button\" onclick=\"UpdateState(" + id + "," + 3 + ")\" data-dismiss=\"modal\"><i class=\"fa fa-remove\"></i> Hủy</button>";
+            showbtn += "<button class=\"btn btn-sm btn-success\" type=\"button\" onclick=\"UpdateState(" + id + "," + 2 + ")\" data-dismiss=\"modal\"><i class=\"fa fa-check\"></i> Hoàn Thành</button>";
+            showbtn += "<button class=\"btn btn-sm btn-info\" type=\"button\" onclick=\"window.open('/KhachHang/DoiTra/" + id + "', '_self')\" data-dismiss=\"modal\"><i class=\"fa fa-check\"></i> Trả Hàng</button>";
+        }
+        else if(state == 3)
+        {
+            showbtn += "<button class=\"btn btn-sm btn-info\" type=\"button\" onclick=\"window.open('/KhachHang/TabContentHoaDon/" + id + "')\"><i class=\"fa fa-check\"></i> In Hóa Đơn</button>";
+           
+        }
+        else if (state == 2) {
+            showbtn += "<button class=\"btn btn-sm btn-info\" type=\"button\" onclick=\"window.open('/KhachHang/TabContentHoaDon/" + id + "')\"><i class=\"fa fa-check\"></i> In Hóa Đơn</button>";
+
+        }
+        showbtn += "<button class=\"btn btn-sm btn-primary\" type=\"button\" data-dismiss=\"modal\"><i class=\"fa fa-check\"></i> Ok</button>";
+        $("#btntrangthai").html(showbtn);
+        $.ajax({
+            type: 'POST',
+            url: '/KhachHang/GetOrderOrderDetails',
+            data: { id: id },
+            success: function (data) {
+                if (data.smg != "") {
+                    $("#chitetdonhang").html(data.smg);
+                }
+            }
+        });
+
+    };
+    function UpdateState(id, state) {
+        $.ajax({
+            type: 'POST',
+            url: '/KhachHang/UpdateStateOrder',
+            data: { id: id,State: state },
+            success: function (data) {
+                if (data.orderInfo != "") {
+                    $('#DataTables_Table_DH').DataTable().ajax.reload();
+                    $("#btnnotice").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"success\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\" " + data.orderInfo + "  \"></button>");
+                    App.initHelpers('notify');
+                    $("#notice").click();
+                }
+                else {
+                    $("#btnnotice").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"danger\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\" Xin vui lòng kiểm tra mạng  \"></button>");
+                    App.initHelpers('notify');
+                    $("#notice").click();
+                }
+            }
+        });
+    };
+   
+</script>
+
+@section myScripts{
+  
+    <script src="~/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="~/assets/js/pages/base_forms_createinvoice.js"></script>
+<script src="~/assets/js/jquery-ui-git.js"></script>
+<script src="~/assets/js/pages/base_tables_datatables.js"></script>
+}

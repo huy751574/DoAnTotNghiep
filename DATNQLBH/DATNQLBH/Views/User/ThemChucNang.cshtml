@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.ChucNangNhanVien>
+
+@{
+    ViewBag.Title = "ThemChucNang";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+<div class="block">
+    <div class="block-header"><h2>Thêm quyền đăng nhập mới</h2></div>
+    <div class="block-content">
+        <label for="Name"></label>
+        <input id="Name" name="Name" type="text" placeholder="Nhập tên quyền...."/>
+        <table class="table">
+
+            <tbody>
+                <tr>
+                    <td>
+                        @foreach (var item in Model)
+                        {
+
+
+
+                            @Html.HiddenFor(modelItem => item.Id)
+
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input id="item_IsEnable" type="checkbox" style="width:20px" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+
+                        }
+                    </td>
+                </tr>
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+    <div style="display:inline-block">
+        <button class="btn btn-primary" onclick="Create()">Thêm mới</button>
+    </div>
+</div>
+<script>
+    function Create()
+    {
+        var mang = { IsEnable: [], ChucNangId: [] };
+        var IsEnable = document.querySelectorAll('#item_IsEnable');
+        $(IsEnable).each(function () {
+            if ($(this).is(":checked"))
+            { mang.IsEnable.push(true); }
+            else { mang.IsEnable.push(false); }
+        });
+        var ChucNangId = document.querySelectorAll('#item_Id');
+        $(ChucNangId).each(function () {
+            mang.ChucNangId.push($(this).val());
+        });
+        var TenQuyen = $('input#Name').val();
+        $.ajax({
+            url: '/User/ThemQuyenNhanVien',
+            traditional: true,
+            type: 'POST',
+            data: { IsEnable: mang.IsEnable, ChucNangId: mang.ChucNangId, TenQuyen: TenQuyen },
+            success: function (response) {
+                if (response.data == 1) {
+                    alert('Đã thêm quyền mới');
+                }
+                else {
+                    alert("Lỗi");
+                }
+            }
+        })
+    }
+</script>

@@ -1,0 +1,508 @@
+﻿
+@model IEnumerable<DATNQLBH.Models.ApplicationUser>
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+    DATNQLBH.Models.ApplicationUser AccountEdit = new DATNQLBH.Models.ApplicationUser();
+
+}
+
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                        '<td>Địa chỉ</td>' +
+                        '<td>' + d.Address + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td>Số điện thoại:</td>' +
+                        '<td>' + d.SDT + '</td>' +
+                    '</tr>'+
+                    '<tr>' +
+                        '<td>Số chứng minh thư:</td>' +
+                        '<td>' + d.CMND + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td>Chỉnh sửa thông tin:</td>' +
+                        '<td><a href="#" data-original-title="Info Client" onclick="window.open(\'/KhachHang/EditKhach/'+d.Id+'\')" >Edit....</a></td>' +
+                    '</tr>' +
+            '</table>';
+
+            }
+
+            var maintable;
+            if (!$.fn.dataTable.isDataTable('#DataTables_Table_KH')) {
+                maintable = $('#DataTables_Table_KH').DataTable({
+
+                    "language": {
+                        "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                    },
+
+                    "retrieve": true,
+                    "scrollY": false,
+                    "bAutoWidth": true,
+                    "bJQueryUI": true,
+                    "serverSide": false,
+                    "bProcessing": true,
+                    "scrollX": true,
+                    "sScrollXInner": "100%",
+                    "pagingType": "full_numbers",
+                    "ajax": {
+                        "url": "@Url.Action("ListKhachHang", "KhachHang")",
+
+                        "dataSrc": "lst",
+
+                    },
+
+                    "aoColumns": [
+                          {
+                              "className": 'details-control text-center hidden-xs',
+
+                              "orderable": false,
+                              "data": null,
+                              "searchable": false,
+                              "defaultContent": '',
+                              "mRender": function () {
+                                  return '<i class="fa fa-angle-right"></i>';
+                              }
+                          }, {
+                              "mData": "Id",
+                              "sTitle": "Mã khách hàng"
+                          }, {
+                              "mData": "FullName",
+                              "sTitle": "Tên khách hàng",
+
+
+                          }, {
+                              "mData": "Email",
+                              "sTitle": "Email",
+
+
+                          }, {
+
+                              "className": 'text-center',
+                              "mData": "Vip",
+                              "sTitle": '<i class="label label-danger">Vip</i>',
+
+
+                              "mRender": function (Vip, type, full) {
+                                  if (Vip <= 3) {
+                                      return '<span class="label label-warning">Vip ' + Vip + '</span>';
+                                  }
+                                  else { return '<span class="label label-info">Vip ' + Vip + '</span>'; }
+
+                              }
+                          }, {
+                              "mData": "Id",
+                              "sTitle": "Xem đơn đặt hàng",
+                              "className": "text-center",
+                              "mRender": function (data, type, full) {
+                                  return '<a href="#"><span class="glyphicon glyphicon-info-sign" data-original-title="Info Client" data-toggle="modal" data-target="#Order" onclick="OrderOfCustomer(' + data + ');" style="font-size:20px"></span></a>';
+                              }
+
+
+                          }, {
+                              "mData": "Address",
+                              "sTitle": "Địa chỉ",
+
+
+                          }, {
+                              "mData": "SDT",
+                              "sTitle": "Số điện thoại",
+
+
+                          }, {
+                              "mData": "CMND",
+                              "sTitle": "Số chứng minh thư",
+
+
+                          }],
+                    "columnDefs": [
+                  {
+                      "targets": [6, 7, 8],
+                      "visible": false,
+
+                  }
+                    ],
+
+                    initComplete: function () {
+                        for (var i = 4; i < 5; i++) {
+                            if (i == 5) i++;
+                            this.api().column([i]).every(function () {
+                                var column = this;
+                                var select = $('<select><option value=""></option></select>')
+                                    .appendTo($(column.footer()).empty())
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+
+                                        column
+                                            .search(val ? '^' + val + '$' : '', true, false)
+                                            .draw();
+                                    });
+                                column.data().unique().sort().each(function (d, j) {
+                                    if (d != null) {
+                                        if (i == 4) {
+                                            if (column.search() === '^' + d + '$') {
+                                                select.append('<option value="Vip ' + d + '" selected="selected"> ' + d + '</option>')
+                                            } else {
+                                                select.append('<option value="Vip ' + d + '">' + d + '</option>')
+                                            }
+
+                                        }
+                                        else {
+                                            if (column.search() === '^' + d + '$') {
+                                                select.append('<option value="' + d + '" selected="selected">' + d + '</option>')
+                                            } else {
+                                                select.append('<option value="' + d + '">' + d + '</option>')
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    "dom": '<<Blf<t>ip>>',
+
+                    buttons: [
+                            {
+                                extend: 'print',
+                                title: "Danh Sách Khách Hàng",
+                                className: 'my-button-print-class',
+                                exportOptions: {
+                                    columns: [2, 3, 4, 6, 7, 8]
+
+                                }
+                            },
+                            {
+                                extend: 'copyHtml5',
+                                className: 'my-button-copy-class',
+                                exportOptions: {
+                                    columns: [2, 3, 4, 6, 7, 8]
+
+                                }
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                className: 'my-button-excel-class',
+                                title: "Danh Sách Khách Hàng",
+                                exportOptions: {
+                                    columns: [2, 3, 4, 6, 7, 8]
+                                }
+                            },
+                            {
+                                title: "Danh Sách Khách Hàng",
+                                className: 'my-button-pdf-class',
+                                extend: 'pdfHtml5',
+                                exportOptions: {
+                                    columns: [2, 3, 4, 6, 7, 8]
+                                }
+                            }
+
+                    ]
+                });
+
+            }
+            else {
+                maintable = $('#DataTables_Table_KH').DataTable({
+                    "paging": false,
+
+
+                });
+            }
+            // $(table).load();
+
+
+
+
+
+
+
+            $('#DataTables_Table_KH tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = maintable.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('open');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('open');
+                }
+            });
+
+
+            $('#DataTables_Table_KH tbody').on('click', 'tr', function () {
+
+                var td = $(this).find('td');
+                $('#ma_taikhoan').val(td[1].innerHTML);
+                $('#ten_taikhoan').val(td[2].innerHTML);
+            });
+
+            maintable.buttons().container().insertBefore('#DataTables_Table_KH_filter');
+
+            var imgexcel = document.createElement('img');
+            imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+            imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-excel-class').html(imgexcel);
+            $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgpdf = document.createElement('img');
+            imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+            imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            $('.my-button-pdf-class').html(imgpdf);
+            $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+            var imgprint = document.createElement('img');
+            imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+            $('.my-button-print-class').html(imgprint);
+            $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+            var imgcopy = document.createElement('img');
+            imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+            imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+            $('.my-button-copy-class').html(imgcopy);
+            $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+
+             });
+    </script>
+
+
+
+    <div id="myNode"></div>
+
+
+
+
+
+<div class="content">
+
+    <div class="block">
+        <div class="block-header">
+            <h3 class="block-title">Danh sách khách hàng</h3>
+            <button class="btn btn-success push-10-t" type="button" onclick="window.open('/KhachHang/ThemKhachHang')"><i class="fa fa-plus"></i> Thêm mới khách hàng</button>
+        </div>
+        <div class="block-content">
+            <div class="info"></div>
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js   js-dataTable-full dataTable-->
+            <div>
+                <div class="col-sm-12" style="padding-top:30px">
+
+                    <table class="display compact" cellspacing="0" id="DataTables_Table_KH">
+                        <thead>
+                            <tr role="row">
+                                <th style="width: 10px"> </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr role="row">
+                                <th style="width: 10px"> </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade in" id="Order" tabindex="-1" role="dialog" aria-hidden="true" style="width:auto">
+        <div class="modal-dialog modal-dialog-top" style="width:70%">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Thông tin hóa đơn</h3>
+                    </div>
+                    <div class="block-content" id="hoadon">
+                        
+                            <table class="display nowrap responsive" style="width:100%" cellspacing="0" id="Datatable_Order">
+                                <thead>
+                                    <tr >
+                                        <th style="width: 10px"> </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+
+                                    </tr>
+                                </thead>
+
+                            </table>
+                    </div>
+                       
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript">
+
+
+
+    //Xem hóa đơn đã đặt của khách
+    function OrderOfCustomer(id)
+    {
+                    
+
+
+                      var h=  $("#Datatable_Order").DataTable({
+
+
+                            "language": {
+                                "decimal": "",
+                                "emptyTable": "Không có dữ liệu",
+                                "info": "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                                "infoEmpty": "",
+                                "infoFiltered": "(filtered from _MAX_ total entries)",
+                                "infoPostFix": "",
+                                "thousands": ",",
+                                "lengthMenu": "Hiển thị _MENU_ dòng",
+                                "loadingRecords": "Loading...",
+                                "processing": "Processing...",
+                                "search": "Tìm kiếm :",
+                                "zeroRecords": "Không tìm thấy",
+                                "paginate": {
+                                    "first": "First",
+                                    "last": "Last",
+                                    "next": "Next",
+                                    "previous": "Previous"
+                                }
+
+                            },
+
+                            "retrieve": true,
+                            "scrollY": false,
+                            "bAutoWidth": true,
+                            "bJQueryUI": true,
+                            "serverSide": false,
+                            "bProcessing": true,
+                            "scrollX": false,
+                            "sScrollXInner": "100%",
+                         
+                            "pagingType": "full_numbers",
+
+                            "ajax": {
+                                "url": "@Url.Action("OrderOfCustomer", "KhachHang")" + "?id=" + id,
+                                "dataSrc": "lstOrder",
+
+                            },
+                          "dom": '<<lf<t>ip>>',
+                            "aoColumns": [
+                                  {
+                                      "mData": "OrderId",
+                                      "sTitle": "Mã đơn hàng"
+                                  },
+                                  {
+                                      "mData": "BuyTime",
+                                      "sTitle": "Ngày mua",
+                                      "mRender": function (data, type, full) {
+
+                                          return chuyenngay(data+"");
+                                      }
+                                  }, {
+                                      "sTitle": "Trạng thái",
+                                      "mData": "State",
+                                      "className": "text-center",
+                                      "mRender": function (data, type, full) {
+                                          if (data == 1)
+                                              return '<span class="label label-warning">Đang giao</span>';
+                                          else if (data == 3)
+                                              return '<span class="label label-danger">Đã hủy</span>';
+                                          else if (data == 2)
+                                              return '<span class="label label-success">Hoàn thành</span>';
+                                          else
+                                              return '<span class="label label-info">Đợi xử lý</span>';
+                                      }
+
+
+
+                                  }, {
+                                      "mData": "Completiontime",
+                                      "sTitle": "Ngày hoàn thành đơn",
+                                      "mRender": function (data, type, full) {
+
+                                          return chuyenngay(data+"");
+                                      }
+                                  }, {
+                                      "mData": "Tong",
+                                      "sTitle": "Tổng tiền",
+                                      "mRender": function (data, type, full) {
+
+                                          return formatCurrency(data+'')+' đ';
+                                        }
+                                  }],
+
+
+
+                        });
+                }
+
+
+
+
+</script>

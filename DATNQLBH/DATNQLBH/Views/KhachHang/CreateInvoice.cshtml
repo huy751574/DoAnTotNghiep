@@ -1,0 +1,376 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.DonHang>
+@{
+   
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+ 
+
+}
+
+<title class="hidden-print">Lập hóa đơn</title>
+
+<script>
+      function SuaHoaDonSauRemove() {
+            var list = $('div .tab-content').find('.tab-pane:visible').find('tbody');
+            var bang = $(list).find('#TongDonHang');
+            var gia = 0;
+            var cotSTT = $(list).find('tr').length;
+            list.find('tr').each(function (index) {
+                if (index != cotSTT-1) {
+                    var column = $(this).find('td').get(5);
+                    var str = layso(column.innerText);
+                    gia += parseInt(str);
+
+                }
+
+            });
+            gia = formatCurrency(gia + "");
+            bang.html(gia + " đ");
+
+
+        }
+</script>
+<title class="hidden-print">Lập hóa đơn</title>
+<div class="block" id="btn-Invoice">
+    <div class="block-header hidden-print">
+        <h2 class="block-title text-center">Chi Tiết Đơn Hàng</h2>
+    </div>
+    <div class="block-content">
+        <ul class="nav nav-tabs hidden-print" data-toggle="tabs" id="TabHeader">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="javascript:void(0)" onclick="ChuyenTab('#btabs-static-' + @item.OrderId + '');$(this).closest('li').addClass('active');" onmouseup="setTimeout(function() {SuaHoaDonSauRemove()},100);">@item.OrderId</a>
+                </li>
+            }
+            <li>
+                <a href="javascript:void(0)" id="ThemTab" data-toggle="tooltip" title="Thêm" onclick="ThemTab()" ><i class="fa fa-plus"></i></a>
+            </li>
+        </ul>
+        <div class="block-content tab-content">
+            @foreach (var item in Model)
+            {
+                <div class="tab-pane" id="btabs-static-@item.OrderId">
+                    <input type="hidden" id="DonHangDaCo" value="@item.OrderId" />
+                    @{Html.RenderAction("TabContentHoaDon", new { id = item.OrderId });}
+                </div>
+            }
+        </div>     
+    </div>  
+</div>
+
+
+
+@Html.Partial("InvoicePartial")
+
+
+<div class="modal fade" id="modal-top" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top">
+        <form class="form-horizontal">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent remove-margin-b">
+                <div class="block-header bg-primary-dark">
+                    <ul class="block-options">
+                        <li>
+                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                        </li>
+                    </ul>
+                    <h3 class="block-title">Nhập Thông Tin Khách Hàng</h3>
+                </div>
+                <div class="block-content">
+                    <!-- Bootstrap Forms Validation -->
+                    <div class="block">
+                        <div class="block-content block-content-narrow">
+                            <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
+                            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+
+                            <input type="hidden" name="UserId" id="UserId" value="" />
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="val-username">Họ Tên <span class="text-danger">*</span></label>
+                                <div class="col-md-7">
+
+                                    <input type="text" id="FullName" name="FullName" placeholder="họ tên khách hàng.." />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="val-email">Số Điện Thoại <span class="text-danger">*</span></label>
+                                <div class="col-md-7">
+
+                                    <input type="text" id="SDT" name="SDT" placeholder="số điện thoại.." />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="val-password">Địa Chỉ <span class="text-danger">*</span></label>
+                                <div class="col-md-7">
+
+                                    <input type="text" id="Address" name="Address" placeholder="địa chỉ.." />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- Bootstrap Forms Validation -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-minw btn-primary" onclick="ChuyenVaoHD()" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button>
+                <button class="btn btn-sm btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<iframe id="myFrame" style="display:none"></iframe>
+<input type="file" style="display:none" onchange="openFile(this)" id="FileDongBo" />
+
+    <script>
+        $(function () {
+            // Init page helpers (BS Notify Plugin)
+            App.initHelpers('notify');
+        });
+    </script>
+
+    <script type="text/javascript">
+        var dem=1;
+        var dauxanh = [];
+        $(document).ready(function () {
+            $("#LayoutApi").click(function () {
+                $("#btn-Invoice").animate({
+                    'margin-right': "310px"
+                });
+            });
+            $("#LayoutApiClose").click(function () {
+                $("#btn-Invoice").animate({
+                    'margin-right': "0px"
+                });
+            });
+
+          
+        });
+
+        function ThemTab() {
+            var url = '@Url.Action("TabContentHoaDon","KhachHang")';
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.setAttribute('href', 'javascript:void(0)');
+            a.setAttribute('data-toggle', 'tabs');
+            a.setAttribute('onclick', 'ChuyenTab("#btabs-static-newtab' + dem + '");$(this).closest("li").addClass("active");');
+            a.text = "New Tab " + dem;
+            $(li).html(a);
+            var ul = document.getElementById("TabHeader");
+            ul.insertBefore(li, $('#ThemTab').parent().get(0));
+
+
+            var div = document.createElement('div');
+            div.setAttribute('class', 'tab-pane');
+            div.setAttribute('id', 'btabs-static-newtab' + dem+'');
+
+            $('div.tab-content').append(div);
+            $(div).load(url);
+
+
+
+            dem = dem + 1;
+
+        };
+        function ChuyenTab(id) {
+
+            var li = document.getElementsByTagName('li');
+            $(li).removeClass('active');
+            $('div .tab-pane').hide();
+            $('.tab-content>'+id).show();
+            
+           
+        };
+      
+      
+     
+        
+        var dauxanh =[];
+        $("input#SDT").autocomplete({
+          
+            source: function (request, response) {
+                $.ajax({
+                    url: "/KhachHang/GetIdCustomerByPhone",
+                   
+                    data: { term: request.term },
+                    success: function (data) {
+                        
+                        response($.map(data, function (item) {
+                            dauxanh.push({ SDT: item.SDT, FullName: item.FullName, Address: item.Address, KhachHangId: item.Id });
+                            return { label: item.SDT, value: item.SDT };
+                        }))
+                       
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+      
+                $(dauxanh).each(function (index, value) {
+                    if (value.SDT == ui.item.value) {
+                        $('input#FullName').val(value.FullName);
+                        $('input#Address').val(value.Address);
+                        $('input#UserId').val(value.KhachHangId);
+                    }
+                });
+            }
+        });
+
+        function ChuyenVaoHD() {
+
+            var ten = $('input#FullName').val();
+            var diachi = $('input#Address').val();
+            var userid = $('input#UserId').val();
+            var sdt = $('input#SDT').val();
+            var khachhang = '<p class="h2 font-w400 push-5">Khách hàng</p><address><span id="FullName">' + ten + '</span><br><span id="Address">' + diachi + '</span><br><i class="si si-call-end"></i><span id="SDT">' + sdt + '</span></address><input id="KhachHangId" type="hidden" value="' + userid + '" />'
+            var kh = $('div.tab-content').find('div.tab-pane:visible').find('#KhachHang').html(khachhang);
+            //$('#KhachHang:visible').html(khachhang);
+        }
+      
+        function Luu()
+        {
+
+            var list = $('div .tab-content').find('.tab-pane:visible').find('tbody');
+            var tam=$('div .tab-content').find('.tab-pane:visible')
+            var khachhangid = tam.find('#KhachHangId').val();
+            var khachhangten = $(tam.find('#FullName')).html();
+            var khachhangdiachi = $(tam.find('#Address')).html();
+            var khachhangsdt = $(tam.find('#SDT')).html();
+   
+            if (khachhangten == null || khachhangten=="")
+            {
+                alert("Bạn chưa thêm khách hàng");
+                return false;
+            }
+            if (khachhangdiachi == null || khachhangdiachi == "") {
+                alert("Bạn chưa thêm địa chỉ");
+                return false;
+            }
+            if (khachhangsdt == null || khachhangsdt == "") {
+                alert("Bạn chưa thêm số điện thoại");
+                return false;
+            }
+            var dong = $(list).find('tr');
+            var mang={id:[],quantity:[]};
+            $(dong).each(function (index) {
+                
+                if (index == dong.length-1) { return false;}
+                mang.id.push($($(this).find('td')).get(0).innerText);
+                mang.quantity.push($($($($(this).find('td')).get(3)).find('input')).val());
+
+            });
+            if (mang.id == null) {
+                alert("Bạn chưa thêm sản phẩm");
+                return false;
+            }
+            var donhangdaco = $($('div .tab-content').find('.tab-pane:visible').find('input#DonHangDaCo')).val();
+            $.ajax({ 
+               type: "POST",
+                url: '@Url.Action("CreateInvoice","KhachHang")',
+
+                traditional: true,
+                data: { id: mang.id, quantity: mang.quantity, khachhangid: khachhangid, khachhangten: khachhangten, khachhangdiachi: khachhangdiachi, khachhangsdt: khachhangsdt, isHad: donhangdaco },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                  
+                    if(confirm('Có vấn đề với server hoặc mất kết nối, bạn có thể lưu hóa đơn tại máy'))
+                    {
+                        var dataString;
+                        if (khachhangid == null || khachhangid == "")
+                        {
+                            khachhangid = 'null';
+                        }
+                        if (donhangdaco == null || donhangdaco=="")
+                        {
+                            donhangdaco='null';
+                        }
+                        var csv = khachhangid + ',' + khachhangten + '"' + khachhangdiachi + '"' + khachhangsdt + ',' + donhangdaco+';';
+                        $(mang.id).each(function (index, value) {
+                            var k = mang.quantity[index];
+                            csv += index < mang.id.length ? value + ',' + k + "\;" : value + ',' + k;
+                           
+                           
+                        });
+                        exportToCSV(csv);   
+                    }
+                },
+                success: function (data) {
+                    $("#btnnotice").html("<button id=\"notice\" class=\"js-notify btn-sm hidden\" data-notify-type=\"success\" data-notify-align=\"center\" data-notify-icon=\"fa fa-check\" data-notify-message=\" (" + data.thongbao + ")  \"></button>");
+                    App.initHelpers('notify');
+                    $("#notice").click();
+                    }
+                });
+        }
+
+
+        function exportToCSV(csv) {
+            var myFrame=document.getElementById('myFrame');
+
+           
+
+            var csvData = 'data:text/txt;charset=utf-8,' + csv;
+
+            //For IE
+
+            if (navigator.appName == "Microsoft Internet Explorer") {
+
+            myFrame.document.open("text/html", "replace");
+
+            myFrame.document.write('sep=,\r\n'+csvData);
+
+            myFrame.document.close();
+
+            myFrame.focus()
+
+            myFrame.document.execCommand('SaveAs', true, 'data.csv');
+
+            }
+
+            else {
+
+                //Others
+                var a = document.createElement('a');
+                csvData = 'data:application/txt;charset=utf-8,' + encodeURIComponent(csv);
+                a.setAttribute('download', 'data');
+                a.setAttribute('target', '_blank');
+                a.href = csvData;
+                a.setAttribute('style', 'display:none;');
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+
+        }
+       
+        function GetFile() {
+         
+            
+           
+            $('input#FileDongBo').click();
+            
+            
+        }
+        function openFile(event) {
+            var input = event.files[0];
+            var chuoi=""
+            var reader = new FileReader();
+            reader.onload = function () {
+               
+                
+                chuoi = reader.result;
+               
+                DongBoHoaDon(chuoi);
+                $('input#FileDongBo').val('');
+            };
+            reader.readAsText(input);
+         
+           
+        };
+    </script>
+
+    <style>
+        .ui-autocomplete {
+            z-index: 9999 !important;
+        }
+    </style>

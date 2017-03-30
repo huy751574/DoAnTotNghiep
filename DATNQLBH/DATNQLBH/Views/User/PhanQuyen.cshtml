@@ -1,0 +1,138 @@
+﻿@model IEnumerable<DATNQLBH.Models.Quyen>
+
+@{
+    ViewBag.Title = "PhanQuyen";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+<div class="block">
+    <div class="block-header">
+        <h3> Cài đặt chức năng cho nhân viên</h3>
+    </div>
+    <div class="block-content">
+        <div><button class="btn btn-primary" onclick="window.open('/User/ThemChucNang')">Thêm quyền sử dụng chức năng</button></div>
+        <input type="hidden" id="tentaikhoan" value="@ViewBag.TenTaiKhoan"/>
+        <table class="table table-bordered">         
+            @foreach (var item in Model)
+            {
+                <tr>                  
+                    <td style="width:20px">
+                        @Html.EditorFor(modelItem => item.IsActive, new { htmlAttributes = new { @style = "width:20px" } })
+                    </td>
+                    <td id="item_Name">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td >
+                        <div style="display:table">
+                            <div style="display:table-row">
+                                @foreach (var k in item.ChiTietQuyens)
+                                {
+                                    <div style="display:table-cell">
+                                        @Html.HiddenFor(x=>k.ChucNangId)
+                                        @Html.EditorFor(x => k.IsEnable)
+                                        @Html.DisplayFor(x => k.ChucNangNhanVien.Name) <text>|</text>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button onclick="var mang = []; var tr = $(this).closest('tr'); var lstIsEnabled = $(tr).find('#k_IsEnable'); $(lstIsEnabled).each(function () { if ($(this).is(':checked')) { mang.push(true); } else { mang.push(false); } }); var role = $(tr).find('#item_Name').get(0).innerText; ThayDoiChiTietQuyen(mang, role)">
+                            <i class="fa fa-save"></i> Lưu
+                        </button>
+                    </td>
+                    <td>
+                        <button onclick="var tr = $(this).closest('tr'); var role = $(tr).find('#item_Name').get(0).innerText; Xoa(role)">
+                        <i class="fa fa-remove"></i> Xóa
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="text-center ">
+            <button class="btn btn-primary" onclick="Save()">Lưu</button>
+        </div>
+    </div>
+</div>
+<script>
+    function Save()
+    {
+        var mang={name:[],isactive:[]};
+        var lstIsActive = $('td').find('#item_IsActive');
+        $(lstIsActive).each(function () {
+            if ($(this).is(":checked"))
+            { mang.isactive.push(true); }
+            else { mang.isactive.push(false); }
+            
+        });
+        var lstName = $('tr').find('#item_Name');
+        $(lstName).each(function () {
+            mang.name.push(this.innerText);
+        });
+        var username=$('input#tentaikhoan').val();
+        $.ajax({
+            url: '/User/ThayDoiChucNang',
+            traditional: true,
+            type: 'POST',
+            data: { IsActive: mang.isactive, TenChucNang: mang.name, UserName: username },
+            success: function (response) {
+                if (response.data == 1) {
+                    alert('Đã thay đổi thông tin thành công');
+                    location.reload();
+                }
+                else {
+                    alert("Lỗi");
+                }
+            },
+            error: function () {
+                alert('Lỗi');
+            }
+        }) 
+    }
+    function ThayDoiChiTietQuyen(mang,role)
+    {
+        $.ajax({
+            url: '/User/ChiTietChucNang',
+            traditional: true,
+            type: 'POST',
+            data: { IsEnable: mang, role: role },
+            success: function (response) {
+                if (response.data == 1) {
+                    alert('Đã thay đổi thông tin thành công');
+                    location.reload();
+                }
+                else {
+                    alert('Lỗi');
+                }
+            },
+            error: function () {
+                alert('Lỗi');
+            }
+        })
+    }
+
+    function Xoa(role)
+    {
+        if (confirm('Bạn có chắc chắn xóa quyền này không?')) {
+            $.ajax({
+                url: '/User/XoaQuyenDangNhap',
+                type: 'POST',
+                data: { role: role },
+                success: function (response) {
+                    if (response.data == 1) {
+                        alert('Đã xóa quyền');
+                        location.reload();
+                    }
+                    else {
+                        alert('Lỗi');
+                    }
+                },
+                error: function () {
+                    alert('Lỗi');
+                }
+
+            });
+        }
+    }
+</script>

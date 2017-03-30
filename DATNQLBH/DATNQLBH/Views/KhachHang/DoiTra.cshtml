@@ -1,0 +1,89 @@
+﻿@model DATNQLBH.Models.CSDL.DonHang
+@{
+    ViewBag.Title = "DoiTra";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+    <link href="/Content/Sidebar.css" rel="stylesheet" />
+}
+
+
+<div class="block">
+    @Html.BeginForm()
+    {
+    @Html.HiddenFor(x => x.OrderId)
+    @Html.AntiForgeryToken()
+    <div class="block-header">
+        <h2 class="block-title text-center">Chi Tiết Đơn Hàng @Model.OrderId</h2>
+    </div>
+    <div class="block-content">
+        <table class="table table-bordered table-striped js-dataTable-simple1">
+            <thead>
+                <tr class="row-color">
+                    <th class="text-center">Mã Hàng</th>
+                    <th class="text-center">Tên Hàng</th>
+                    <th class="hidden-xs text-right" style="width:150px;">Giá Mua</th>
+                    <th class="hidden-xs text-center" style="width:120px;">Số Lượng</th>
+                    
+                    <th class="text-center" style="width:70px;">Trả</th>
+                    <th class="text-right" style="width:150px;">Tổng</th>
+                </tr>
+            </thead>
+            <tbody id="noidunghoadon">
+                @foreach (var item in Model.ChiTietDonHangs)
+                {
+                  
+                    
+                    <tr>
+
+                        <td>
+                            <input name="ChiTiet-@item.OrderdetailId" type="hidden" value="@item.OrderdetailId" />
+                            @item.ItemId
+                        </td>
+                        <td>
+                            @item.NameItem
+                        </td>
+                        <td class="text-right">
+                            @item.Price.ToString("#,##0").Replace(",", ".")
+                        </td>
+                        <td class="text-center">
+                            @item.Quantities
+                        </td>
+                       
+                        <td class="text-center">
+                            <input name="SoLuong-@item.OrderdetailId" style="width:70px;" min="0" max="@item.Quantities" onkeyup="if($(this).val()>@item.Quantities) $(this).val(@item.Quantities);tinhtong($(this).val(),@item.Price,@item.OrderdetailId)" onchange="tinhtong($(this).val(),@item.Price,@item.OrderdetailId)" class="text-center" type="number" value="0" />
+                        </td>
+                        <td class="text-right" id="row-@item.OrderdetailId">
+                           0
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-rounded btn-primary btn-minw" type="submit">OK</button>
+    </div>
+    }
+</div>
+<!-- Top Modal -->
+
+<!-- END Top Modal -->
+@section myScripts{
+    <!-- Page JS Code -->
+ 
+    <script src="~/assets/js/pages/base_tables_datatables.js"></script>
+
+    
+    <script>
+        $(function () {
+            // Init page helpers (BS Notify Plugin)
+            App.initHelpers('notify');
+        });
+    </script>
+}
+<script>
+    function tinhtong(soluong,dongia,idChitiet)
+    {
+        var tong = soluong * dongia;
+        $('td#row-' + idChitiet).html(formatCurrency(tong+''));
+    }
+</script>

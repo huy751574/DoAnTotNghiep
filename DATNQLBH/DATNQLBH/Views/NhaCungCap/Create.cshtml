@@ -1,0 +1,91 @@
+﻿@model DATNQLBH.Models.CSDL.NhaCC
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+<div class="block">
+    <div class="text-center block-header">
+        <h2> Thêm mới nhà cung cấp</h2>
+    </div>
+
+    <div class="headercontent block-content">
+        <table align="center" class="table createncc">
+            <tr>
+                <td>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <section>
+
+                            <div class="form-group text-center">
+                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control create", placeholder = "Nhập tên nhà cung cấp...." })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                            <div class="form-group text-center" id="sdt">
+                                @Html.DisplayNameFor(model => model.SDT)
+                                @Html.TextBoxFor(model => model.SDT, new { @class = "form-control create", placeholder = "Nhâp số điện thoại....." })
+                                @Html.ValidationMessageFor(model => model.SDT)
+                            </div>
+                            <div class="form-group text-center">
+                                @Html.DisplayNameFor(model => model.Email)
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control create", placeholder = " Nhập email...", type = "email" })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+
+                            <div class="form-group text-center">
+                                @Html.DisplayNameFor(model => model.Address)
+
+                                @Html.TextBoxFor(model => model.Address, new { @class = "form-control  create", placeholder = "Nhập địa chỉ..." })
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </div>
+                            <div class="form-group text-center">
+                                @Html.DisplayNameFor(model => model.TaiKhoan)
+                                @Html.TextBoxFor(model => model.TaiKhoan, new { @class = "form-control create", placeholder = "Nhập số tài khoản..." })
+                                @Html.ValidationMessageFor(model => model.TaiKhoan)
+                            </div>
+                            <div class="form-group text-center">
+                                @Html.DisplayNameFor(model => model.Fax)
+                                <br />
+                                @Html.TextBoxFor(model => model.Fax, new { @class = "form-control create", placeholder = "Nhập số fax......" })
+                                @Html.ValidationMessageFor(model => model.Fax)
+                            </div>
+
+
+                        </section>
+                        <br />
+                        <br />
+                        <section class="form-group text-center">
+                            <article>
+                                <button type="submit" class="btn btn-danger" id="submit">Thêm</button> <button type="button" class="btn btn-danger closeFancybox" onclick="location.href='/NhaCungCap/Index' ">Cancel</button>
+                            </article>
+                        </section>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+
+        $('form').submit(function (e) {
+
+            var mancc = document.getElementById("MaNCC").value;
+            if (mancc == "") {
+                alert("Mã nhà cung cấp không được để trống!");
+                e.preventDefault(e);
+            }
+
+        });
+
+    </script>
+</div>
+
+@section myScripts{
+    <!-- Page JS Code -->
+   
+    <link href="~/Content/Custom.css" rel="stylesheet" />
+
+}

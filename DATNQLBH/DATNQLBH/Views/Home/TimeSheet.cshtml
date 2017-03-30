@@ -1,0 +1,282 @@
+﻿@model DATNQLBH.Models.CSDL.TimeSheet
+@{
+    ViewBag.Title = "TimeSheet";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+
+}
+
+
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/fullcalendar.min.js"></script>
+<link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+<link href="~/Content/fullcalendar.print.css" media="print" rel="stylesheet" />
+
+<script src="~/Scripts/lang-all.js"></script>
+<style type="text/css">
+    #loading {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    #calendar {
+        /*max-width: 900px;*/
+        max-width: 99%;
+        margin: 0 auto;
+        clear: both;
+    }
+
+    
+</style>
+<div class="block" id="TimeSheetApp">
+    <div class="body-content">
+        <div class="pull-left" style="display:inline-block; padding:5px;">
+            <a data-toggle="modal" onclick="createTime()" data-target="#AddTimeSheet" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Thêm lịch</a>
+        </div>
+        <div id='loading'></div>
+        <div id='calendar'></div>
+        <!--Add new data-->
+        <div id="AddTimeSheet" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="btn btn-primary btn-sm fa fa-reply pull-right" data-dismiss="modal">&emsp;Quay Lại</div>
+                        <h4 class="modal-title">Add TimeSheet</h4>
+                    </div>
+                    <div class="modal-body">
+                       
+                            <div class="form-group">
+                                <input autofocus="autofocus" class="form-control" id="Title" name="Title" placeholder="Title" />
+                            </div>
+                            <div class="form-group ">
+                                <input type="date" class="form-control input-sm" id="Start" name="Start" placeholder="Ngày bắt đầu (yyyy-mm-dd)" />
+                               
+                            </div>
+                            <div class="form-group ">
+                                <input type="date" id="End" name="End" class="form-control input-sm" placeholder="Ngày kết thúc (yyyy-mm-dd)">
+                                
+                            </div>
+                            <div class="form-group has-feedback  text-center">
+                                <button type="button" onclick="AddTimeSheet($('input#Title').val(), $('input#Start').val(), $('input#End').val(),true)" class="btn btn-success btn-sm fa fa-plus">&emsp;Thêm</button>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end Add data-->
+    <!--Edit data-->
+    <div id="EditTimeSheet" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="btn btn-primary btn-sm fa fa-reply pull-right" data-dismiss="modal">&emsp;Quay Lại</div>
+                    <h4 class="modal-title">Edit TimeSheet</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width:500px; margin:0 auto">
+                       
+                        <input type="hidden" id="IdTimeSheet" />
+                        <input type="hidden" id="allDayTimeSheet" />
+                        <div class="form-group has-feedback">
+                            <textarea id="Title" name="Title" class="form-control" placeholder="Title"></textarea>
+                        </div>
+                        <div class="form-group has-feedback  text-center">
+                            <div onclick="EditTimeSheet()" class="btn btn-success btn-sm fa fa-plus"> Lưu</div>    
+                            <div onclick="DeleteTimeSheet()" class="btn btn-danger btn-sm fa fa-plus"> Xóa</div>                   
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end Eidt data-->
+</div>
+<script>
+   /// var input = $('input');
+    
+
+    
+  
+    var events = [];
+    function Load() {
+        $.ajax({
+            url:"/Home/GetTimeSheet",
+            success:function (response) {
+           
+                events = response.array;
+              
+                $('#calendar').fullCalendar('addEventSource',events);
+            }
+        });
+    }
+    function LoadTimeSheet() {
+       
+            $('#calendar').fullCalendar({
+
+                theme: false,
+                businessHours: true,
+                editable: true,
+                theme: true,
+                contentHeight: 600,
+                ignoreTimezone: false,
+           
+                events: events,
+                       
+                
+                timeFormat: 'HH:mm',
+                eventLimit: true,
+                selectable: true,
+                selectHelper: true,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                firstHour: 1,
+                monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                monthNamesShort: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                dayNames: ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+                dayNamesShort: ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+                slotLabelFormat: ['HH:mm'],
+                views: {
+                    month: { // name of view
+                        titleFormat: 'MM / YYYY'
+                        // other view-specific options here
+                    },
+                    week: { // name of view
+                        titleFormat: 'DD / MM / YYYY'
+                        // other view-specific options here
+                    },
+                    day: { // name of view
+                        titleFormat: 'DD / MM / YYYY'
+                        // other view-specific options here
+                    }
+                },
+                
+              
+                eventClick: function (event) {
+                    $('textarea#Title').val(event.title);
+                    $('input#IdTimeSheet').val(event.id);
+                    $('input#allDayTimeSheet').val(event.allDay);
+                    $('#EditTimeSheet').modal('show');
+                    
+                },
+              
+                select: function (start, end, allDay) {
+                 
+                    if (start.hasTime() && end.hasTime()) {
+                        start = start.format();
+                        end = end.format();
+                        AddTimeSheet("", start, end,false);
+                    }
+                    else {
+                        var date = new Date(start);
+                        var day = ("0" + date.getDate()).slice(-2);
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        var getday = date.getFullYear() + "-" + (month) + "-" + (day);
+                        var start = document.getElementById("Start");
+                        start.value = getday;
+
+                        date = new Date(end);
+                        day = ("0" + date.getDate()).slice(-2);
+                        month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        getday = date.getFullYear() + "-" + (month) + "-" + (day);
+
+                        var end = document.getElementById("End");
+                        end.value = getday;
+                        $('#AddTimeSheet').modal('show');
+                    }
+                
+                },
+                eventResize: function (event, delta, revertFunc) {
+                   
+                    updateTime(event.id, event.title, event.start, event.end, event.allDay);
+                    
+                 
+                },
+                eventDrop: function (event, delta, revertFunc) {
+                    updateTime(event.id, event.title, event.start, event.end, event.allDay);
+                    
+
+                }
+            });
+        }
+        function EditTimeSheet() {
+            var id = $('input#IdTimeSheet').val();
+            var title = $('textarea#Title').val();
+            var allDay= $('input#allDayTimeSheet').val();
+            updateTime(id, title, "", "", allDay);
+        }
+
+        function DeleteTimeSheet() {
+            var id = $('input#IdTimeSheet').val();
+         
+            $.ajax({
+                type: "POST",
+                url: "/Home/DeleteTimeSheet",
+                data: { id: id },
+                success: function (response) {
+                    if (response.array != "") {
+                        $('#calendar').fullCalendar('removeEventSource', events);
+                        Load();
+                        $('#EditTimeSheet').modal('hide');
+                    }
+
+                }
+            });
+        }
+
+        function updateTime(id, title, start, end, allDay) {
+            if (start != "")
+            {
+               
+                    start = start.format();
+                
+            }
+            if (end != "") {
+               
+                    end = end.format();
+                
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Home/UpdateTimeSheet",
+                data: { id: id, title: title, start: start, end: end, allDay: allDay },
+                success: function (response) {
+                    if (response.array != "") {
+                        $('#calendar').fullCalendar('removeEventSource', events);
+                        Load();
+                        $('#EditTimeSheet').modal('hide');
+                    }
+                }
+            });
+        }
+        function AddTimeSheet(title, start, end,allDay)
+        {
+         
+            $.ajax({
+                type: "POST",
+                url: "/Home/AddTimeSheet",
+                data: { Title: title, Start:start, End:end, allDay:allDay },
+                success: function (response) {
+                    if (response.array != "") {
+                        $('#calendar').fullCalendar('removeEventSource', events);
+                        Load();
+                        $('#AddTimeSheet').modal('hide');
+                    }
+
+                }
+            });
+        }
+        LoadTimeSheet();
+        Load();
+</script>
+@section myScripts{
+   
+
+    
+}

@@ -1,0 +1,315 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.LoaiCap3>
+
+@{
+    ViewBag.Title = "Danh sách loại cấp 3";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+<div class="block">
+    <h2>Danh sách Loại cấp 3</h2>
+    @{
+
+        int idLoaiCap3 = 0;
+
+    }
+    <div class="block-content block-content-full">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-top" type="button">Thêm Loại cấp 3</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#themchitiet" type="button">Chi Tiết Loại</button>
+    </div>
+    <div class="block-header">
+        <h3 class="block-title">Danh sách Loại Cấp 3 <small>Full</small></h3>
+    </div>
+    
+        <div class="block-content">
+            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+            <table class="table table-bordered table-striped js-dataTable-full">
+                <thead>
+                    <tr class="bg-primary-lighter">
+                        <th class="hidden-xs">ID</th>
+
+                        <th class="hidden-xs">Tên loại cấp 3</th>
+                        <th class="hidden-xs" style="width: 15%;">Tên loại cấp 2</th>
+
+                        <th class="text-center" style="width: 10%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoaiCap3Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoaiCap2.Name)
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Sửa thông tin " onclick="window.open('/LoaiCap3/Edit/@item.LoaiCap3Id')"><i class="fa fa-pencil"></i></button>
+
+                                @*<button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Xoá loại cấp 1" onclick="Sudung('@item.LoaiCap3Id')"><i class="fa fa-close"></i></button>*@
+                                @*<button class="btn btn-default" data-toggle="modal" data-target="#MyInfo" type="button" ng-click="LoadData(@item.LoaiCap3Id)">Thêm Chi Tiết sản phẩm</button>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        @*Bắt đầu div thêm Loại cấp 3*@
+        <div class="modal fade" id="modal-top" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-top">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-light">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Thêm Loại cấp 3</h3>
+                        </div>
+                        <div class="block-content">
+                            <form class="js-validation-bootstrap form-horizontal" action="/LoaiCap3/Capnhap" method="post">
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="val-username">Tên Loại cấp 3 <span class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        <input class="form-control" type="text" id="NameCap3" name="NameCap3" placeholder="Nhập tên..">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="val-username">Loại cấp 2 <span class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        @Html.DropDownList("MaLoaiCap2", null, "--Chọn Loại Cấp 2--", new { @class = "form-control", onchange = "chonncc()" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <button class="btn btn-sm btn-primary" type="submit" id="sumbitCreate" name="sumbitCreate" onclick="them()">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Kết thúc div thêm loại cấp 3*@
+        @*Bắt đầu div thêm chi tiết sản phẩm*@
+        <div class="modal fade" id="themchitiet" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-top">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-lighter">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Thêm chi tiết sản phẩm</h3>
+                        </div>
+                        <div class="block-content">
+                            <form class="js-validation-bootstrap form-horizontal">
+                                <div id="p_scents">
+                                    <p>
+                                        <div id="main">
+                                            @Html.DropDownList("ChiTietSanPham", null, "--chọn Loai Sản phẩm--", new { @class = "form-control" })
+                                            <button type="button" id="btAdd" value="Add Element" class="bt" onclick="themmoi()">Thêm thuộc tính</button>
+                                            <button type="button" id="btRemove" value="Remove Element" class="bt" onclick="xoa()">Xóa thuộc tính</button>
+                                            <button type="button" id="btRemoveAll" value="Remove All" class="bt" onclick="xoaAll()">Xóa tất cả thuộc tính</button><br />
+                                        </div>
+                                        <div id="macdinh" class="form-group">
+
+                                        </div>
+
+                                        <div id="showloai" class="form-group">
+
+                                        </div>
+                                    </p>
+                                </div>
+                                <div class="form-group" id="show">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <div id="showbuton">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+@*Kết thúc thêm chi tiết sản phẩm*@
+@section myScripts{
+
+}
+<script>
+
+
+   
+
+    var iCnt = 0;
+    function themmoi() {
+       
+        if (($("#showloai>input").size()) == 0) {
+            if (($("#macdinh>input").size() == 0)) {
+                iCnt = 0;
+            }
+        }
+        else {
+            iCnt = $("#showloai>input").size();
+        }
+        if (iCnt <= 50) {
+
+
+            iCnt = iCnt + 1;
+
+            // ADD TEXTBOX.
+            $("#macdinh").append('<input type=text class="input" id=tb' + iCnt + ' ' +
+                        'value="Mời nhập.... ' + iCnt + '" style="width:300px;"></br>');
+
+            // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
+            if (iCnt >= 1) {
+               
+
+                    showbuttonsumbit();
+                
+
+                //  var divSubmit = $(document.createElement('div'));
+                
+
+            }
+
+
+            // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
+            //  $('#show').after(showbuton);
+        }
+            // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
+            // (20 IS THE LIMIT WE HAVE SET)
+        else {
+            $("#main").append('<label>Reached the limit</label>');
+            $('#btAdd').attr('class', 'bt-disable');
+            $('#btAdd').attr('disabled', 'disabled');
+        }
+    };
+
+    // REMOVE ELEMENTS ONE PER CLICK.
+    function xoa() {
+        debugger;
+        $('#tb' + iCnt).remove(); iCnt = iCnt - 1;
+        if (iCnt == 0) {
+            $(this).prop('disable', true);
+        }
+
+
+
+    };
+
+    // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+    function xoaAll() {
+        $("#showloai")
+            .empty();
+        debugger;
+
+
+        $('#btSubmit').remove();
+        iCnt = 0;
+
+
+    };
+
+
+    // PICK THE VALUES FROM EACH TEXTBOX WHEN "SUBMIT" BUTTON IS CLICKED.
+    var divValue, values = '';
+
+    function GetTextValue() {
+
+        $(divValue)
+            .empty()
+            .remove();
+
+        values = '';
+
+        $('.input').each(function () {
+            //divValue = $(document.createElement('div')).css({
+            //    padding:'5px', width:'200px'
+            //});
+            if (this.value == null) {
+                alert("Còn ô chưa nhập, mời nhập!")
+            } else {
+                values += this.value + "|"
+            }
+        });
+        $("themchitiet").hide();
+        var chuoi = values;
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/LoaiCap3/UpdateChuoi',
+            data: { chuoichitiet: chuoi, id: idLoaiCap3 },
+            success: function (data) {
+                alert("Update thành công");
+            }
+        });
+    };
+    $("#ChiTietSanPham").change(function () {
+        var idloai = document.getElementById("ChiTietSanPham").value;
+        idLoaiCap3 = idloai;
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '/LoaiCap3/ShowLoai',
+            data: { id: idloai },
+            success: function (data) {
+              
+                $("#showloai").html(data.text);
+                showbuttonsumbit();
+
+
+            }
+
+        });
+    });
+    //function Sudung(id) {
+    //    debugger;
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/LoaiCap3/DelLoai3',
+    //        data: { id: id },
+    //        success: function (data) {
+
+    //            alert(data.smg);
+    //            window.location.reload(true);
+    //        }
+    //    });
+
+    //};
+    function showbuttonsumbit() {
+        debugger;
+        if (($("#showbuton>input").size()) == 0) {
+            $("#showbuton").append('<input type="button" class="btn btn-sm btn-default"' +
+                        'onclick="GetTextValue()"' +
+                            'id=btSubmit value=Submit />');
+        }
+    };
+
+
+
+</script>
+

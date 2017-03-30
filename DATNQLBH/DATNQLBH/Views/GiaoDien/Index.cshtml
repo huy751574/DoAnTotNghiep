@@ -1,0 +1,127 @@
+﻿@model IEnumerable<DATNQLBH.Models.CSDL.LoaiGianHang>
+
+@{
+    Layout = "~/Views/Shared/_LayoutGiaoDien.cshtml";
+    List<string> sologan =ViewBag.Sologan;
+}
+
+<div id="page-container" class="sidebar-l sidebar-mini side-scroll header-navbar-fixed header-navbar-transparent">
+    <!-- Header -->
+    <!-- END Header -->
+    <!-- Main Container -->
+    <main id="main-container">
+        <!-- Hero Content -->
+        <div class="bg-primary-dark">
+            <section class="content content-full content-boxed">
+                <!-- Section Content -->
+                <div class="push-100-t push-50 text-center">
+                    <h1 class="h2 text-white push-10 visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">@sologan.ElementAtOrDefault(0)</h1>
+                    <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">@sologan.ElementAtOrDefault(1)</h2>
+                </div>
+                <!-- END Section Content -->
+            </section>
+        </div>
+        <!-- END Hero Content -->
+        <!-- Pricing -->
+        <div class="bg-white">
+            <section class="content content-boxed overflow-hidden">
+                <!-- Section Content -->
+                <div class="row push-20-t push-20">
+
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="col-sm-6 col-lg-3 visibility-hidden" data-toggle="appear" data-offset="50" data-class="animated fadeInUp">
+                            <!-- Plan -->
+                            <div class="block block-bordered block-link-hover3 text-center">
+                                <div class="block-header">
+                                    <h2 class="block-title label label-info">@item.Name</h2>
+                                </div>
+
+                                <div class="block-content block-content-full bg-warning">
+
+
+                                    <div class="h1 font-w700 text-white push-10">@item.Price VND</div>
+                                    @if (item.MaLoai == 1)
+                                    {
+                                        <div class="h5 font-w300 text-white-op">@item.TimeUsing Ngày sử dụng thử</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="h5 font-w300 text-white-op">Mỗi @item.TimeUsing ngày</div>
+                                    }
+                                </div>
+                                <div class="block-content">
+                                    <table class="table table-borderless table-condensed">
+                                        <tbody>
+                                            @foreach (var detail in item.CT_ChucNang)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <strong>
+                                                            @if (detail.IsActive == true)
+                                                            {
+                                                                <img src="/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Apply.png" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="/Content/Icon/Icon/16x16-free-application-icons/png/16x16/Cancel.png" />
+                                                            }
+                                                        </strong>
+                                                        @if (detail.Quantity != null)
+                                                        {
+                                                            <text> @detail.Quantity</text>
+                                                        }
+                                                        @detail.ChucNang.Name
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>
+                                                    <a href="javascript:void(0)" onclick="window.open('@Url.Action("Register","Account", new { madangky=item.MaLoai})')" class="btn btn-warning">Đăng Ký</a>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <!-- END Plan -->
+                        </div>
+
+                    }
+                </div>
+                <!-- END Section Content -->
+            </section>
+        </div>
+        <!-- END Pricing -->
+        <div class="bg-gray-lighter">
+            <section class="content content-full content-boxed">
+                <!-- Section Content -->
+                <div class="push-20-t push-20 text-center">
+                    <h3 class="h4 push-20 visibility-hidden" data-toggle="appear">@sologan.ElementAtOrDefault(2)</h3>
+                    <a class="btn btn-rounded btn-noborder btn-lg btn-success visibility-hidden" data-toggle="appear" data-class="animated bounceIn" href="/Account/Register">Bắt đầu hôm nay</a>
+                </div>
+                <!-- END Section Content -->
+            </section>
+        </div>
+        <!-- END Get Started -->
+        <!-- Features -->
+        <!-- END Features -->
+        <!-- Mini Stats -->
+        <div class="bg-image" style="background-image: url('/assets/img/various/hero1.jpg');">
+            <div class="bg-primary-dark-op">
+                <section class="content content-boxed overflow-hidden">
+                    <!-- Section Content -->
+                    <!-- END Section Content -->
+                </section>
+            </div>
+        </div>
+        <!-- Get Started -->
+        <!-- END Mini Stats -->
+    </main>
+    <!-- END Main Container -->
+    <!-- Footer -->
+</div>

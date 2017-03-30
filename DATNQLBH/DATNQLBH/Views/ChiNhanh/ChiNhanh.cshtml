@@ -1,0 +1,376 @@
+﻿@model DATNQLBH.Models.CSDL.ChiNhanh
+
+@{
+    ViewBag.Title = "ChiNhanh";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+
+@if (User.IsInRole("Admin"))
+{
+<div class="block">
+    <div class="block-header">
+        <h2>Chi Nhánh</h2>
+    </div>
+    <div class="block-content">
+        @using (Html.BeginForm("ChiNhanh","ChiNhanh",FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>ChiNhanh</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.MaCN)
+         
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DiaChi, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SDT, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="file" name="pic" id="pic"  class="form-control" />
+                      @if(Model.Logo!="")
+                      {
+                          <img src="/Content/Images/@Model.MaCN/@Model.Logo" />
+                      }
+
+                    </div>
+                </div>
+
+               
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SoTaiKhoan, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SoTaiKhoan, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SoTaiKhoan, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WebSite, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.WebSite, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WebSite, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FaceBook, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FaceBook, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FaceBook, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="text-center">
+                <button class="btn btn-rounded btn-primary btn-minw" type="submit">OK</button>
+            </div>
+        }
+    </div>
+ 
+</div>
+  }else{  
+    <script>
+    var maintable;
+    $(document).ready(function () {
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = Date.parse($('#start').val());
+                var max = Date.parse($('#end').val());
+                var date = Date.parse(data[6]);
+
+                if ((isNaN(min) && isNaN(max)) ||
+                     (isNaN(min) && date <= max) ||
+                     (min <= date && isNaN(max)) ||
+                     (min <= date && date <= max)) {
+                    return true;
+                }
+                return false;
+
+            }
+        );
+        if (!$.fn.dataTable.isDataTable('#DataTables_Table_1')) {
+            maintable = $('#DataTables_Table_1').DataTable({
+
+                "language": {
+                    "decimal":        "",
+                    "emptyTable":     "Không có dữ liệu",
+                    "info":           "Hiển thị _START_ tới _END_ trong _TOTAL_ dòng",
+                    "infoEmpty":      "",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Hiển thị _MENU_ dòng",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Tìm kiếm :",
+                    "zeroRecords":    "Không tìm thấy",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    }
+
+                },
+
+                "retrieve": true,
+                "scrollX": false,
+                "bAutoWidth": true,
+                "bJQueryUI": true,
+                "serverSide": false,
+                "bProcessing": true,
+
+                "pagingType": "full_numbers",
+
+
+                "ajax": {
+                    "url": "@Url.Action("DSChiNhanh", "ChiNhanh")",
+
+                "dataSrc": "lst",
+
+            },
+
+                "aoColumns": [
+                      {
+                          "mData": "Name",
+                          "sTitle": "Tên chi nhánh",
+                      }, {
+                          "mData": "DiaChi",
+                          "sTitle": "Địa chỉ",
+                      }, {
+                          "mData": "Email",
+                          "sTitle": "Email",
+                      } ,{
+                          "mData": "SDT",
+                          "sTitle": "Số điện thoại",
+                      },
+                      {
+                          "mData": "SoTaiKhoan",
+                          "sTitle": "Email",
+                      },
+                      {
+                          "mData": "Fax",
+                          "sTitle": "Fax",
+                      },
+                      {
+                          "className": 'text-center',
+                          "mData": "Date",
+                          "sTitle": "Ngày thành lập",
+                          "mRender": function(data)
+                          {
+                              return chuyenngay(data);
+                          }
+                      },
+                      {
+                          "className": 'text-center',
+                          "mData": "WebSite",
+                          "sTitle": "WebSite",
+                      },
+                      {
+                          "className": 'text-center',
+                          "mData": "FaceBook",
+                          "sTitle": "FaceBook",
+                      },
+                      {
+                          "className": 'text-center',
+                          "mData": "Logo",
+                          "sTitle": "Logo",
+                          "mRender": function (data,type,full) {
+                              return '<img src="/Content/Images/'+full.MaCN+'/'+data+ '" />';
+                          }
+
+                      }
+
+
+                ],
+
+
+
+
+           
+            "dom": '<<Blf<t>ip>>',
+
+            buttons: [
+                   {
+                       extend: 'print',
+                       title: "Danh Sách Chi Nhánh",
+                       className: 'my-button-print-class',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4, 5, 6]
+
+                       }
+                   },
+                   {
+                       extend: 'copyHtml5',
+                       className: 'my-button-copy-class',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4, 5, 6]
+
+                       }
+                   },
+                   {
+                       extend: 'excelHtml5',
+                       className: 'my-button-excel-class',
+                       title: "Danh Sách Chi Nhánh",
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4, 5, 6]
+                       }
+                   },
+                   {
+                       title: "Danh Sách Chi Nhánh",
+                       className: 'my-button-pdf-class',
+                       extend: 'pdfHtml5',
+                       exportOptions: {
+                           columns: [0, 1, 2, 3, 4, 5, 6]
+                       }
+                   }
+
+            ]
+        });
+
+    }
+    else {
+                maintable = $('#DataTables_Table_1').DataTable({
+                    "paging": false,
+
+
+                    });
+    }
+    
+
+
+
+    maintable.buttons().container().insertBefore('#DataTables_Table_1_filter');
+
+    var imgexcel = document.createElement('img');
+    imgexcel.setAttribute('src','../Content/IconItem/excel.png');
+    imgexcel.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    $('.my-button-excel-class').html(imgexcel);
+    $('.my-button-excel-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+    var imgpdf = document.createElement('img');
+    imgpdf.setAttribute('src', '../Content/IconItem/pdf-icon.png');
+    imgpdf.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    $('.my-button-pdf-class').html(imgpdf);
+    $('.my-button-pdf-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+    var imgprint = document.createElement('img');
+    imgprint.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    imgprint.setAttribute('src', '../Content/IconItem/print.jpg');
+    $('.my-button-print-class').html(imgprint);
+    $('.my-button-print-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px','width':'42px','height':'42px' });
+
+    var imgcopy = document.createElement('img');
+    imgcopy.setAttribute('style', 'width:42px;height:42px;border:0;display:block');
+    imgcopy.setAttribute('src', '../Content/IconItem/Copy.png');
+    $('.my-button-copy-class').html(imgcopy);
+    $('.my-button-copy-class').css({ 'border': '0px', 'padding': '0px', 'margin': '5px', 'width': '42px', 'height': '42px' });
+
+    $('#start, #end').change(function () {
+        maintable.draw();
+    });
+
+    });
+   
+    </script>
+
+
+    <div class="block">
+      
+
+
+
+        
+            <div class="block-header">
+              
+                <h3 class="block-title">Danh sách chi nhánh</h3>
+
+                <div class="col-md-8">
+                    <div class="input-daterange input-group">
+                        <input type="date" id="start" style="width:100%" />
+                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                        <input type="date" id="end" style="width:100%" />
+                    </div>
+                </div>
+           
+            <div class="block-content">
+                <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                <table class="display responsive nowrap" id="DataTables_Table_1">
+                    <thead>
+                        <tr role="row">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr role="row">
+                            <th style="width:20px"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+}

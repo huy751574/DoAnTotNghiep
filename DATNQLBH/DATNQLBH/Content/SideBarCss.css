@@ -1,0 +1,82 @@
+﻿.SideBar {
+    position: relative;
+    width: 251px;
+    overflow: hidden;
+    display: block;
+}
+.SideBar {
+    background: url(/Content/images/left-bg11.jpg) no-repeat #138f97;
+    font-family: Tahoma;
+    font-size: 12px;
+    width: 250px;
+    min-height: 1000px;
+       padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    position: relative;
+    z-index: 100;
+    overflow: hidden;
+    z-index: 5;
+}
+#iframeGame {
+    width: 92%;
+    min-width:500px;
+    padding-right:20px;
+    height: 100%;
+    position: absolute;
+    top: 45px;
+    margin: 0;
+}
+a.CloseBtn {
+    background-position: 0 0;
+}
+a.Control2.CloseBtn:hover {
+    background-position: -30px 0;
+}
+a.Control2.CloseBtn {
+    background-position: 0 0;
+}
+a.CloseBtn:hover {
+    background-position: -30px 0;
+}
+a.Control {
+    background: url(/Content/images/bt-control.png) 0 0 no-repeat;
+    display: block;
+    text-indent: -9999px;
+    width: 30px;
+    height: 40px;
+    position: absolute;
+    top: 40px;
+    left: 220px;
+}
+ a.CloseBtn:hover {
+    background-position: -30px 0;
+}
+a.Control2.CloseBtn {
+    background-position: 0 0;
+}
+a.OpenBtn {
+    background-position: 0 -40px;
+}
+a.OpenBtn:hover {
+    background-position: -30px -40px;
+}
+a.Control2.OpenBtn:hover {
+    background-position: -30px -40px;
+}
+a.Control2.OpenBtn {
+    background-position: 0 -40px;
+}
+a.Control2 {
+    background: url(/Content/images/open-close.png) 0 0 no-repeat;
+    display: block;
+    text-indent: -9999px;
+    width: 30px;
+    height: 40px;
+    position: absolute;
+    top: 445px;
+    left: 230px;
+}
+#SideBar_1{
+    padding-top:40px;
+}
